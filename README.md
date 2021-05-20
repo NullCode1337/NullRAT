@@ -12,3 +12,4 @@ Remote Access Trojan that uses Discord as C&amp;C
 - Remove the current manky reverse shell and implement SierraOne
 
 ## Fill up the things in rat.py
+## There's so many things changed I can't list all of them (compare Monstered's one and my one to see)
