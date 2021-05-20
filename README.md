@@ -7,7 +7,7 @@ Remote Access Trojan that uses Discord as C&amp;C
 - NullCode
 
 ## TO DO
-- Create a better tokenlogger
+- ~~Create a better tokenlogger~~ Done!
 - Fix null!startup 
 - Remove the current manky reverse shell and implement SierraOne
 
