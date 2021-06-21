@@ -17,10 +17,11 @@ Remote Access Trojan that uses Discord as C&C
 
 ## How to use:
 1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-2) Execute "Install Dependencies.bat"
-3) Fill up the empty variables & bot token in RAT.py
-4) Execute "Obfuscate and compile.bat"
-5) That should be everything 
+2) Download this repository as zip/git clone it to your PC
+3) Execute "Install Dependencies.bat"
+4) Fill up the empty variables & bot token in RAT.py
+5) Execute "Obfuscate and compile.bat"
+6) That should be everything 
 
 ## Credits
 - Monst3red for inspiration
