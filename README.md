@@ -1,4 +1,4 @@
-# NullRAT-Discord
+# NullRAT
 Remote Access Trojan that uses Discord as C&C
 
 `It's windows-only by the way; sorry :(`
