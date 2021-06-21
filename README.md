@@ -2,7 +2,6 @@
 Remote Access Trojan that uses Discord as C&amp;C
 
 ## Credits
-- Monstered for [base](https://github.com/Monst3red/discord-rat)
 - Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
 - NullCode
 
@@ -12,4 +11,3 @@ Remote Access Trojan that uses Discord as C&amp;C
 - Remove the current manky reverse shell and implement SierraOne
 
 ## Fill up the things in rat.py
-### There's so many things changed I can't list all of them (compare Monstered's one and my one to see)
