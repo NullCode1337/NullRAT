@@ -1,14 +1,7 @@
 discord
-re
 requests
-json
-base64
-urllib
-subprocess
-platform
-ctypes
 mss
-comtypes
-pywin32
-pyinstaller
+aiohttp
 pyarmor
+pyinstaller
+pywin32
