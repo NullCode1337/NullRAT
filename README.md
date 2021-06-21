@@ -9,7 +9,7 @@ Remote Access Trojan that uses Discord as C&C
 - Take pictures using victim's webcam 
 - Take screenshot of victim's PC
 - Download files from victim's PC
-- Upload files to victom's PC
+- Upload files to victim's PC
 - Get some information about their PC
 - Execute command prompt commands (Thank you Sp00p)
 - Find victim's approximate location
