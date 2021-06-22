@@ -16,8 +16,9 @@ Remote Access Trojan that uses Discord as C&C
 - Browse around their PC, see directory contents, and much more
 
 ## How to use:
+- Python should be installed on the PC
 1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-2) Download this repository as zip/git clone it to your PC
+2) Download this repository as zip/dowload the release/git clone it to your PC
 3) Execute "Install Dependencies.bat"
 4) Fill up the empty variables & bot token in RAT.py
 5) Execute "Obfuscate and compile.bat"
