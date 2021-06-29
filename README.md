@@ -1,7 +1,9 @@
 # NullRAT
 Remote Access Trojan that uses Discord as C&C
 
-`It's windows-only by the way; sorry :(`
+One of the main things about this RAT is it will be under 8mb, so you can always upload it without nitro
+
+That's also why it doesn't have too many features compared to other Discord RATs
 
 ## Features:
 - Find the public IP of the victim
@@ -14,6 +16,7 @@ Remote Access Trojan that uses Discord as C&C
 - Execute command prompt commands (Thank you Sp00p)
 - Find victim's approximate location
 - Browse around their PC, see directory contents, and much more
+`It's windows-only by the way; sorry :(`
 
 ## How to use:
 - Python should be installed on the PC
