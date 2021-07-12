@@ -8,13 +8,14 @@ That's also why it doesn't have too many features compared to other Discord RATs
 ## Features:
 - Find the public IP of the victim
 - Find their Discord token(s)
+- Find victim's approximate location
+- Add payload to startup with one command
 - Take pictures using victim's webcam 
 - Take screenshot of victim's PC
 - Download files from victim's PC
 - Upload files to victim's PC
 - Get some information about their PC
 - Execute command prompt commands (Thank you Sp00p)
-- Find victim's approximate location
 - Browse around their PC, see directory contents, and much more
 `It's windows-only by the way; sorry :(`
 
