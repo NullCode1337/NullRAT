@@ -32,4 +32,5 @@ That's also why it doesn't have too many features compared to other Discord RATs
 ## Credits
 - Monst3red for inspiration
 - Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
+- Buntii for ideas
 - NullCode
