@@ -1,3 +1,9 @@
+## [18/07/2021]
+### Important fixes
+- Fixed startup not working and being hidden
+- Made NullRAT initial message look better
+- Minor tweaks to the overall program
+
 ## [13/07/2021]
 ### You can now change the icons!
 To change the icon with the one provided, just run the compiler and press Y when it asks you for custom icons
