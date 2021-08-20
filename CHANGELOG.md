@@ -1,3 +1,7 @@
+## [20/08/2021]
+### Make code speedrun-able
+Very important I know
+
 ## [18/07/2021]
 ### Important fixes
 - Fixed startup not working and being hidden
