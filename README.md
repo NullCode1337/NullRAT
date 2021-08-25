@@ -14,9 +14,11 @@ That's also why it doesn't have too many features compared to other Discord RATs
 - Take screenshot of victim's PC
 - Download files from victim's PC
 - Upload files to victim's PC
-- Get some information about their PC
+- Get victim's system information
 - Execute command prompt commands (Thank you Sp00p)
-- Browse around their PC, see directory contents, and much more
+- Find any environment variables, and chdir there
+- See all the files inside a specified directory
+- Any other commands you (the based people) want
 
 `It's windows-only by the way; sorry :(`
 
