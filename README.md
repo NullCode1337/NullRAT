@@ -8,7 +8,6 @@ As such, only the useful RAT Features are present inside this program
 ## Features:
 - Find the public IP of the victim
 - Find their Discord token(s)
-- Grab victim's clipboard contents
 - Find victim's approximate location
 - Add payload to startup with one command
 - Take pictures using victim's webcam 

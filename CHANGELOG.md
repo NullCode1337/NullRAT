@@ -1,7 +1,6 @@
 ## [26/08/2021]
 ### Doing a lot of fixes to my code
 - Can't really list all of them here, just look at the commits
-- Add feature: `getclip` Gets image/text from  clipboard history
 
 ## [20/08/2021]
 ### Make code speedrun-able
