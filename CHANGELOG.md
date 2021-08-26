@@ -1,6 +1,10 @@
+## [26/08/2021]
+### Doing a lot of fixes to my code
+- Can't really list all of them here, just look at the commits
+
 ## [20/08/2021]
 ### Make code speedrun-able
-Very important I know
+- Very important I know
 
 ## [18/07/2021]
 ### Important fixes
