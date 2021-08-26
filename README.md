@@ -1,7 +1,7 @@
 # NullRAT
 Remote Access Trojan that uses Discord as C&C
 
-It is under 8mb, so you can upload it without nitro
+It is under 8mb, so you can upload the payloads without nitro
 
 As such, only the useful RAT Features are present inside this program
 
