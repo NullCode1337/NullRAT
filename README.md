@@ -3,19 +3,23 @@
 
 ## Features:
 ```
+0) Redesigned from the ground up
 1) Relatively small size for a Python RAT
 2) Find the public IP of the victim
-3) Find their Discord token(s)
-4) Find victim's approximate location
-5) Add payload to startup with one command
+3) Find their Discord token(s) and all user info
+4) Find victim's geographic information (zip, region, country, latitude, longitude)
+5) Add executable to startup with one command
 6) Take pictures using victim's webcam 
-7) Take screenshot of victim's PC
+7) Take screenshot of victim's monitor
 8) Download files from victim's PC
 9) Upload files to victim's PC
 10) Get victim's system information
-11) Execute command prompt commands (Thank you Sp00p)
-12) Find any environment variables, and chdir there
+11) Execute command prompt/powershell commands
+12) Find any environment variables, and cd there
 13) See all the files inside a specified directory
+14) Inbuilt Fast Discord Token Checker
+15) Get victim's clipboard text history
+16) ...and more!
 ```
 
 ## How to use:
