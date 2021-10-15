@@ -40,5 +40,7 @@ RATCompiler.bat
 
 ## Credits
 1) Monst3red for inspiration
-2) Sp00p64 for some commands from [his RAT](https://github.com/Sp00p64/DiscordRAT)
+2) Sp00p64 and [his RAT](https://github.com/Sp00p64/DiscordRAT)
 3) Buntii for ideas
+
+<h5 align=right>Software designed by NullCode</h6>
