@@ -3,24 +3,33 @@
 
 ## Features:
 ```
-0) Redesigned from the ground up
-1) Effective controlling using modern features (slash commands, buttons, etc)
-2) Relatively small size for a Python RAT
-3) Find the public IP of the victim
-4) Find their Discord token(s) and all user info
-5) Find victim's geographic information (zip, region, country, latitude, longitude)
-6) Add executable to startup with one command
+1) Redesigned from the ground up
+2) Effective controlling using modern features (slash commands, buttons, etc)
+3) Relatively small size for a Python RAT
+4) Find the public IP Address of the victim
+5) Find their Discord token(s) and all user info
+    User info includes but isn't limited to:
+    - Username & Tag (ID soon)
+    - Email Address 
+    - Phone Number
+    - Nitro Status 
+    - Billing info status
+6) Find victim's geographic information:
+    - Country
+    - Region
+    - Latitude & longitude
+    - etc!
 7) Take pictures using victim's webcam 
 8) Take screenshot of victim's monitor
 9) Download files from victim's PC
 10) Upload files to victim's PC
 11) Get victim's system information
-12) Execute command prompt/powershell commands
+12) Execute command prompt/powershell command 
 13) Find any environment variables, and cd there
-14) See all the files inside a specified directory
-15) Inbuilt Fast Discord Token Checker
-16) Get victim's clipboard text history
-17) ...and more!
+14) See directory contents, and do other directory manipulation 
+15) Get victim's clipboard text history
+16) Add executable to startup with one command
+**) ...and more!
 ```
 
 ## How to use:
