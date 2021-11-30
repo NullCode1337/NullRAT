@@ -22,10 +22,10 @@
 7) Take pictures using victim's webcam 
 8) Take screenshot of victim's monitor
 9) Download files from victim's PC
-10) Upload files to victim's PC
+10) Upload payloads to victim's PC
 11) Get victim's system information
-12) Execute command prompt/powershell command 
-13) Find any environment variables, and cd there
+12) Execute CMD/Powershell command 
+13) Find any environment variables
 14) See directory contents, and do other directory manipulation 
 15) Get victim's clipboard text history
 16) Add executable to startup with one command
@@ -56,6 +56,5 @@ RATCompiler.bat
 ## Credits
 1) Monst3red for inspiration
 2) Sp00p64 and [his RAT](https://github.com/Sp00p64/DiscordRAT)
-3) Buntii for ideas
 
 <h5 align=right>Software designed by NullCode</h6>
