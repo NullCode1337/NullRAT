@@ -1,5 +1,0 @@
-git+git://github.com/Pycord-Development/pycord@master
-requests
-mss
-aiohttp
-pyinstaller
