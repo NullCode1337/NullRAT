@@ -108,7 +108,7 @@ namespace NullCode.Dependencies
             {
                 "Virualenv",
                 "aioHTTP",
-                "Pycord",
+                "py-cord",
                 "Requests",
                 "MSS",
                 "PyInstaller",
