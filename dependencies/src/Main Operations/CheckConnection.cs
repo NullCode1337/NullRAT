@@ -37,12 +37,8 @@
         {
             try
             {
-                HttpClientHandler handler = new()
-                {
-                    SslProtocols = Protocol
-                };
-                HttpResponseMessage _hrm = new HttpClient(handler).GetAsync(URL).GetAwaiter().GetResult();
 
+                HttpResponseMessage _hrm = ProgramData.httpClient.GetAsync(URL).GetAwaiter().GetResult();
                 _hrm.EnsureSuccessStatusCode();
                 return true;
             }
