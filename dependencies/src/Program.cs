@@ -95,24 +95,24 @@ namespace NullCode.Dependencies
 			string[] packages = 
             {
                 "virtualenv",
-                "aiohttp", 
-                "git+git://github.com/Pycord-Development/pycord@master",
+                "aiohttp",
+                "https://github.com/Pycord-Development/pycord/archive/refs/heads/master.zip",
                 "requests", 
                 "mss", 
                 "pyinstaller",
-		"pyarmor"
+		        "pyarmor"
             };
 
-            //All Packages "FancyNames"
+            //All Packages "FancyNames" to search on pip freeze, only 'special' cases
             string[] fancyNames =
             {
-                "Virualenv",
-                "aioHTTP",
+                "virtualenv",
+                "aiohttp",
                 "py-cord",
-                "Requests",
-                "MSS",
-                "PyInstaller",
-		"PyArmor"
+                "requests",
+                "mss",
+                "pyinstaller",
+		        "pyarmor"
             };
 
             ProgramData.PackagesToInstall = (uint)packages.Length;
@@ -123,7 +123,7 @@ namespace NullCode.Dependencies
             {
                 Thread PipInstall;
 
-                if (!packages[i].Contains("git+git"))
+                if (!packages[i].Contains("github.com"))
                 {
                      PipInstall = new(() => InstallPackage.InstallPipPackage(packages[i]));
                 } 
@@ -136,10 +136,10 @@ namespace NullCode.Dependencies
                 PipInstall.IsBackground = true;
                 PipInstall.Start();
                 //Avoid nasty bugs
-                Thread.Sleep(500);
+                Thread.Sleep(50);
             }
 
-#endregion
+            #endregion
             
             Thread exitThread = new(() => Exit.ExitProgram());
             exitThread.Start();

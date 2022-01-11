@@ -9,7 +9,6 @@
         {
             while(ProgramData.InstalledPackages < ProgramData.PackagesToInstall)
             {
-                Console.WriteLine(ProgramData.InstalledPackages + " && " + ProgramData.PackagesToInstall);
                 Thread.Sleep(500);
             }
             AnsiConsole.WriteLine();

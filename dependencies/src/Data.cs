@@ -39,11 +39,20 @@
         #endregion
 
         private static StringBuilder pipPackageList = new("");
-        private static uint installedPackages = 1;
+        private static uint installedPackages = 0;
         private static uint packagesToInstall = 0;
+        private static uint packagesFailed = 0;
 
-        public static StringBuilder PipPackageList { get => pipPackageList; set => pipPackageList = value; }
-        public static uint InstalledPackages { get => installedPackages; set => installedPackages = value; }
-        public static uint PackagesToInstall { get => packagesToInstall; set => packagesToInstall = value; }
+        public static StringBuilder PipPackageList  { get => pipPackageList; set => pipPackageList = value; }
+        public static uint InstalledPackages        { get => installedPackages; set => installedPackages = value; }
+        public static uint PackagesToInstall        { get => packagesToInstall; set => packagesToInstall = value; }
+        public static uint PackagesFailed           { get => packagesFailed; set => packagesFailed = value; }
+
+        // Avoid connection errors for problems with ssl/tls
+        public static readonly HttpClientHandler handler = new()
+        {
+            SslProtocols = System.Security.Authentication.SslProtocols.Tls12
+        };
+        public static HttpClient httpClient = new(handler);
     }
 }
