@@ -1,0 +1,12 @@
+# -------------------------- How to get the required variables: ------------------------------ #
+# - Enable Developer Mode (Settings => Advanced)                                               #
+# - notification_channel = Right click on your favorite channel, and hit copy ID               #
+# - server_ids = Right click on your servers (where you want the bot to work), and hit copy ID #
+# - bot_token = Go to Discord Developer => "your Bot" => Bot => Copy Token                     #
+# -------------------------------------------------------------------------------------------- #
+
+# --------------------------- Example Required variables ----------------------------------- #
+notification_channel = 67384983728429350
+server_id            = [101010101010101010, 210101010101010101]
+bot_token            = "nullcode.ajoijadgod.jekfmskef32ofq9ir0309imwlke" 
+# ------------------------------------------------------------------------------------------ #
