@@ -35,8 +35,7 @@
 ## How to use:
 <h4>Preparation:</h4>
 
-- Python 3.6+ should be installed on the PC 
-- Tick "Add to PATH" while installing
+- Python 3.8+ should be installed on the PC (Tick "Add to PATH" while installing)
 - Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
 
 <h4>IMPORTANT:</h4>
