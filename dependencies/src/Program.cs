@@ -30,7 +30,6 @@ namespace NullCode.Dependencies
 			#endregion
 
             #region Check Internet Connection
-
             string[] ipAddresses = { "1.1.1.1", "1.0.0.1", "8.8.8.8", "8.8.4.4" };
             bool[] result = new bool[4];
 
@@ -81,12 +80,10 @@ namespace NullCode.Dependencies
 					Environment.Exit(2);
 				}
 			}
-
-
             #endregion
 
             #region Verify Environment and Install Packages!
-            SlowPrint("\nVerifying Environment...\n", "aqua");
+            SlowPrint("Verifying Environment...\n", "aqua");
 			AnsiConsole.Markup("[aqua]--------------------------\n[/]");
 
 			VerifyEnvironment.VerifyPipAndPython();
@@ -102,23 +99,25 @@ namespace NullCode.Dependencies
                 "git+git://github.com/Pycord-Development/pycord@master",
                 "requests", 
                 "mss", 
-                "pyinstaller" 
+                "pyinstaller",
+		"pyarmor"
             };
 
             //All Packages "FancyNames"
             string[] fancyNames =
             {
-                "virualenv",
-                "aiohttp",
-                "py-cord",
-                "requests",
-                "mss",
-                "pyinstaller"
+                "Virualenv",
+                "aioHTTP",
+                "Pycord",
+                "Requests",
+                "MSS",
+                "PyInstaller",
+		"PyArmor"
             };
 
             ProgramData.PackagesToInstall = (uint)packages.Length;
 
-            //For each Package, run a Thread installing it
+            // For each Package, run a thread installing it
             
             for (int i = 0; i < packages.Length; i++)
             {
