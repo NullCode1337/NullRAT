@@ -7,7 +7,7 @@ import discord, os, subprocess, re, time
 
 # --------------------------- Required variables ----------------------------------- #
 notification_channel = 101010101010101010 
-server_id            = [101010101010101010, 210101010101010101]
+server_ids           = [101010101010101010, 210101010101010101]
 bot_token            = "nullcode.ajoijad.god.jekfmskef398f2jfip0ri32ofq9ir0309imwlke" 
 
 
