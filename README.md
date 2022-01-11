@@ -46,7 +46,7 @@ Don't compile normally using pyinstaller, use the compiler provided
 
 - [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
 - Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
-- Fill up all the required information (BOT Token etc) in RAT.py
+- Fill up all the required information in RAT.py (unsure how to? read variable_instructions.txt)
 - Finally, execute the following: 
 ```cmd
 InstallDeps.exe
