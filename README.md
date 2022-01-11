@@ -45,7 +45,7 @@ Don't compile normally using pyinstaller, use the compiler provided
 <h4>Steps:</h4>
 
 - [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-- Dowload the latest release of NullRAT
+- Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
 - Fill up all the required information (BOT Token etc) in RAT.py
 - Finally, execute the following: 
 ```cmd
