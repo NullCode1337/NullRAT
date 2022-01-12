@@ -10,7 +10,7 @@ move *.bat "%~dp0\temp"
 move "2) nullRAT DepInst".exe "%~dp0\temp"
 if exist README.md (del README.md)
 if exist .git\ (rmdir /s /q .git\)
-move requirements.txt "%~dp0\temp"
+move "Instructions for Variables".txt "%~dp0\temp"
 del /f /q *.* & cd "%~dp0\temp"
 move * "%~dp0\" & cd "%~dp0\"
 rmdir /s /q "%~dp0\temp"
