@@ -1,5 +1,5 @@
 <h1 align=center> ☠️ NullRAT</h1>
-<p align=center>Windows-Only Remote Access Trojan that uses Discord as C&C</p>
+<p align=center>The next-generation of Discord RATs</p>
 
 ## Features:
 ```
