@@ -1,5 +1,5 @@
 <h1 align=center> ☠️ NullRAT</h1>
-<p align=center>The next-generation of Discord RATs</p>
+<p align=center><b>The next-generation of Discord RATs</b></p>
 
 ## Features:
 ```
