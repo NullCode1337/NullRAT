@@ -36,7 +36,7 @@
 <h4>Preparation:</h4>
 
 - Python 3.8+ should be installed on the PC (Tick "Add to PATH" while installing)
-- Do not under any circumstances use the Microsoft Store version of Python, not tested
+- **Do not under any circumstances use the Microsoft Store version of Python, does not work**
 - Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
 
 <h4>IMPORTANT:</h4>
