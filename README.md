@@ -1,4 +1,4 @@
-<h1 align=center> ☠️ NullRAT</h1>
+<h1 align=center>NullRAT</h1>
 <p align=center><b>The next-generation of Discord RATs</b></p>
 
 ## Features:
