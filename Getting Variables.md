@@ -1,7 +1,7 @@
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
 
 <h1 align=left>Getting Variables</h1>
-<h4 align=left><b>How to get all the required variables necessary for the usage of NullRAT:</b></h4>
+<h4 align=left><b>How (and why) to get all the required variables necessary for the usage of NullRAT:</b></h4>
 </br>
 <h1>Table of Contents:</h2>
 
@@ -12,7 +12,7 @@
 ---
 <h3>Discord Bot Token</h3>
 
-This is used to run NullRAT's core. In short, you need this to start the bot up
+This is used to run NullRAT's core bot host. **Without this NullRAT will straight up crash**
 
 **How to obtain it:**
 
@@ -30,20 +30,37 @@ This is used to run NullRAT's core. In short, you need this to start the bot up
 ---
 <h3>Channel ID</h3>
 
-This is required for NullRAT to send notifications in your specified channel
+This is required for NullRAT to send alerts in the specified channel. **Without this NullRAT will be unable to send notifications**
 
 **How to obtain it:**
 
-1. Open your Discord client/web
-2. Goto account settings
-3. There, click on `Advanced` and enable `Developer Mode`
+1. Open your Discord client/web.
+2. Goto account settings.
+3. There, click on `Advanced` and enable `Developer Mode`.
 
 ![image](https://user-images.githubusercontent.com/70959549/150111475-d1cd44c1-98e2-4dd6-be07-90b87df7f624.png)
 
-4. Now go back to your discord server, and right click on the channel you want to send notifications
+4. Now go back to your discord server, and right click on the channel you want to send notifications.
 
 ![image](https://user-images.githubusercontent.com/70959549/150112161-5ba2ac87-7311-4fa7-96ee-717ec369bfb9.png)
 
 5. Click on `Copy ID` and store it somewhere. Done!
+
+---
+<h3>Server ID(s)</h3>
+
+This is required for NullRAT to set the command handler. **Without this you won't be able to send any commands to NullRAT**
+
+**How to obtain it:**
+
+1. Enable Developer Mode. If not already enabled:
+   - Open your Discord client/web.
+   - Goto account settings.
+   - There, click on `Advanced` and enable `Developer Mode`.
+
+2. Now, go back to your discord server.
+3. Right click on the server icon, and click on `Copy ID`. Done! (Don't forget to store it)
+
+![image](https://user-images.githubusercontent.com/70959549/150113522-fa9b8cf7-d3bc-4b8d-b448-e6c515f546f4.png)
 
 ---
