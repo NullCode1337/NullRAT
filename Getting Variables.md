@@ -28,4 +28,21 @@ This is used to run NullRAT's core. In short, you need this to start the bot up
 4. Click on `Copy` and store it somewhere. Done!
 
 ---
+
 <h3>Channel ID</h3>
+
+This is required for NullRAT to send notifications in your specified channel
+
+**How to obtain it:**
+
+1. Open your Discord client/web
+2. Goto account settings
+3. There, click on `Advanced` and enable `Developer Mode`
+
+![image](https://user-images.githubusercontent.com/70959549/150111475-d1cd44c1-98e2-4dd6-be07-90b87df7f624.png)
+
+4. Now go back to your discord server, and right click on the channel you want to send notifications
+
+![image](https://user-images.githubusercontent.com/70959549/150112161-5ba2ac87-7311-4fa7-96ee-717ec369bfb9.png)
+
+5. Click on `Copy ID` and store it somewhere. Done!
