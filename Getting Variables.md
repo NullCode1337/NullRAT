@@ -6,7 +6,7 @@
 <h1>Table of Contents:</h2>
 
 1. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-2. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#copy-id)
+2. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id)
 3. Server ID(s)
 
 ---
@@ -28,7 +28,6 @@ This is used to run NullRAT's core. In short, you need this to start the bot up
 4. Click on `Copy` and store it somewhere. Done!
 
 ---
-
 <h3>Channel ID</h3>
 
 This is required for NullRAT to send notifications in your specified channel
@@ -46,3 +45,5 @@ This is required for NullRAT to send notifications in your specified channel
 ![image](https://user-images.githubusercontent.com/70959549/150112161-5ba2ac87-7311-4fa7-96ee-717ec369bfb9.png)
 
 5. Click on `Copy ID` and store it somewhere. Done!
+
+---
