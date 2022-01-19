@@ -7,7 +7,7 @@
 
 1. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
 2. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id)
-3. Server ID(s)
+3. [Server ID(s)](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids)
 
 ---
 <h3>Discord Bot Token</h3>
