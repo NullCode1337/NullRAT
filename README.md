@@ -1,5 +1,5 @@
-<h1 align=center>NullRAT</h1>
-<p align=center><b>The next-generation of Discord RATs</b></p>
+![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
+<h3 align=center><b>{ The next-generation of Discord RATs }</b></h3>
 
 ## Features:
 ```
