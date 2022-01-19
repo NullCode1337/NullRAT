@@ -5,8 +5,8 @@
 </br>
 <h1>Table of Contents:</h2>
 
-1. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/new/source#discord-bot-token)
-2. Channel ID
+1. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
+2. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#copy-id)
 3. Server ID(s)
 
 ---
