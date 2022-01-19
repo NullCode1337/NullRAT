@@ -3,7 +3,7 @@
 
 ## Features:
 ```
-1) Redesigned from the ground up
+1) Redesigned from the ground up & very user friendly
 2) Effective controlling using modern features (slash commands, buttons, etc)
 3) Relatively small size for a Python RAT
 4) Find the public IP Address of the victim
@@ -40,7 +40,7 @@
 - Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
 
 <h4>IMPORTANT:</h4>
-Don't compile normally using pyinstaller, use the compiler provided
+Use the C# Compiler for the lightest and most obfuscated EXE
 
 <h4>Steps:</h4>
 
