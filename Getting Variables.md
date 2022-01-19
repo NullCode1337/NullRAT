@@ -64,3 +64,5 @@ This is required for NullRAT to set the command handler. **Without this you won'
 ![image](https://user-images.githubusercontent.com/70959549/150113522-fa9b8cf7-d3bc-4b8d-b448-e6c515f546f4.png)
 
 ---
+
+<p align=right><b>Guide written by NullCode</b></p>
