@@ -1,4 +1,4 @@
-from vars import *
+from Variables import *
 
 from mss import mss
 from requests import get
