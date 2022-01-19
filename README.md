@@ -40,14 +40,18 @@
 - Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
 
 <h4>IMPORTANT:</h4>
-Use the C# Compiler for the lightest and most obfuscated EXE
+Using the provided Dependencies Installer and Compiler is the key to success. 
+
+Only people who know what they're doing should not use the compiler. I won't help anyone who does.
 
 <h4>Steps:</h4>
 
 - [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
 - Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
-- Fill up all the required information in RAT.py (unsure how to? read variable_instructions.txt)
-- Finally, run all 3 programs according to their number
+- Run the Cleanup exe to clean up the source directory
+- Run the Dependencies Installer which will install all the necessary dependencies (except Python)
+- Before running the compiler, read `Getting Variables.md` and grab all the variables you need
+- Run the Compiler, and feed it all the necessary information. NullRAT payload will be right there!
 
 ## Credits
 1) Monst3red for inspiration
