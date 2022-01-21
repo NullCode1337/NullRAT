@@ -1,5 +1,5 @@
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
-<h3 align=center><b>{ The next-generation of Discord RATs }</b></h3>
+<h3 align=center><b>{ The next-generation of Discord RATs, focused on stealth }</b></h3>
 
 ## Quick Note:
 I work on this project only for fun, and to have a broader experience in Python and C#
@@ -12,7 +12,7 @@ Thanks for stopping by, and enjoy NullRAT
 
 ## Features:
 ```
-1) Written in Python. Pretty uncommon!
+1) Always maintained (hopefully)
 2) Designed to be extremely user friendly with intuitive features:
     - Controlled via slash commands
     - Some commands supported with buttons
