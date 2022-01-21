@@ -15,7 +15,7 @@ Available payload features:
 4) Find the public IP Address of the victim
 5) Find their Discord token(s) and all user info
     User info includes but isn't limited to:
-    - Username & Tag (ID soon)
+    - Username, Tag  and ID
     - Email Address 
     - Phone Number
     - Nitro Status 
