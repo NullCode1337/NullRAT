@@ -3,8 +3,7 @@ Compiler and payload generator for NullRAT.
 
 Also features a NullRAT Source auto-updater, which automatically updates NullRAT whenever it is detected.
 
-![NullRAT Compiler](https://user-images.githubusercontent.com/70959549/150507190-c1f3d0df-c9e6-4f90-88e7-584b80aad164.png)
-
+![image](https://user-images.githubusercontent.com/70959549/150507682-5a330513-8cf0-4371-b10b-26240191bdd4.png)
 
 ## Credits
 <h3>@usrDottik</h3>
