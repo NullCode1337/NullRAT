@@ -3,9 +3,15 @@
 
 ## Features:
 ```
-1) Redesigned from the ground up & very user friendly
-2) Effective controlling using modern features (slash commands, buttons, etc)
-3) Relatively small size for a Python RAT
+1) Written in Python. Pretty uncommon!
+2) Designed to be extremely user friendly with intuitive features:
+    - Controlled via slash commands
+    - Some commands supported with buttons
+    - Etc!
+3) Created with small size in mind! (7 megabyte payload)
+
+Available payload features:
+---------------------------
 4) Find the public IP Address of the victim
 5) Find their Discord token(s) and all user info
     User info includes but isn't limited to:
