@@ -62,5 +62,7 @@ Only people who know what they're doing should not use the compiler. I won't hel
 ## Credits
 1) Monst3red 
 2) Sp00p64 
+3) Buntii
+4) usrDottik
 
 <h5 align=right>Software designed by NullCode</h6>
