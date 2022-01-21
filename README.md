@@ -1,6 +1,15 @@
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
 <h3 align=center><b>{ The next-generation of Discord RATs }</b></h3>
 
+## Quick Note:
+I work on this project only for fun, and to have a broader experience in Python and C#
+
+I don't beg for money or anything, but please ⭐ NullRAT before you go. 
+
+It helps my deteriorating mental health, and motivates me to work on it more.
+
+Thanks for stopping by, and enjoy NullRAT
+
 ## Features:
 ```
 1) Written in Python. Pretty uncommon!
@@ -65,4 +74,5 @@ Only people who know what they're doing should not use the compiler. I won't hel
 3) Buntii
 4) usrDottik
 
-<h5 align=right>Software designed by NullCode</h6>
+**RATting into others without their explicit permission is not pogchamp, and not supported by me.**
+<h4 align=right>Software designed by NullCode</h6>
