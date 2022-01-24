@@ -5,7 +5,7 @@
         /// <summary>
         /// Locks the console X, Y size
         /// </summary>
-		public static void LockConsoleSizeXY()
+        public static void LockConsoleSizeXY()
         {
             IntPtr handle = GetConsoleWindow();
             IntPtr sysMenu = GetSystemMenu(handle, false);
@@ -27,13 +27,13 @@
             }
         }
 
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
-		[DllImport("user32.dll")]
-		public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+        [DllImport("user32.dll")]
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
 
-		[DllImport("kernel32.dll", ExactSpelling = true)]
-		private static extern IntPtr GetConsoleWindow();
-	}
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+    }
 }
