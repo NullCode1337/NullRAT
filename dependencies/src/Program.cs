@@ -5,7 +5,7 @@ namespace NullCode.Dependencies
     #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
     class Program
     {
-		static void Main()
+        static void Main()
         {
             //Lock cmd
             LockConsole.LockConsoleSizeXY();
@@ -13,21 +13,21 @@ namespace NullCode.Dependencies
             #region Presentation
 
             Console.Title = "NullRAT Dependencies Installer";
-			Console.Clear(); 
-			Console.WriteLine("");
-			CenterText(" ███▄    █  █    ██  ██▓     ██▓     ██▀███   ▄▄▄     ▄▄▄█████▓", "#6A66FF");
-			CenterText(" ██ ▀█   █  ██  ▓██▒▓██▒    ▓██▒    ▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒", "#6A66FF");
-			CenterText("▓██  ▀█ ██▒▓██  ▒██░▒██░    ▒██░    ▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░", "#6A66FF");
-			CenterText("▓██▒  ▐▌██▒▓▓█  ░██░▒██░    ▒██░    ▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░ ", "#6A66FF");
-			CenterText("▒██░   ▓██░▒▒█████▓ ░██████▒░██████▒░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░ ", "#6A66FF");
-			CenterText("░ ▒░   ▒ ▒ ░▒▓▒ ▒ ▒ ░ ▒░▓  ░░ ▒░▓  ░░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░   ", "#6A66FF");
-			CenterText("░ ░░   ░ ▒░░░▒░ ░ ░ ░ ░ ▒  ░░ ░ ▒  ░  ░▒ ░ ▒░  ▒   ▒▒ ░   ░    ", "#6A66FF");
-			CenterText("   ░   ░ ░  ░░░ ░ ░   ░ ░     ░ ░     ░░   ░   ░   ▒    ░      ", "#6A66FF");
+            Console.Clear(); 
+            Console.WriteLine("");
+            CenterText(" ███▄    █  █    ██  ██▓     ██▓     ██▀███   ▄▄▄     ▄▄▄█████▓", "#6A66FF");
+            CenterText(" ██ ▀█   █  ██  ▓██▒▓██▒    ▓██▒    ▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒", "#6A66FF");
+            CenterText("▓██  ▀█ ██▒▓██  ▒██░▒██░    ▒██░    ▓██ ░▄█ ▒▒██  ▀█▄ ▒ ▓██░ ▒░", "#6A66FF");
+            CenterText("▓██▒  ▐▌██▒▓▓█  ░██░▒██░    ▒██░    ▒██▀▀█▄  ░██▄▄▄▄██░ ▓██▓ ░ ", "#6A66FF");
+            CenterText("▒██░   ▓██░▒▒█████▓ ░██████▒░██████▒░██▓ ▒██▒ ▓█   ▓██▒ ▒██▒ ░ ", "#6A66FF");
+            CenterText("░ ▒░   ▒ ▒ ░▒▓▒ ▒ ▒ ░ ▒░▓  ░░ ▒░▓  ░░ ▒▓ ░▒▓░ ▒▒   ▓▒█░ ▒ ░░   ", "#6A66FF");
+            CenterText("░ ░░   ░ ▒░░░▒░ ░ ░ ░ ░ ▒  ░░ ░ ▒  ░  ░▒ ░ ▒░  ▒   ▒▒ ░   ░    ", "#6A66FF");
+            CenterText("   ░   ░ ░  ░░░ ░ ░   ░ ░     ░ ░     ░░   ░   ░   ▒    ░      ", "#6A66FF");
 
-			AnsiConsole.Write(new Rule("[red]Dependencies Installer[/]").LeftAligned());
+            AnsiConsole.Write(new Rule("[red]Dependencies Installer[/]").LeftAligned());
             AnsiConsole.WriteLine();
             
-			#endregion
+            #endregion
 
             #region Check Internet Connection
             string[] ipAddresses = { "1.1.1.1", "1.0.0.1", "8.8.8.8", "8.8.4.4" };
@@ -62,37 +62,46 @@ namespace NullCode.Dependencies
             }
 
             if (!result.Contains(true))
-			{
-				//Pings Failed. Trying to send an HTTP request to https://www.google.com with TLS 1.2. If it fails, then send a request to https://www.github.com with TLS 1.2
-				if (CheckConnection.SendPetition("https://www.google.com", System.Security.Authentication.SslProtocols.Tls12))
-				{
-					//Pings seem to be disabled  ¯\_(ツ)_/¯
-				}
-				else if (CheckConnection.SendPetition("https://www.github.com", System.Security.Authentication.SslProtocols.Tls12))
-				{
-					//Pings seem to be disabled  ¯\_(ツ)_/¯
-				} 
-				else
+            {
+                //Pings Failed. Trying to send an HTTP request to https://www.google.com with TLS 1.2. If it fails, then send a request to https://www.github.com with TLS 1.2
+                if (CheckConnection.SendPetition("https://www.google.com", System.Security.Authentication.SslProtocols.Tls12))
                 {
-					AnsiConsole.MarkupLine(ProgramData.noInternet2);
-					AnsiConsole.MarkupLine(ProgramData.noInternet);
-					System.Threading.Thread.Sleep(5000);
-					Environment.Exit(2);
-				}
-			}
+                    //Pings seem to be disabled  ¯\_(ツ)_/¯
+                }
+                else if (CheckConnection.SendPetition("https://www.github.com", System.Security.Authentication.SslProtocols.Tls12))
+                {
+                    //Pings seem to be disabled  ¯\_(ツ)_/¯
+                } 
+                else
+                {
+                    AnsiConsole.MarkupLine(ProgramData.noInternet2);
+                    AnsiConsole.MarkupLine(ProgramData.noInternet);
+                    System.Threading.Thread.Sleep(5000);
+                    Environment.Exit(2);
+                }
+            }
             #endregion
 
             #region Verify Environment and Install Packages!
-            SlowPrint("Verifying Environment...\n", "aqua");
-			AnsiConsole.Markup("[aqua]--------------------------\n[/]");
+            SlowPrint("\nVerifying Environment...", "aqua", true);
+            AnsiConsole.Markup("[aqua]--------------------------\n[/]");
 
-			VerifyEnvironment.VerifyPipAndPython();
+            VerifyEnvironment.VerifyPipAndPython();
 
-			SlowPrint("\nChecking PIP dependencies...\n", "aqua");
-			AnsiConsole.MarkupLine("[aqua]------------------------------\n[/]");
+            AnsiConsole.Status().StartAsync("Updating PIP", ctx =>
+            {
+                ctx.Spinner(Spinner.Known.Ascii);
+                ctx.SpinnerStyle.Decoration(Decoration.Bold);
+                ProcessInvoker.RunCmd("python", "-m pip install --user --upgrade pip");
+                return Task.CompletedTask;
+            });
+
+            
+            SlowPrint("\nChecking PIP dependencies...", "aqua", true);
+            AnsiConsole.MarkupLine("[aqua]------------------------------[/]");
 
             //Add the package names.
-			string[] packages = 
+            ProgramData.Packages = new string[]
             {
                 "virtualenv",
                 "aiohttp",
@@ -100,11 +109,11 @@ namespace NullCode.Dependencies
                 "requests", 
                 "mss", 
                 "pyinstaller",
-		        "pyarmor"
+                "pyarmor"
             };
 
             //All Packages "FancyNames" to search on pip freeze, only 'special' cases
-            string[] fancyNames =
+            ProgramData.FancyNames = new string[]
             {
                 "virtualenv",
                 "aiohttp",
@@ -112,25 +121,24 @@ namespace NullCode.Dependencies
                 "requests",
                 "mss",
                 "pyinstaller",
-		        "pyarmor"
+                "pyarmor"
             };
 
-            ProgramData.PackagesToInstall = (uint)packages.Length;
+            ProgramData.PackagesToInstall = (uint)ProgramData.Packages.Length;
 
             // For each Package, run a thread installing it
             
-            for (int i = 0; i < packages.Length; i++)
+            for (int i = 0; i < ProgramData.Packages.Length; i++)
             {
                 Thread PipInstall;
 
-                if (!packages[i].Contains("github.com"))
+                if (!ProgramData.Packages[i].Contains("github"))
                 {
-                     PipInstall = new(() => InstallPackage.InstallPipPackage(packages[i]));
+                    PipInstall = new(() => InstallPackage.InstallPipPackage(ProgramData.Packages[i]));
                 } 
                 else
                 {
-                    PipInstall = new(() => InstallPackage.InstallPipPackage(fancyNames[i], packages[i]));
-                
+                    PipInstall = new(() => InstallPackage.InstallPipPackage(ProgramData.FancyNames[i], ProgramData.Packages[i]));
                 }
                 PipInstall.Name = $"- Pip Instance {i}";
                 PipInstall.IsBackground = true;
@@ -145,5 +153,5 @@ namespace NullCode.Dependencies
             exitThread.Start();
 
         }
-	}
+    }
 }
