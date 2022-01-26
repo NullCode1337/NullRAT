@@ -1,8 +1,6 @@
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
 
-<h3 align=center><b>---------------------------------------</b></h3>
 <h3 align=center><b>[ The next-generation of Discord RATs ]</b></h3>
-<h3 align=center><b>---------------------------------------</b></h3>
 
 ## Quick Note:
 I work on this project only for fun, and to have a broader experience in Python and C#
