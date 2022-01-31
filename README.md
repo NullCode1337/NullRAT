@@ -2,15 +2,6 @@
 
 <h3 align=center><b>[ The next-generation of Discord RATs ]</b></h3>
 
-## Quick Note:
-I work on this project only for fun, and to have a broader experience in Python and C#
-
-I don't beg for money or anything, but please ⭐ NullRAT before you go. 
-
-It helps my deteriorating mental health, and motivates me to work on it more.
-
-Thanks for stopping by, and enjoy NullRAT
-
 ## Features:
 ```
 1) Always maintained (hopefully)
@@ -69,11 +60,17 @@ Only people who know what they're doing should not use the compiler. I won't hel
 - Before running the compiler, read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and grab all the variables you need
 - Run the Compiler, and feed it all the necessary information. NullRAT payload will be right there!
 
-## Credits
-1) Monst3red 
-2) Sp00p64 
-3) Buntii
-4) usrDottik
+## Donate:
+To support all the time I ~~waste~~ spend in this project:
+
+```XMR: 48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er```
+
+Also it'd be nice if you could ⭐ NullRAT (it's free, and motivates me to work on it more)
+
+## Credits:
+1) Sp00p64 
+2) Buntii
+3) usrDottik
 
 **RATting into others without their explicit permission is not pogchamp, and not supported by me.**
 <h4 align=right>Software designed by NullCode</h6>
