@@ -1,4 +1,4 @@
-﻿namespace NullCode.Dependencies
+﻿namespace NullRAT.Dependencies
 {
     internal class Exit
     {
@@ -7,7 +7,7 @@
         /// </summary>
         public static void ExitProgram()
         {
-            while(ProgramData.InstalledPackages < ProgramData.PackagesToInstall)
+            while (ProgramData.InstalledPackages < ProgramData.PackagesToInstall)
             {
                 Thread.Sleep(500);
             }

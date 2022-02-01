@@ -1,4 +1,4 @@
-﻿namespace NullCode.Dependencies
+﻿namespace NullRAT.Dependencies
 {
     public struct ProgramData
     {
@@ -65,9 +65,9 @@
             AutomaticDecompression = DecompressionMethods.All,
             CookieContainer = cookies
         };
-        
+
         private static readonly HttpClient internalHttpClient = new(handler);
-        public static HttpClient httpClient = internalHttpClient;
-        
+        public static HttpClient HttpClient { get => HttpClient; set => value = internalHttpClient; }
+
     }
 }

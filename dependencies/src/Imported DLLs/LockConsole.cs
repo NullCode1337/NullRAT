@@ -1,4 +1,4 @@
-﻿namespace NullCode.Dependencies
+﻿namespace NullRAT.Dependencies
 {
     internal class LockConsole
     {
