@@ -1,4 +1,4 @@
-﻿namespace NullCode.Dependencies
+﻿namespace NullRAT.Dependencies
 {
     public struct PingInformation
     {
@@ -38,7 +38,7 @@
             try
             {
 
-                HttpResponseMessage _hrm = ProgramData.httpClient.GetAsync(URL).GetAwaiter().GetResult();
+                HttpResponseMessage _hrm = ProgramData.HttpClient.GetAsync(URL).GetAwaiter().GetResult();
                 _hrm.EnsureSuccessStatusCode();
                 return true;
             }

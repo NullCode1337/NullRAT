@@ -1,8 +1,8 @@
-﻿using static NullCode.Dependencies.Text;
+﻿using static NullRAT.Dependencies.Text;
 
-namespace NullCode.Dependencies
+namespace NullRAT.Dependencies
 {
-    #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
     class Program
     {
         static void Main()
@@ -13,7 +13,7 @@ namespace NullCode.Dependencies
             #region Presentation
 
             Console.Title = "NullRAT Dependencies Installer";
-            Console.Clear(); 
+            Console.Clear();
             Console.WriteLine("");
             CenterText(" ███▄    █  █    ██  ██▓     ██▓     ██▀███   ▄▄▄     ▄▄▄█████▓", "#6A66FF");
             CenterText(" ██ ▀█   █  ██  ▓██▒▓██▒    ▓██▒    ▓██ ▒ ██▒▒████▄   ▓  ██▒ ▓▒", "#6A66FF");
@@ -26,7 +26,7 @@ namespace NullCode.Dependencies
 
             AnsiConsole.Write(new Rule("[red]Dependencies Installer[/]").LeftAligned());
             AnsiConsole.WriteLine();
-            
+
             #endregion
 
             #region Check Internet Connection
@@ -71,7 +71,7 @@ namespace NullCode.Dependencies
                 else if (CheckConnection.SendPetition("https://www.github.com", System.Security.Authentication.SslProtocols.Tls12))
                 {
                     //Pings seem to be disabled  ¯\_(ツ)_/¯
-                } 
+                }
                 else
                 {
                     AnsiConsole.MarkupLine(ProgramData.noInternet2);
@@ -88,6 +88,42 @@ namespace NullCode.Dependencies
 
             VerifyEnvironment.VerifyPipAndPython();
 
+            string[] IncompatiblePackages = new string[1]
+            {
+                "discord.py" //Discord.py breaks things.
+            };
+            SlowPrint("\nUninstalling incompatible packages...", "aqua", true);
+            AnsiConsole.Markup("[aqua]---------------------------------------\n[/]");
+
+            string[] installedpkg = ProgramData.PipPackageList.ToString().Split('\n');
+            bool noIncompatibilities = true;
+
+            for (var i = 0; i < IncompatiblePackages.Length; i++)
+            {
+                //Make a new Thread that searches for the packages that are not compatible.
+                new Thread(() =>
+                {
+                    int i0 = i;
+                    for (int i1 = 0; i1 < installedpkg.Length; i1++)
+                    {
+                        if (installedpkg[i1].Contains(IncompatiblePackages[i]))
+                        {
+                            noIncompatibilities = false;
+                            AnsiConsole.MarkupLine($"[yellow][[WARN]] Detected [red]incompatible[/] package [red bold]{IncompatiblePackages[i]}[/]. Uninstalling...[/]");
+                            RemovePackage.RemovePipPackage(IncompatiblePackages[i]);
+                        }
+                    }
+                }).Start();
+                //Sleep 0.5 seconds, avoids some Printing errors.
+                Thread.Sleep(500);
+            }
+            //Avoid possible errors.
+            Thread.Sleep(1500);
+            if (noIncompatibilities)
+            {
+                AnsiConsole.MarkupLine($"[green][[INFO]] No [red bold]incompatible[/] packages detected![/]");
+            }
+
             AnsiConsole.Status().StartAsync("Updating PIP", ctx =>
             {
                 ctx.Spinner(Spinner.Known.Ascii);
@@ -96,7 +132,7 @@ namespace NullCode.Dependencies
                 return Task.CompletedTask;
             });
 
-            
+
             SlowPrint("\nChecking PIP dependencies...", "aqua", true);
             AnsiConsole.MarkupLine("[aqua]------------------------------[/]");
 
@@ -106,8 +142,8 @@ namespace NullCode.Dependencies
                 "virtualenv",
                 "aiohttp",
                 "https://github.com/Pycord-Development/pycord/archive/refs/heads/master.zip",
-                "requests", 
-                "mss", 
+                "requests",
+                "mss",
                 "pyinstaller",
                 "pyarmor"
             };
@@ -127,7 +163,7 @@ namespace NullCode.Dependencies
             ProgramData.PackagesToInstall = (uint)ProgramData.Packages.Length;
 
             // For each Package, run a thread installing it
-            
+
             for (int i = 0; i < ProgramData.Packages.Length; i++)
             {
                 Thread PipInstall;
@@ -135,7 +171,7 @@ namespace NullCode.Dependencies
                 if (!ProgramData.Packages[i].Contains("github"))
                 {
                     PipInstall = new(() => InstallPackage.InstallPipPackage(ProgramData.Packages[i]));
-                } 
+                }
                 else
                 {
                     PipInstall = new(() => InstallPackage.InstallPipPackage(ProgramData.FancyNames[i], ProgramData.Packages[i]));
@@ -148,7 +184,7 @@ namespace NullCode.Dependencies
             }
 
             #endregion
-            
+
             Thread exitThread = new(() => Exit.ExitProgram());
             exitThread.Start();
 

@@ -1,4 +1,4 @@
-﻿namespace NullCode.Dependencies
+﻿namespace NullRAT.Dependencies
 {
     internal class InstallPackage
     {
@@ -19,7 +19,7 @@
             else
             {
                 string pipCommand = "pip" + $" install {PackageName}";
-                
+
                 lock (Text.slowPrintLock)
                 {
                     AnsiConsole.MarkupLine($"[maroon][[ERROR]] {PackageName} not installed![/]");
@@ -88,7 +88,7 @@
 
                     PathToPackage = PathToPackage.Trim(Path.GetInvalidFileNameChars());
 
-                    HttpResponseMessage hrm0 = ProgramData.httpClient.GetAsync(GitPipPackage).GetAwaiter().GetResult();
+                    HttpResponseMessage hrm0 = ProgramData.HttpClient.GetAsync(GitPipPackage).GetAwaiter().GetResult();
 
                     if (hrm0.IsSuccessStatusCode)
                     {
@@ -148,6 +148,41 @@
                     Text.SlowPrintI($"{PipPackageName} has been successfully installed!", "green", true);
                 }
                 ProgramData.InstalledPackages++;
+            }
+        }
+    }
+    internal class RemovePackage
+    {
+        /// <summary>
+        /// Removes a PIP Package
+        /// </summary>
+        /// <param name="fancyPackageName">The name shown in <s>PIP freeze</s> of the package to uninstall</param>
+        public static void RemovePipPackage(string fancyPackageName)
+        {
+            string[] installedPkg = ProgramData.PipPackageList.ToString().Split('\n');
+            bool pkgPresent = false;
+            for (var i = 0; i < installedPkg.Length; i++)
+            {
+                if (installedPkg[i].Contains(fancyPackageName))
+                {
+                    pkgPresent = true;
+                    AnsiConsole.MarkupLine($"[yellow][[INFO]] Uninstalling [red bold]{fancyPackageName}[/]...[/]");
+                    break;
+                }
+            }
+            if (pkgPresent)
+            {
+                string pipCommand = $"pip uninstall -y {fancyPackageName}";
+                CmdOutput pipOut = ProcessInvoker.RunCmd("pip", $"uninstall --no-input -y {fancyPackageName}");
+
+                if (pipOut.ExitCode != 0)
+                {
+                    AnsiConsole.MarkupLine($"[red][[ERROR]] An error ocurred while the installer tried to uninstall [red bold]{fancyPackageName}[/]. Please, run the command manually {pipCommand}[/]");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine($"[green][[INFO]] [red bold]{fancyPackageName}[/] was uninstalled successfully.[/]");
+                }
             }
         }
     }
