@@ -44,7 +44,7 @@
                 {
                     AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PackageName}. Pip exit code \"{_cmdOutput.ExitCode}\" does not indicate success!\nTry installing it with: [orange1]{pipCommand}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.Output}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.Output.ToString().RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
@@ -97,7 +97,7 @@
                 {
                     AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {_pipPackageName}. Pip exit code \"{_cmdOutput.ExitCode}\" does not indicate success!\nTry running: [orange1]{pipCommand}{_gitMasterLink}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.ErrorO}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.ErrorO.ToString().RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
@@ -133,7 +133,8 @@
 
                 if (pipOut.ExitCode != 0)
                 {
-                    AnsiConsole.MarkupLine($"[red][[ERROR]] An error ocurred while the installer tried to uninstall [red bold]{fancyPackageName}[/]. Please, run the command manually {pipCommand}[/]");
+                    AnsiConsole.MarkupLine($"[red][[ERROR]] An error ocurred while the installer tried to uninstall [red bold]{fancyPackageName}[/]. Please, run [red]{pipCommand}[/] manually to uninstall the conflicting package.[/]");
+                    Environment.Exit(-1);
                 }
                 else
                 {
