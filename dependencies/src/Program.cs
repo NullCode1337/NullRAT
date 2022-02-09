@@ -63,12 +63,12 @@ namespace NullRAT.Dependencies
 
             if (!result.Contains(true))
             {
-                //Pings Failed. Trying to send an HTTP request to https://www.google.com with TLS 1.2. If it fails, then send a request to https://www.github.com with TLS 1.2
-                if (CheckConnection.SendPetition("https://www.google.com", System.Security.Authentication.SslProtocols.Tls12))
+                //Pings Failed. Trying to send an HTTP request to https://www.google.com . If it fails, then send a request to https://www.github.com
+                if (CheckConnection.SendPetition("https://www.google.com"))
                 {
                     //Pings seem to be disabled  ¯\_(ツ)_/¯
                 }
-                else if (CheckConnection.SendPetition("https://www.github.com", System.Security.Authentication.SslProtocols.Tls12))
+                else if (CheckConnection.SendPetition("https://www.github.com"))
                 {
                     //Pings seem to be disabled  ¯\_(ツ)_/¯
                 }
@@ -77,7 +77,7 @@ namespace NullRAT.Dependencies
                     AnsiConsole.MarkupLine(ProgramData.noInternet2);
                     AnsiConsole.MarkupLine(ProgramData.noInternet);
                     System.Threading.Thread.Sleep(5000);
-                    Environment.Exit(2);
+                    Environment.Exit(-1);
                 }
             }
             #endregion

@@ -16,3 +16,6 @@ bld/
 [Ll]og/
 [Ll]ogs/
 [Bb]uild/
+NullRAT Workspace.code-workspace
+dependencies/.vscode/launch.json
+dependencies/.vscode/tasks.json
