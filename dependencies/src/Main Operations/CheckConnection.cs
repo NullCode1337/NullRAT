@@ -31,9 +31,8 @@
         /// Sends an HTTP request
         /// </summary>
         /// <param name="URL">Website to ping</param>
-        /// <param name="Protocol">the SSL/TLS protocol to use</param>
         /// <returns>true if the HTTP code indicates sucess, false if it fails to perform the request, or it's code does not indicate success</returns>
-        public static bool SendPetition(string URL, System.Security.Authentication.SslProtocols Protocol)
+        public static bool SendPetition(string URL)
         {
             try
             {
