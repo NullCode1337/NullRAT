@@ -43,16 +43,14 @@
             
             //Write first part of ServerIDs
             writer.Write($"{varNames[2]} = [");
-            
             //Iterate through the amount of server ids, until it finds the end thanks to the exception, write the last line and mark the ending with a ]
             for (int i = 0; i < ratVars.Server_IDs.Count; i++)
             {
                 try
                 {
-                    if (ratVars.Server_IDs[i + 1] != null)
-                    {
-                        writer.Write(ratVars.Server_IDs[i] + ", ");
-                    }
+                    if (ratVars.Server_IDs.Count == i) throw new Exception();
+
+                    writer.Write(ratVars.Server_IDs[i] + ", ");
                 }
                 catch
                 {
