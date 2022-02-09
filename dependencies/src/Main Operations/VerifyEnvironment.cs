@@ -40,7 +40,6 @@
             #region Verify Wheel
             CmdOutput wOut = ProcessInvoker.RunCmd("python", " -m wheel version");
 
-            //
             if (wOut.ExitCode == 0)
             {
                 Text.SlowPrintI("Wheel is installed!", "green", true);

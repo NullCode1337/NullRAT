@@ -44,7 +44,7 @@
                 {
                     AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PackageName}. Pip exit code \"{cmdOutput.ExitCode}\" does not indicate success!\nTry installing it with: [orange1]{pipCommand}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.Output.RemoveMarkup()}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.Output.ToString().RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
@@ -141,7 +141,7 @@
                 {
                     AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PipPackageName}. Pip exit code \"{cmdOutput.ExitCode}\" does not indicate success!\nTry running: [orange1]{pipCommand}{GitPipPackage}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.ErrorO.RemoveMarkup()}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.ErrorO.ToString().RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
