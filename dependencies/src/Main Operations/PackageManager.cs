@@ -9,7 +9,7 @@
         /// <exception cref="Exception">Thrown when the package couldn't be installed successfully</exception>
         public static void InstallPipPackage(string PackageName)
         {
-            CmdOutput _cmdOutput = new();
+            CmdOutput cmdOutput = new();
 
             if (ProgramData.PipPackageList.ToString().Contains(PackageName))
             {
@@ -29,7 +29,7 @@
                 Text.SlowPrintI($"Installing {PackageName}...", "orange1", true);
 
                 Thread VirtualEnvInstaller = new(
-                    () => _cmdOutput = ProcessInvoker.RunCmd("python", $"-m pip install {PackageName} --user", "y")
+                    () => cmdOutput = ProcessInvoker.RunCmd("python", $"-m pip install {PackageName} --user", "y")
                     );
 
                 VirtualEnvInstaller.Start();
@@ -40,11 +40,11 @@
                     Thread.Sleep(5);
                 }
 
-                if (_cmdOutput.ExitCode != 0 && _cmdOutput.ExitCode != 1)
+                if (cmdOutput.ExitCode != 0 && cmdOutput.ExitCode != 1)
                 {
-                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PackageName}. Pip exit code \"{_cmdOutput.ExitCode}\" does not indicate success!\nTry installing it with: [orange1]{pipCommand}[/][/]");
+                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PackageName}. Pip exit code \"{cmdOutput.ExitCode}\" does not indicate success!\nTry installing it with: [orange1]{pipCommand}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.Output.ToString().RemoveMarkup()}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.Output.RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
@@ -56,18 +56,20 @@
         /// <summary>
         /// Install a PIP Package that comes from Git and requires "special" treatment
         /// </summary>
-        /// <param name="_pipPackageName">The name of the package on Pip Freeze</param>
-        /// <param name="_gitMasterLink">Link to github Repository source, must be in zip!</param>
+        /// <param name="PipPackageName">The name of the package on Pip Freeze</param>
+        /// <param name="GitPipPackage">Link to github Repository source, must be in zip!</param>
         /// <exception cref="Exception">Thrown when the package couldn't be installed successfully</exception>
-        public static void InstallPipPackage(string _pipPackageName, string _gitMasterLink)
+        public static void InstallPipPackage(string PipPackageName, string GitPipPackage)
         {
-            CmdOutput _cmdOutput = new();
+            CmdOutput cmdOutput = new();
             string PathToPackage = Path.GetTempFileName(),
                    FinalPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @$"/pip/local-paclages0/";
 
-            if (ProgramData.PipPackageList.ToString().Contains(_pipPackageName))
+            bool sourcePresent = false;
+
+            if (ProgramData.PipPackageList.ToString().Contains(PipPackageName))
             {
-                Text.SlowPrintI($"{_pipPackageName} is installed!", "green", true);
+                Text.SlowPrintI($"{PipPackageName} is installed!", "green", true);
                 ProgramData.InstalledPackages++;
             }
             else
@@ -75,33 +77,75 @@
                 Thread.Sleep(1000);
                 lock (Text.slowPrintLock)
                 {
-                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] {_pipPackageName} not installed![/]");
+                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] {PipPackageName} not installed![/]");
                 }
                 Thread.Sleep(1000);
-                Text.SlowPrintI($"Installing {_pipPackageName}...", "orange1", true);
+                Text.SlowPrintI($"Installing {PipPackageName}...", "orange1", true);
+
+                #region Download Source
+                try
+                {
+
+                    PathToPackage = PathToPackage.Trim(Path.GetInvalidFileNameChars());
+
+                    HttpResponseMessage hrm0 = ProgramData.HttpClient.GetAsync(GitPipPackage).GetAwaiter().GetResult();
+
+                    if (hrm0.IsSuccessStatusCode)
+                    {
+                        using (Stream stream = hrm0.Content.ReadAsStream())
+                        {
+                            using (FileStream fs = File.Create(PathToPackage))
+                            {
+
+                                stream.CopyTo(fs);
+                                sourcePresent = true;
+                                fs.Dispose();
+                                fs.Close();
+                            }
+                            stream.Dispose();
+                            stream.Close();
+                        }
+                        Directory.CreateDirectory(FinalPath);
+                        FinalPath += $"{PipPackageName}-git@master.zip";
+                        File.Move(PathToPackage, FinalPath, true);
+                    }
+                    else
+                    {
+                        AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Downloading source for {PipPackageName}![/]");
+                        sourcePresent = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] An error occurred while we tried to download a package! {ex.Message}[/]");
+                    sourcePresent = false;
+                }
+                #endregion
 
                 string pipCommand = "pip" + $" install ";
 
-
-                Thread VirtualEnvInstaller = new(
-                    () => _cmdOutput = ProcessInvoker.RunCmd("python", $"-m pip install --user \"{_gitMasterLink}\"")
-                    );
-
-                VirtualEnvInstaller.Start();
-
-                while (VirtualEnvInstaller.IsAlive)
+                if (sourcePresent)
                 {
-                    Thread.Sleep(5);
+                    Thread VirtualEnvInstaller = new(
+                        () => cmdOutput = ProcessInvoker.RunCmd("python", $"-m pip install \"{FinalPath}\" --user")
+                        );
+
+                    VirtualEnvInstaller.Start();
+
+                    while (VirtualEnvInstaller.IsAlive)
+                    {
+                        Thread.Sleep(5);
+                    }
                 }
-                if (_cmdOutput.ExitCode != 0)
+                if (!sourcePresent || cmdOutput.ExitCode != 0)
                 {
-                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {_pipPackageName}. Pip exit code \"{_cmdOutput.ExitCode}\" does not indicate success!\nTry running: [orange1]{pipCommand}{_gitMasterLink}[/][/]");
+                    AnsiConsole.MarkupLine($"[maroon][[ERROR]] Error Installing {PipPackageName}. Pip exit code \"{cmdOutput.ExitCode}\" does not indicate success!\nTry running: [orange1]{pipCommand}{GitPipPackage}[/][/]");
                     ProgramData.PackagesFailed++;
-                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{_cmdOutput.ErrorO.ToString().RemoveMarkup()}\n--------END OUTPUT");
+                    AnsiConsole.MarkupLine($"--------PIP OUTPUT\n{cmdOutput.ErrorO.RemoveMarkup()}\n--------END OUTPUT");
                 }
                 else
                 {
-                    Text.SlowPrintI($"{_pipPackageName} has been successfully installed!", "green", true);
+                    Text.SlowPrintI($"{PipPackageName} has been successfully installed!", "green", true);
                 }
                 ProgramData.InstalledPackages++;
             }

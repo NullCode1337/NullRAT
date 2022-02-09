@@ -67,7 +67,7 @@
         };
 
         private static readonly HttpClient internalHttpClient = new(handler);
-        public static HttpClient HttpClient { get => HttpClient; set => value = internalHttpClient; }
+        public static HttpClient HttpClient { get => value; set => value = internalHttpClient; }
 
     }
 }
