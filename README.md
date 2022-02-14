@@ -30,6 +30,7 @@ sussy
 7) sus amogus sussy baka imposter 
 8) sus amogus of sussy baka
 9) imposter sus amogus sussy PC
+```
 baka imposter sus to amogus PC
 sussy baka imposter sus amogus
 sussy baka imposter sus 
@@ -39,7 +40,6 @@ imposter sus amogus sussy baka imposter
 sus amogus sussy to baka imposter sus amogus
 sussy baka imposter
 sus
-```
 
 ## amogus to sussy
 baka
