@@ -83,7 +83,7 @@ namespace NullRAT.Dependencies
             #endregion
 
             #region Verify Environment and Install Packages!
-            SlowPrint("\nVerifying Environment...", "aqua", true);
+            SlowPrint("Verifying Environment...", "aqua", true);
             AnsiConsole.Markup("[aqua]--------------------------\n[/]");
 
             VerifyEnvironment.VerifyPipAndPython();
