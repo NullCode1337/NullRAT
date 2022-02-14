@@ -42,7 +42,7 @@
             #region Verify src is present.
             if (!Directory.Exists(Environment.CurrentDirectory + "\\src\\"))
             {
-                AnsiConsole.MarkupLine("There isn't a valid NullRAT source folder, Exiting...");
+                Console.WriteLine("\nThere isn't a valid NullRAT source folder, Exiting...");
                 Thread.Sleep(2000);
                 Environment.Exit(-1);
             }
