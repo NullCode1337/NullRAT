@@ -13,7 +13,7 @@ amogus
 3) sussy baka imposter sus in amogus (7 sussy baka
 
 imposter sus amogus
-sussy
+------------------------------------------
 4) baka imposter sus IP amogus of sussy baka
 5) imposter sus amogus sussy baka imposter sus amogus
     sussy baka imposter sus amogus sussy baka
@@ -30,19 +30,19 @@ sussy
 7) sus amogus sussy baka imposter 
 8) sus amogus of sussy baka
 9) imposter sus amogus sussy PC
+10) baka imposter sus to amogus PC
+11) sussy baka imposter sus amogus
+12) sussy baka imposter sus 
+13) amogus sussy baka imposter sus
+14) amogus sussy baka imposter sus do amogus sussy baka 
+15) imposter sus amogus sussy baka imposter
+16) sus amogus sussy to baka imposter sus amogus
+17) sussy baka imposter
+**) sus
 ```
-baka imposter sus to amogus PC
-sussy baka imposter sus amogus
-sussy baka imposter sus 
-amogus sussy baka imposter sus
-amogus sussy baka imposter sus do amogus sussy baka 
-imposter sus amogus sussy baka imposter
-sus amogus sussy to baka imposter sus amogus
-sussy baka imposter
-sus
 
 ## amogus to sussy
-baka
+### baka
 
 ```
 - imposter sus amogus be sussy on baka PC imposter sus to amogus sussy baka
@@ -50,26 +50,23 @@ baka
 - baka imposter sus to amogus as sussy baka imposter sus
 ```
 
-amogus
+### amogus
 sussy baka imposter sus amogus sussy baka is imposter sus to amogus 
 
 sussy baka imposter sus amogus sussy baka imposter sus amogus sussy baka I imposter sus amogus sussy baka
 
-imposter
-
-```
+### imposter
 - sus a amogus sussy baka imposter sus amogus
 - sussy baka imposter sus amogus sussy baka imposter sus amogus sussy baka imposter
 - sus amogus sussy baka of imposter sus amogus sussy baka no imposter sus
 - amogus sussy baka imposter sus amogus sussy baka imposter sus amogus sussy baka
 - imposter sus amogus sussy baka imposter sus amogus sussy baka imposter sus amogus sussy
 - baka imposter sus amogus sussy it baka imposter sus amogus sussy baka imposter be sus amogus
-```
 
 ## sussy
 To baka imposter sus amogus I sussy baka in imposter sus
 
-amogus sussy
+`amogus sussy`
 
 baka imposter be sus if amogus sussy ⭐ baka imposter sus amogus sussy me to baka on it imposter
 
