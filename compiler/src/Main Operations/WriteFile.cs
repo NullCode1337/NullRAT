@@ -46,16 +46,9 @@
             //Iterate through the amount of server ids, until it finds the end thanks to the exception, write the last line and mark the ending with a ]
             for (int i = 0; i < ratVars.Server_IDs.Count; i++)
             {
-                try
-                {
-                    if (ratVars.Server_IDs.Count == i) throw new Exception();
+                if (ratVars.Server_IDs.Count - 1 == i) { writer.Write(ratVars.Server_IDs[i] + "]"); break; }
 
-                    writer.Write(ratVars.Server_IDs[i] + ", ");
-                }
-                catch
-                {
-                    writer.Write(ratVars.Server_IDs[i] + "]");
-                }
+                writer.Write(ratVars.Server_IDs[i] + ", ");
             }
             //Flush buffer, dispose writer and close.
             writer.Flush();
