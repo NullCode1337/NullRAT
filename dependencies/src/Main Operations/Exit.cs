@@ -16,16 +16,16 @@
 
             if (ProgramData.PackagesFailed > 0)
             {
-                AnsiConsole.MarkupLine("\n[maroon][[WARN]] Some packages have failed to be installed...[/]");
+                AnsiConsole.MarkupLine("\n[maroon][[WARN]] Unable to install some packages[/]");
 
                 for (int i = 0; i < ProgramData.FailedPackages.Count; i++)
                 {
                     AnsiConsole.MarkupLine($"Run: \"pip install {ProgramData.Packages[i]}\" to install the package manually");
                 }
             }
-
-            AnsiConsole.MarkupLine("\n[green][[INFO]] All Packages have been installed successfully![/]\n");
-
+			else {
+				AnsiConsole.MarkupLine("\n[green][[INFO]] All packages have been installed successfully![/]\n");
+			}
             Environment.Exit(0);
         }
     }

@@ -54,8 +54,6 @@
 
         // Avoid connection errors for problems with SSL or TLS by using TLS 1.2.
         // Use Cookies & Container + Decompression.
-
-        //Web Stuff
         private static readonly CookieContainer cookies = new();
 
         private static readonly HttpClientHandler handler = new()

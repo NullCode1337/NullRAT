@@ -15,7 +15,7 @@
         public static bool Ping(IPAddress ObjectiveIP)
         {
             PingInformation pingInf = new();
-            string bufferText = "This is a Ping";
+            string bufferText = "This is a ping";
             byte[] buffer = Encoding.UTF8.GetBytes(bufferText);
 
             pingInf.reply = pingInf.ping.Send(ObjectiveIP, 10, buffer);
@@ -43,7 +43,7 @@
             }
             catch
             {
-                //Error effectuating the GET Request to the URL
+                // Error effectuating the GET Request to the URL
                 return false;
             }
         }
