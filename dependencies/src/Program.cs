@@ -88,9 +88,9 @@ namespace NullRAT.Dependencies
 
             VerifyEnvironment.VerifyPipAndPython();
 
-            string[] IncompatiblePackages = new string[2]
+            string[] IncompatiblePackages = new string[3]
             {
-                "discord.py", "py-cord" // Breaking packages that shouldn't exist
+                "discord.py", "py-cord", "enum34" // Breaking packages that shouldn't exist
             };
             SlowPrint("\nUninstalling incompatible packages...", "aqua", true);
             AnsiConsole.Markup("[aqua]---------------------------------------\n[/]");
