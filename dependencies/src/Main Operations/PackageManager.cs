@@ -57,7 +57,7 @@
         /// Install a PIP Package that comes from Git and requires "special" treatment
         /// </summary>
         /// <param name="PipPackageName">The name of the package on Pip Freeze</param>
-        /// <param name="GitPipPackage">Link to github Repository source, must be in zip!</param>
+        /// <param name="GitPipPackage">Link to github repository source, must be in zip!</param>
         /// <exception cref="Exception">Thrown when the package couldn't be installed successfully</exception>
         public static void InstallPipPackage(string PipPackageName, string GitPipPackage)
         {

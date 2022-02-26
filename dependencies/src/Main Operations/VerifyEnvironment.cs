@@ -22,7 +22,7 @@
 
             #endregion
             #region Verify Pip
-            //Check if PIP is working.
+			
             CmdOutput fOut = ProcessInvoker.RunCmd("python", "-m pip freeze");
 
             if (fOut.ExitCode == 0)
@@ -34,7 +34,7 @@
                     ProgramData.PipPackageList.Append(tmp[i]);
                 }
 
-                Text.SlowPrintI("PIP is available!", "green", true);
+                Text.SlowPrintI("PIP is installed!", "green", true);
             }
             #endregion
             #region Verify Wheel
