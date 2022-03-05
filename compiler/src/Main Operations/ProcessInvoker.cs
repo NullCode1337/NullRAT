@@ -5,7 +5,12 @@
         public StringBuilder Output = new();
         public StringBuilder ErrorO = new();
         public int ExitCode = 0;
+
+        public CmdOutput()
+        {
+        }
     }
+
     internal class ProcessInvoker
     {
         /// <summary>
@@ -19,7 +24,7 @@
         {
             CmdOutput output = new();
             Process process = new();
-            
+
             //Process Vars
             process.StartInfo.FileName = ProgramPath;
             process.StartInfo.Arguments = Arguments;
@@ -34,13 +39,14 @@
             Thread.Sleep(1000);
             StreamWriter writer = process.StandardInput;
             writer.Write(input);
-            
+
             process.WaitForExit();
             output.Output.Append(process.StandardOutput.ReadToEnd());
             output.ExitCode = process.ExitCode;
 
             return output;
         }
+
         /// <summary>
         /// Runs an application inside of a Console
         /// </summary>
