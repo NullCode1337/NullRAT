@@ -15,17 +15,18 @@ Available payload features:
 ---------------------------
 4) Find the public IP Address of the victim
 5) Find their Discord token(s) and all user info
-    User info includes but isn't limited to:
-    - Username, Tag  and ID
+    User info comes in a nice embed and includes:
+    - Username, Tag and ID
     - Email Address 
     - Phone Number
     - Nitro Status 
-    - Billing info status
 6) Find victim's geographic information:
     - Country
+    - City
     - Region
     - Latitude & longitude
-    - etc!
+    - Zip Code
+    - ISP
 7) Take pictures using victim's webcam 
 8) Take screenshot of victim's monitor
 9) Download files from victim's PC
@@ -36,6 +37,7 @@ Available payload features:
 14) See directory contents, and do other directory manipulation 
 15) Get victim's clipboard text history
 16) Add executable to startup with one command
+17) Find their billing information
 **) ...and more!
 ```
 
@@ -72,5 +74,5 @@ Also it'd be nice if you could ⭐ NullRAT (it's free, and motivates me to work 
 2) Buntii
 3) usrDottik
 
-**RATting into others without their explicit permission is not pogchamp, and not supported by me.**
+**RATing into others without their explicit permission is not pogchamp, and not supported by me.**
 <h4 align=right>Software designed by NullCode</h6>
