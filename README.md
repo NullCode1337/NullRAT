@@ -9,7 +9,8 @@
     - Controlled via slash commands
     - Some commands supported with buttons
     - Etc!
-3) Created with small size in mind! (7 megabyte payload)
+3) Supports targeting multiple victims [NEW]!
+4) Created with small size in mind! (7 megabyte payload)
 
 Available payload features:
 ---------------------------
@@ -38,6 +39,7 @@ Available payload features:
 15) Get victim's clipboard text history
 16) Add executable to startup with one command
 17) Find their billing information
+18) Find their wifi names and passwords
 **) ...and more!
 ```
 
