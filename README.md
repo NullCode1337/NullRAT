@@ -2,6 +2,9 @@
 
 <h3 align=center><b>[ The next-generation of Discord RATs ]</b></h3>
 
+
+>Please read the entire README and Getting Started.md before continuing using the RAT
+
 ## Features:
 ```
 1) Always maintained (hopefully)
@@ -9,7 +12,7 @@
     - Controlled via slash commands
     - Some commands supported with buttons
     - Etc!
-3) Supports targeting multiple victims [NEW]!
+3) Supports targeting multiple victims [NEW]! (the new victim argument uses the victim's IP address for controlling)
 4) Created with small size in mind! (7 megabyte payload)
 
 Available payload features:
