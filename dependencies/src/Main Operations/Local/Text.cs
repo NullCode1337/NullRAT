@@ -1,8 +1,12 @@
-﻿namespace NullRAT.Dependencies
+﻿using Spectre.Console;
+using System;
+using System.Threading;
+
+namespace NullRAT.Dependencies
 {
-    public class Text
+    public static class Text
     {
-        public static readonly Object slowPrintLock = new(); 
+        public static readonly Object slowPrintLock = new();
         /// <summary>
         /// Prints text in the center of the Console
         /// </summary>
@@ -12,7 +16,7 @@
         {
             for (int i = 0; i < (Console.WindowWidth - Text.Length) / 2; i++)
             {
-                Console.Write(" ");
+                Console.Write(' ');
             }
             AnsiConsole.MarkupLine($"[{Color}]{Text}[/]");
         }
@@ -21,8 +25,8 @@
         /// </summary>
         /// <param name="Text">The Text to print</param>
         /// <param name="Color">The color to use, red1, green1...</param>
-        /// <param name=="SkipLine">true if you want the code to add a NewLine at the end</param>
-        public static void SlowPrintI(string Text, string Color, bool SkipLine)
+        /// <param name=="newLine">true if you want the code to add a NewLine at the end</param>
+        public static void SlowPrintI(string Text, string Color, bool newLine)
         {
             lock (slowPrintLock)
             {
@@ -32,9 +36,9 @@
                     AnsiConsole.Markup($"[{Color}]{Text[i]}[/]");
                     Thread.Sleep(25);
                 }
-                if (SkipLine)
+                if (newLine)
                 {
-                    AnsiConsole.Markup("\n");
+                    Console.Write($"{Environment.NewLine}");
                 }
             }
         }
@@ -54,7 +58,7 @@
                 }
                 if (SkipLine)
                 {
-                    AnsiConsole.Markup("\n");
+                    AnsiConsole.Markup($"{Environment.NewLine}");
                 }
             }
         }
