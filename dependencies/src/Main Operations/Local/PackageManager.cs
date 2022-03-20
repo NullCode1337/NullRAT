@@ -24,7 +24,7 @@ internal class PackageManager
         }
         else
         {
-            string pipInstallCommand = $"pip install --no-input --user {PackageName}";
+            string pipInstallCommand = $"pip install --no-input {PackageName}";
 
             lock (Text.slowPrintLock)
             {
