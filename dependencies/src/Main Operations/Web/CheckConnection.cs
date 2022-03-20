@@ -22,7 +22,7 @@ public static class CheckConnection
 
         if (reply.Status is IPStatus.Success)
         {
-            //There is an available Internet Connection -> PING was a success
+            // There is an available Internet Connection -> PING was a success
             return true;
         }
 
@@ -30,9 +30,9 @@ public static class CheckConnection
     }
 
     /// <summary>
-    /// Sends an HTTP request
+    /// Sends an HTTP request to the specified URL.
     /// </summary>
-    /// <param name="URL">Website to ping</param>
+    /// <param name="URL">URL to ping</param>
     /// <returns>true if the HTTP code indicates success, false if it fails to perform the request, or it's code does not indicate success</returns>
     public static async Task<bool> SendPetition(string URL)
     {
@@ -47,7 +47,7 @@ public static class CheckConnection
     ///  Pings the specified IPAddresses.
     /// </summary>
     /// <param name="targets">Target Addresses</param>
-    /// <returns>returns true if ANY of the addreses response with <seealso name="IPStatus.Success"/>, else false</returns>
+    /// <returns>returns true if ANY of the addreses answer with <seealso name="IPStatus.Success"/>, else false</returns>
     public static bool BatchPing(IPAddress[] targets)
     {
         for (int i = 0; i < targets.Length; i++)
