@@ -1,9 +1,10 @@
+---
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
 
-<h3 align=center><b>[ The next-generation of Discord RATs ]</b></h3>
+<h3 align=center><b>The next-generation of Discord RATs</b></h3>
+<h6 align=center>"Please read the entire README and <a href="https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md">Getting Variables.md</a> before using the RAT"</h4>
 
-
->Please read the entire README and Getting Started.md before continuing using the RAT
+---
 
 ## Features:
 ```
