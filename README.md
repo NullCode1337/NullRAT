@@ -7,45 +7,46 @@
 ---
 
 ## Features:
-```
-1) Always maintained (hopefully)
-2) Designed to be extremely user friendly with intuitive features:
-    - Controlled via slash commands
-    - Some commands supported with buttons
-    - Etc!
-3) Supports targeting multiple victims [NEW]! (the new victim argument uses the victim's IP address for controlling)
-4) Created with small size in mind! (7 megabyte payload)
+<details>
+<summary>NullRAT features:</summary>
+<h4>-> Always maintained</br></br>
+-> Designed to be very noob friendly with intuitive features:</br>
+&nbsp;&nbsp;&nbsp; - Controlled via slash commands</br>
+&nbsp;&nbsp;&nbsp; - Some commands supported with buttons</br>
+&nbsp;&nbsp;&nbsp; - Etc!</br></br>
+-> Supports targeting multiple victims [NEW]!</br>
+-> Created with small size in mind! (7MB payload)</h4>
+</details>
 
-Available payload features:
----------------------------
-4) Find the public IP Address of the victim
-5) Find their Discord token(s) and all user info
-    User info comes in a nice embed and includes:
-    - Username, Tag and ID
-    - Email Address 
-    - Phone Number
-    - Nitro Status 
-6) Find victim's geographic information:
-    - Country
-    - City
-    - Region
-    - Latitude & longitude
-    - Zip Code
-    - ISP
-7) Take pictures using victim's webcam 
-8) Take screenshot of victim's monitor
-9) Download files from victim's PC
-10) Upload payloads to victim's PC
-11) Get victim's system information
-12) Execute CMD/Powershell command 
-13) Find any environment variables
-14) See directory contents, and do other directory manipulation 
-15) Get victim's clipboard text history
-16) Add executable to startup with one command
-17) Find their billing information
-18) Find their wifi names and passwords
-**) ...and more!
-```
+<details>
+<summary>NullRAT Payload features:</summary>
+<h4>-> Find the public IP Address of the victim</br></br>
+-> Find their Discord token(s) and all user info:</br>
+&nbsp;&nbsp;&nbsp; - Username, Tag and ID</br>
+&nbsp;&nbsp;&nbsp; - Email Address </br>
+&nbsp;&nbsp;&nbsp; - Phone Number</br>
+&nbsp;&nbsp;&nbsp; - Nitro Status </br></br>
+-> Find victim's geographic information:</br>
+&nbsp;&nbsp;&nbsp; - Country</br>
+&nbsp;&nbsp;&nbsp; - City</br>
+&nbsp;&nbsp;&nbsp; - Region</br>
+&nbsp;&nbsp;&nbsp; - Latitude & longitude</br>
+&nbsp;&nbsp;&nbsp; - Zip Code</br>
+&nbsp;&nbsp;&nbsp; - ISP</br></br>
+-> Take pictures using victim's webcam </br>
+-> Take screenshot of victim's monitor</br>
+-> Download files from victim's PC</br>
+-> Upload payloads to victim's PC</br>
+-> Get victim's system information</br>
+-> Execute CMD/Powershell command </br>
+-> Find any environment variables</br>
+-> See directory contents, and do other directory manipulation </br>
+-> Get victim's clipboard text history</br>
+-> Add executable to startup with one command</br>
+-> Find their billing information</br>
+-> Find their wifi names and passwords</br>
+**) ...and more!</h4>
+</details>
 
 ## How to use:
 #### Requirements:
