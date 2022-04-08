@@ -2,12 +2,33 @@
 
 <h1 align=left>Getting Variables</h1>
 <h4 align=left><b>How (and why) to get all the required variables necessary for the usage of NullRAT:</b></h4>
-</br>
 <h1>Table of Contents:</h2>
 
-1. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-2. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id)
-3. [Server ID(s)](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids)
+1. [Proper Bot Invite](https://github.com/NullCode1337/NullRAT/edit/source/Getting%20Variables.md#proper-bot-invite-link)
+2. [Discord Bot Token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
+3. [Channel ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id)
+4. [Server ID(s)](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids)
+
+---
+<h3>Proper Bot Invite Link</h3>
+
+Many people have been generating invalid invites, and when NullRAT doesn't work as expected, they blame me.</br></br>
+**Here's how to do it:**
+
+1. Open [https://discord.com/developers/applications](https://discord.com/developers/applications) in a browser window.
+
+![Discord Developer Portal](https://user-images.githubusercontent.com/70959549/150104339-5b6edaf2-26ec-4438-9d08-cd82473db39e.png)
+
+2. If you already have an application, click on it. Otherwise, make one.
+
+![Applications side menu](https://user-images.githubusercontent.com/70959549/162367526-4432adea-0998-45b8-a151-958d86c331be.png)
+
+3. Click on `OAuth2`, then `URL Generator`
+
+![Scopes](https://user-images.githubusercontent.com/70959549/162367784-5f53d2aa-00c8-419f-b5bc-80058437ad66.png)
+
+5. Important! Select the scopes `bot` **and** `application.commands`. Without these 2 NullRAT will never work as expected
+6. Now select any permission you want (I go for Administrator only), then copy the invite link. Done
 
 ---
 <h3>Discord Bot Token</h3>
