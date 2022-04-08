@@ -48,32 +48,29 @@ Available payload features:
 ```
 
 ## How to use:
-<h4>Preparation:</h4>
+#### Requirements:
+- **Python 3.8+** (Tick "Add to PATH" while installing) [Microsoft Store version of Python **is broken**]
+- **PIP Folder added to path** (the path is `%APPDATA%\Python\{Your Python Version}\Scripts`)
 
-- Python 3.8+ should be installed on the PC (Tick "Add to PATH" while installing)
-- **Do not under any circumstances use the Microsoft Store version of Python, does not work**
-- Add PIP folder to path as well (`%APPDATA%\Python\{insert python folder}\Scripts`)
+#### Preparation:
+- Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
+- [Create an invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
+- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file
 
-<h4>IMPORTANT:</h4>
-Using the provided Dependencies Installer and Compiler is the key to success. 
-
-Only people who know what they're doing should not use the compiler. I won't help anyone who does.
-
-<h4>Steps:</h4>
-
-- [Create a Discord BOT and obtain it's token](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/)
-- [**IMPORTANT**] Create invite link for the bot using the following scopes: `bot`, `application.commands`
-- Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
-- Run the Dependencies Installer which will install all the necessary dependencies (except Python)
-- Before running the compiler, read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and grab all the variables you need
-- Run the Compiler, and feed it all the necessary information. NullRAT payload will be right there!
+#### Steps:
+1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
+2. Run the Dependencies Installer (which will install NullRAT's dependencies)
+3. Run the Compiler, and input information according to the temporary file. NullRAT payload will be right there!
 
 ## Donate:
-To support all the time I ~~waste~~ spend in this project:
+<h6 align=center>( <b>Even if you can't donate, you have been requested by master NullCode to star this project</b> )</br></br>
+( <b>If you star this project, I will want to work on it more, and improve it. Otherwise nah</b> )</h6>
 
-```XMR: 48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er```
-
-Also it'd be nice if you could ⭐ NullRAT (it's free, and motivates me to work on it more)
+<details>
+<summary>XMR Address</summary>
+<br>
+<b>48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er</b>
+</details>
 
 ## Credits:
 1) Sp00p64 
