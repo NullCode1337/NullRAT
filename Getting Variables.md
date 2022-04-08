@@ -23,9 +23,13 @@ This is used to run NullRAT's core bot host. **Without this NullRAT will straigh
 2. If you already have an application, click on it. Otherwise, make one.
 3. Once you see the applications window, press Bot.
 
-![Bot menu](https://user-images.githubusercontent.com/70959549/150104882-e3cd331b-82d1-4504-8cd6-ee02bf3cac98.png)
+![Bot menu](https://user-images.githubusercontent.com/70959549/162366786-79152640-19fe-4f7b-92d4-4aafebbfc85d.png)
 
-4. Click on `Copy` and store it somewhere. Done!
+5. Click on `Reset Token` so that the gods at Discord allow us to view the token
+
+![Bot menu](https://user-images.githubusercontent.com/70959549/162367155-348a6408-2b77-402a-83b0-f13b311d3288.png)
+
+7. Click on `Copy` and store it somewhere. Done!
 
 ---
 <h3>Channel ID</h3>
