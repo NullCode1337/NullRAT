@@ -64,6 +64,8 @@
 2. Run the Dependencies Installer (which will install NullRAT's dependencies)
 3. Run the Compiler, and input information according to the temporary file. NullRAT payload will be right there!
 
+**Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
+
 ## Donate:
 <h6 align=center>( <b>Even if you can't donate, you have been requested by master NullCode to star this project</b> )</br></br>
 ( <b>If you star this project, I will want to work on it more, and improve it. Otherwise nah</b> )</h6>
@@ -79,5 +81,5 @@
 2) Buntii
 3) usrDottik
 
-**RATing into others without their explicit permission is not pogchamp, and not supported by me.**
+**Infecting others via NullRAT without their permission is obviously not supported by me.**
 <h4 align=right>Software designed by NullCode</h6>
