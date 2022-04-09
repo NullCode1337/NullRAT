@@ -52,12 +52,12 @@
 ## How to use:
 #### Requirements:
 - **Python 3.8+** (Tick "Add to PATH" while installing) [Microsoft Store version of Python **is broken**]
-- **PIP Folder added to path** (the path is `%APPDATA%\Python\{Your Python Version}\Scripts`)
+- **PIP Folder added to path** (the path is `C:\Users\{username}\Appdata\Roaming\Python\{python ver (Example: Python310)}\Scripts`)
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-- [Create an invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
-- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file
+- [Create a proper invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
+- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file (optional)
 
 #### Steps:
 1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
