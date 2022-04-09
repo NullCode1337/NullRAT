@@ -45,6 +45,7 @@
 -> Add executable to startup with one command</br>
 -> Find their billing information</br>
 -> Find their wifi names and passwords</br>
+-> Hide or unhide files in their computer</br>
 **) ...and more!</h4>
 </details>
 
