@@ -1,18 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Nulllib</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <!--ONLY WHEN PUBLISHING TO OPTIMIZE PROGRAM-->
-    <Optimize>true</Optimize>
-    <PublishTrimmed>true</PublishTrimmed>
-
-    <!--ONLY USE DURING DEVELOPMENT OF DEPENDENCY INSTALLER--> 
-    <!--DebugType>embedded</DebugType--> 
-    
-    <Platforms>AnyCPU;x64</Platforms> 
 
     <!--Beyond this point it's all NativeAOT configurations.-->
 
@@ -29,16 +21,18 @@
 
     <!--Compiler Configs-->
     <IlcOptimizationPreference>Size</IlcOptimizationPreference>
-
-
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-preview.2.22152.2" />
-    <PackageReference Include="Spectre.Console" Version="0.43.0" />
-    <DirectPInvoke Include="user32!GetSystemMenu"/>
-    <DirectPInvoke Include="user32!DeleteMenu"/>
-    <DirectPInvoke Include="kernel32!GetConsoleWindow"/>
+    <PackageReference Include="Spectre.Console" Version="0.44.0" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-preview.2.22152.2" />
+    <PackageReference Include="Spectre.Console" Version="0.44.0" />
+    <DirectPInvoke Include="user32!GetSystemMenu" />
+    <DirectPInvoke Include="user32!DeleteMenu" />
+    <DirectPInvoke Include="kernel32!GetConsoleWindow" />
+  </ItemGroup>
+
 </Project>
