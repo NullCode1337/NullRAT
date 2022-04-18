@@ -24,10 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.44.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="7.0.0-preview.2.22152.2" />
     <PackageReference Include="Spectre.Console" Version="0.44.0" />
     <DirectPInvoke Include="user32!GetSystemMenu" />
