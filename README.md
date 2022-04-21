@@ -6,6 +6,13 @@
 
 ---
 
+## Announcement:
+**04/21/2022**
+
+This project is undergoing a redesign. You might not see a new release in a few months. **NullRAT is not dead**
+
+Not to worry though, I'll publish one last release with the old compiler, to ensure everything is alright
+
 ## Features:
 <details>
 <summary>NullRAT features:</summary>
