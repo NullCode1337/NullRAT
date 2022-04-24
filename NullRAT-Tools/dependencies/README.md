@@ -1,14 +1,13 @@
 # NullRAT Dependencies Installer
 This is a fancy and beautiful dependencies installer worked on jointly by @usrDottik and NullCode (me)
 
-![image](https://user-images.githubusercontent.com/70959549/148890522-fa2ee964-5a23-4e3f-ad52-e5197d1231ce.png)
+![image](https://user-images.githubusercontent.com/70959549/164966491-ca899605-bcc9-42ca-84c5-b6c173da27fd.png)
 
 ## Credits
 <h3>@usrDottik</h3>
 
-- Like fr I gave him my broken C# code and he spat out a fully working, improved one
-- Please go support my guy and his projects
+- He's the only one working on it now. I gave up C#
 
 <h3>@NullCode1337</h3>
 
-- What else did you expect lmfao. I designed the whole thing, dot did the backend
+- Designing and ideas
