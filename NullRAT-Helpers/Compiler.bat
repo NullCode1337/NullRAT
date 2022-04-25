@@ -60,15 +60,15 @@ if %upxdd%==yes (set path=%path%;%~dp0NullRAT\upx)
 
 if %pyarmor%==yes (
 	if %icon%==yes (
-		python -m pyarmor pack -e " --onefile --noconsole --icon=custom_icon.ico " RAT.py
+		pyarmor pack -e " --onefile --noconsole --icon=custom_icon.ico " RAT.py
 	) else (
-		python -m pyarmor pack -e " --onefile --noconsole " RAT.py
+		pyarmor pack -e " --onefile --noconsole " RAT.py
 	)
 ) else (
 	if %icon%==yes (
-		python -m pyinstaller --onefile --noconsole --icon=custom_icon.ico RAT.py
+		pyinstaller --onefile --noconsole --icon=custom_icon.ico RAT.py
 	) else (
-		python -m pyinstaller --onefile --noconsole RAT.py
+		pyinstaller --onefile --noconsole RAT.py
 	)
 )
 
