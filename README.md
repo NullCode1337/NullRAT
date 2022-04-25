@@ -11,7 +11,7 @@
 
 This project is undergoing a redesign. You might not see a new release in a few months. **NullRAT is not dead**
 
-Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/releases/tag/v8.0) has been published with a new compiler, to ensure everything is alright
+Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/releases/tag/v7.5) has been published with a new compiler, to ensure everything is alright
 
 ## Features:
 <details>
