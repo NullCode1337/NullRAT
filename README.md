@@ -71,11 +71,12 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
 2. Run the Dependencies Installer (which will install NullRAT's dependencies)
 3. Run the Compiler, and input information according to the temporary file. NullRAT payload will be right there!
 
-**Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
+- **Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
+- **NullRAT Discord:** [https://discord.com/invite/s9QANySc2q](https://discord.com/invite/s9QANySc2q)
 
 ## Donate:
-<h6 align=center>( <b>Even if you can't donate, you have been requested by master NullCode to star this project</b> )</br></br>
-( <b>If you star this project, I will want to work on it more, and improve it. Otherwise nah</b> )</h6>
+<h6 align=center>( <b>Even if you can't donate, it would be great if you starred this project</b> )</br></br>
+( <b>It just gives me more motivation to work on it and improve it</b> )</h6>
 
 <details>
 <summary>XMR Address</summary>
