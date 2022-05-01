@@ -13,5 +13,6 @@ echo.
 echo Installing Dependencies...
 echo --------------------------
 echo.
+python -m pip uninstall enum34
 python -m pip install pyinstaller==4.10
 python -m pip install --upgrade virtualenv aiohttp disnake requests mss pyarmor
