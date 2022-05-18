@@ -11,11 +11,11 @@
 
 
 > # Announcement:
-**04/21/2022**
+**05/18/2022**
 
-This project is undergoing a redesign. You might not see a new release in a few months. **NullRAT is not dead**
+Project redesign has been halted because of my Finals starting
 
-Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/releases) has been published with a new compiler, to ensure everything is alright
+See y'all in 12 days :D
 
 
 </br>
@@ -30,11 +30,12 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
   
 + Designed to be very noob friendly with intuitive features:
     +- Controlled via slash commands
-    +- And some commands supported with buttons
+    +- User friendly interface
+    +- Using modern Discord API Features
   
-+ Supports targeting multiple victims [NEW]!
++ Supports targeting multiple victims using IP Address
   
-+ Created with small size in mind! (7MB payload)
++ Created with small size and anonymity in mind! (7MB payload)
 ```
 
 </details>
@@ -43,15 +44,23 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
 <summary>NullRAT Payload features:</summary>
   
 ```diff
-+ Find the public IP Address of the victim
+=== A full list of commands can be found by typing `/` ===  
+ 
++ Find the public IP Address of the victim [/getip]
   
-+ Find their Discord token(s) and all user info:
++ Directly upload Discord Tokens from 10+ application paths [/raw_tokens]
+  
++ Check the user tokens and upload all user info: [/checked_tokens]
     - Username, Tag and ID
     - Email Address 
     - Phone Number
     - Nitro Status
+
++ [NEW!] Decrypt the new encrypted Discord Tokens and upload them [/discord_tokens]
   
-+ Find victim's geographic information:
++ [NEW!] Check the decrypted Discord Tokens [/discord_checked]
+  
++ Find victim's geographic information: [/geolocate]
     - Country
     - City
     - Region
@@ -59,33 +68,33 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
     - Zip Code
     - ISP
   
-+ Take pictures using victim's webcam 
++ Take pictures using victim's webcam [/webcam_image]
   
-+ Take screenshot of victim's monitor
++ Take screenshot of victim's monitor [/screenshot]
   
-+ Download files from victim's PCs
++ Send files/payloads to victim's PC [/sendfiles]
+
++ Receive files from victim's PCs [/receivefiles]
+    
++ Get victim's system information [/systeminfo]
   
-+ Upload payloads to victim's PC
++ Execute CMD/Powershell command [/shell]
   
-+ Get victim's system information
++ Find any environment variables [/get_environment]
   
-+ Execute CMD/Powershell command
++ See dir contents, change dir & do other dir manipulation
   
-+ Find any environment variables
++ Get victim's clipboard text history [/clipboard]
   
-+ See directory contents, and do other directory manipulation
++ Add executable to startup with one command [/startup]
   
-+ Get victim's clipboard text history
++ [WIP!] Find their billing information
   
-+ Add executable to startup with one command
++ Find their wifi names [/wifilist] and passwords [/wifipass]
   
-+ Find their billing information
++ Hide [/hidefile] or unhide files [/unhidefile] in their computer
   
-+ Find their wifi names and passwords
-  
-+ Hide or unhide files in their computer
-  
-+ ...and more!
++ ...and much more!
 ```
 
 </details>
@@ -96,12 +105,17 @@ Not to worry though, [one last release](https://github.com/NullCode1337/NullRAT/
 
 > # How to use:
 #### Requirements:
-- **Python 3.8+** (Tick "Add to PATH" while installing) [Microsoft Store version of Python **is broken**]
+- **Python 3.8+**:
+    - Tick "Add to PATH" while installing
+    - Install for All Users 
+    - [Microsoft Store version of Python **WILL NOT WORK**]
+    - Install `virtualenv` via pip after you have installed Python
+ 
 - **PIP Folder added to path** (the path is `C:\Users\{username}\Appdata\Roaming\Python\{python ver (Example: Python310)}\Scripts`)
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-- [Create a proper invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
+- [Create a bot invite link with the correct scopes](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
 - Optionally, store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for easy access
 
 #### Steps:
