@@ -10,21 +10,10 @@
 </br>
 
 
-> # Announcement:
-**05/18/2022**
-
-Project redesign has been halted because of my Finals starting
-
-See y'all in 12 days :D
-
-
-</br>
-
 
 > # Features:
-<details>
-<summary>NullRAT features:</summary>
-  
+<h3 align=center>NullRAT Features</h3>
+
 ```diff
 + Always maintained
   
@@ -38,11 +27,8 @@ See y'all in 12 days :D
 + Created with small size and anonymity in mind! (7MB payload)
 ```
 
-</details>
+<h3 align=center>NullRAT Payload Features</h3>
 
-<details>
-<summary>NullRAT Payload features:</summary>
-  
 ```diff
 === A full list of commands can be found by typing `/` ===  
  
@@ -96,9 +82,6 @@ See y'all in 12 days :D
   
 + ...and much more!
 ```
-
-</details>
-
 
 </br>
 
