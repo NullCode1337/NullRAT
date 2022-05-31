@@ -241,6 +241,7 @@ attrib -h ".git"
 del README.md
 del "Getting Variables".md
 del .gitignore
+if exist RAT.exe (del RAT.exe)
 rmdir /s /q ".git"
 rmdir /s /q "build"
 rmdir /s /q "dist"
