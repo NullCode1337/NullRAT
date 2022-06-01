@@ -89,8 +89,9 @@
 > # How to use:
 #### Requirements:
 - **Python 3.8+**:
-    - Tick "Add to PATH" while installing
-    - Install for All Users 
+    - [This version is recommended for installing](https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe) 
+    - After running the installer, make sure to click `Add to PATH`
+    - Make sure to install for all users 
     - [Microsoft Store version of Python **WILL NOT WORK**]
     - Install `virtualenv` via pip after you have installed Python
  
