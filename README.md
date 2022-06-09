@@ -90,12 +90,10 @@
 #### Requirements:
 - **Python 3.8+**:
     - [This version is recommended for installing](https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe) 
-    - After running the installer, make sure to click `Add to PATH`
-    - Make sure to install for all users 
+    - Video on installing Python: [https://youtu.be/_ABg9TkYUXk](https://youtu.be/_ABg9TkYUXk)
     - [Microsoft Store version of Python **WILL NOT WORK**]
-    - Install `virtualenv` via pip after you have installed Python
  
-- **PIP Folder added to path** (the path is `C:\Users\{username}\Appdata\Roaming\Python\{python ver (Example: Python310)}\Scripts`)
+- **PIP Folder added to path** (the path is `C:\Users\%username%\Appdata\Roaming\Python\Python38\Scripts` for me)
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
