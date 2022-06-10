@@ -149,3 +149,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Variables.py
+Variables.py
