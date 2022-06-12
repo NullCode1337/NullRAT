@@ -52,9 +52,9 @@ if %errorlevel%==2 (
 	echo 2^> Uninstalling incompatible packages...
 	start "" "python" -m pip uninstall enum34
 	echo 3^> Installing/Upgrading rest of dependencies...
-	start "" "python" -m pip install --upgrade virtualenv aiohttp disnake requests mss pyarmor
-	timeout /t 5 /nobreak >nul
-	start "" "python" -m pip install --upgrade virtualenv aiohttp disnake requests mss pyarmor
+	start "" "python" -m pip install --upgrade virtualenv aiohttp disnake requests mss pyarmor disnake-pagination
+	timeout /t 6 /nobreak >nul
+	start "" "python" -m pip install --upgrade virtualenv aiohttp disnake requests mss pyarmor disnake-pagination
 	echo.
 	echo ALL DONE!
 	timeout /t 5 
