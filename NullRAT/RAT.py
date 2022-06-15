@@ -4,6 +4,7 @@ import disnake as discord
 from disnake import Embed
 from disnake.ext import commands
 
+from datetime import datetime
 from socket import create_connection
 import os, re, aiohttp, requests
 
