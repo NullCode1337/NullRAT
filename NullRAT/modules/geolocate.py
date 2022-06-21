@@ -12,9 +12,7 @@ class Geolocate(commands.Cog):
         
     @commands.slash_command(
         description="Finds all geolocation information of victim",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ],
+        options=[self.bot.victim],
     )
     async def get_geolocation(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

