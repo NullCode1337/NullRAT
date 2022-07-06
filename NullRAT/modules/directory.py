@@ -141,7 +141,7 @@ class DirectoryCommands(commands.Cog):
                 try:
                     embed.add_field(
                         name = "File Size:",
-                        value = convert_bytes(os.path.getsize(c)),
+                        value = convert_bytes(os.path.getsize(c)) if os.path.isdir(c) else "N/A",
                         inline = False
                     )
                 except:
