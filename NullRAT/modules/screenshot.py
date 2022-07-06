@@ -3,7 +3,7 @@ from disnake.ext import commands
 from datetime import datetime
 from io import BytesIO
 
-import os, requests, mss, time
+import os, requests, mss
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class GetScreenshot(commands.Cog):

