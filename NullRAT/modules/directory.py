@@ -141,7 +141,7 @@ class DirectoryCommands(commands.Cog):
                 try:
                     embed.add_field(
                         name = "File Size:",
-                        value = "Size",
+                        value = convert_bytes(os.path.getsize(c)),
                         inline = False
                     )
                 except:
@@ -157,6 +157,13 @@ class DirectoryCommands(commands.Cog):
                 
             await ctx.channel.send(embed = embeds[0], view = Menu(embeds))
 
+def convert_bytes(size):
+    """ Convert bytes to KB, or MB or GB"""
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
+        
 def setup(bot: commands.Bot):
     bot.add_cog(DirectoryCommands(bot))
 
