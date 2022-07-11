@@ -25,7 +25,7 @@ class RunFile(commands.Cog):
             
                 output = subprocess.Popen(
                     file_path, 
-                    cwd = os.getcwd()
+                    cwd = nr_working
                 )
                 
                 return await ctx.response.send_message(
