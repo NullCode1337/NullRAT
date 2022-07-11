@@ -171,7 +171,7 @@ extensions = (
     "webcam",         # /get_webcam
     "runfile",        # /runfile
     "startup",        # /startup
-    "tasklist",       # /tasklist
+    "tasklist",       # /list_runningtasks & /list_runningstore & /kill_runningtasks
     "clipboard",      # /get_clipboard
     "geolocate",      # /get_geolocation
     "directory",      # /get_currentdir & /set_currentdir & /list_directory & /list_rawdir
