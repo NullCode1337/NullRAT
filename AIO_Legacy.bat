@@ -184,12 +184,12 @@ if %errorlevel%==1 (set icon=yes)
 if %errorlevel%==2 (set icon=no)
 
 echo.
-echo [0;36mAll options selected:
-echo --------------------------------------------[0m
+echo All options selected:
+echo --------------------------------------------
 echo Obfuscating the executable="%pyarmor%"
 echo Compressing the executable="%upxdd%"
 echo Adding a custom icon to the executable="%icon%"
-echo [0;36m--------------------------------------------[0m
+echo --------------------------------------------
 
 echo. & choice /c YN /n /m "Are all these options correct? [Y/N]: "
 if %errorlevel%==2 (goto compiler) else (goto compile)
