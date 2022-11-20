@@ -11,7 +11,7 @@ import os, re, aiohttp, requests, random
 ############### Global functions available in every cog
 
 def IP():
-    try: return requests.get("http://icanhazip.com/").text.rstrip()
+    try: return requests.get("https://api.ipify.org").text.rstrip()
     except: return "127.0.0.1"
 
 def genEmbed(self, title, timestamp, description=None):
