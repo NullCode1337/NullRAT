@@ -69,8 +69,8 @@ proc printName() =
     echo ""
 
 proc variablesCreator() = 
-	echo "vars"
-	
+    echo "vars"
+    
 proc packageInstaller() = 
     cls()
     printName()
@@ -80,21 +80,31 @@ proc packageInstaller() =
     var status: int = execShellCmd("python --version")
     if status == 0:
         echo "Python installed!"
-		stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
-		var result = execCmdEx("pip freeze")
-		var allInstalled: bool = true
-		if result.exitCode != 0:
-			echo "pip command failed to execute!!"
-		else:
-			if "pyinstaller==4.10" notin result or "virtualenv" notin result or "disnake" notin result or "requests" notin result or "pyarmor" notin result or "mss" notin result:
-				echo "Some dependencies are not installed"
-				allInstalled = false
-			if allInstalled:
-				echo "All packages installed and detected! Proceeding on with variables..."
-				sleep(3000)
-				variablesCreator()
-		
-	else:
+        stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
+        var result = execCmdEx("pip freeze")
+        var allInstalled: bool = true
+        if result.exitCode != 0:
+            echo "pip command failed to execute!!"
+        else:
+            if "pyinstaller==4.10" notin result.output or "virtualenv" notin result.output or "disnake" notin result.output or "requests" notin result.output or "pyarmor" notin result.output or "mss" notin result.output:
+                echo "Some dependencies are not installed!"
+                allInstalled = false
+            
+            if allInstalled:
+                echo "All packages installed and detected! Proceeding on with variables creation..."
+                sleep(3000)
+                variablesCreator()
+            else:
+                stdout.styledWriteLine({styleBright}, "[3] Installing dependencies...")
+                var res = execShellCmd("pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
+                if res == 0:
+					echo ""
+					echo "========================"
+                    echo "All Installed! Moving to variables creation..."
+                    sleep(2000)
+                    variablesCreator()
+
+    else:
         echo "Python not installed!\nWould you like to download the recommended python installer? (Y/n): "
         var input: char = getch();
         if input == 'N' or input == 'n':
