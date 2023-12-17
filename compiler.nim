@@ -97,13 +97,18 @@ proc compiler(): int =
     else: icon = false
 
     printName()
-    echo ""
     echo "All options selected: "
     echo "---------------------"
     if obfuscate: echo "Executable will be obfuscated (w/ pyarmor)"
-    if compress: echo "Executable will be compressed (w/ upx)"
+    if compress:
+        var path = getEnv("path")
+        if path[^1] == ';':
+            putEnv("path", fmt"{path}{dirr}\NullRAT\upx;")
+        else:
+            putEnv("path", fmt"{path};{dirr}\NullRAT\upx;")
+        echo "Executable will be compressed (w/ upx)"
     if icon: 
-        echo "Executable will have custom icon (",iconPath,")"
+        echo "Executable will have custom icon"
         echo "Path: ", iconPath
     echo ""
     stdout.styledWriteLine({styleBright}, "Would you like to compile now? (Y/n)")
@@ -116,8 +121,19 @@ proc compiler(): int =
     else:
         stdout.styledWriteLine(fgCyan, "- Compiling using selected settings...") 
         stdout.styledWriteLine(fgCyan, "- Checking pyinstaller")
-        var wherePy = execCmdEx("where pyinstaller").output
-        echo wherePy
+		# Find working pyinstaller executable
+        var wherePy = splitLines(execCmdEx("where pyinstaller").output)
+        var pyinstWorking: string;
+        for pyinstaller in wherePy:
+            if pyinstaller == "": continue
+            var code = $execCmdEx(pyinstaller).exitCode
+			if code == 2:
+				pyinstWorking = pyinstaller
+				break
+		echo "Found! ", pyinstWorking
+		stdout.styledWriteLine(fgCyan, "- Checking pyarmor")
+		# Find working pyarmor executable
+		
         discard getch()
     
 proc variablesCreator(x: int) = 
