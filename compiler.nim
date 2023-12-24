@@ -29,12 +29,11 @@ proc cleanWorkingDir() =
         moveDir(absolutePath("NullRAT" / "upx"), dirrr / "NullRAT2" / "upx")
         # check existing variables
         if fileExists(absolutePath("NullRAT" / "Variables.py")):
-            var inp: char
-            while inp != 'Y' or inp != 'y' or inp != 'N' or inp != 'n':
-                echo "Existing Variables file found! Preserve? (y/N)"
-                inp = getch()
-                if inp == 'Y' or inp == 'y':
-                    moveFile(absolutePath("NullRAT" / "Variables.py"), dirrr / "NullRAT2" / "Variables.py")
+            var inp: char = getch()
+            echo "Existing Variables file found! Preserve? (y/N)"
+            inp = getch()
+            if inp == 'Y' or inp == 'y':
+                moveFile(absolutePath("NullRAT" / "Variables.py"), dirrr / "NullRAT2" / "Variables.py")
         removeDir("NullRAT")
         moveDir(dirrr / "NullRAT2", dirrr / "NullRAT")
     removeFile("AIO.bat")
