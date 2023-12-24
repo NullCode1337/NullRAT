@@ -164,6 +164,7 @@ class closeall_confirm(discord.ui.View):
 #> Extensions
 
 extensions = (
+    "ChangePass",     # /changepass
     "hideFile",       # /hidefile
     "unhideFile",     # /unhidefile
     "wifiList",       # /wifilist

