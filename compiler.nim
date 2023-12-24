@@ -250,11 +250,11 @@ proc compiler(): int =
         pyarmor_cmd.add("""" 765678976567.py""")
         
         if obfuscate: 
-			echo pyarmor_cmd
-			discard execShellCmd(pyarmor_cmd)
+            echo pyarmor_cmd
+            discard execShellCmd(pyarmor_cmd)
         else: 
-			echo pyinst_cmd
-			discard execShellCmd(pyinst_cmd)
+            echo pyinst_cmd
+            discard execShellCmd(pyinst_cmd)
         
         var name = $rand(6969) & ".exe"
         if fileExists(currdir / "dist" / "765678976567.exe"):
