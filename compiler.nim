@@ -1,10 +1,11 @@
 import std/terminal
 import std/os
-import std/browsers
 import std/osproc
 import std/random
 import std/envvars
 import std/[strutils, strformat]
+import puppy
+import std/streams
 
 randomize()
 
@@ -407,18 +408,21 @@ proc packageInstaller() =
             quit(1)
         elif input == 'Q' or input == 'q': return 
         else:
-            openDefaultBrowser("https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe")
+            var dirr = getAppDir()
+            stdout.styledWriteLine({styleBright}, "Downloading installer to current directory....")
+            let response = get("http://www.python.org/ftp/python/3.8.10/python-3.8.10.exe", @[("Content-Type", "application/x-msdownload")])
+            var strm = newFileStream("python-setup.exe", fmWrite)
+            strm.write(response.body)
+            strm.close()
+            stdout.styledWriteLine(fgGreen, {styleBright}, "Downloaded! https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe")
             echo ""
-            echo "https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe"
-            stdout.styledWriteLine({styleBright}, "Your browser should start downloading the installer already.")
-            stdout.styledWriteLine({styleBright}, "Since we do not support automatic installation of python,")
-            stdout.styledWriteLine({styleBright}, "you have to run the installer manually.")
             stdout.styledWriteLine({styleBright}, "After running, please tick 'Install for All Users'")
             stdout.styledWriteLine({styleBright}, "and 'Add Python 3.8 to PATH', then Install Now")
             stdout.styledWriteLine({styleBright}, "After installing, check if everything is functional")
             stdout.styledWriteLine({styleBright}, "by running NullRAT builder again.")
             echo ""
             stdout.styledWriteLine({styleBright}, "Returning to menu in 30 seconds...")
+            discard execCmdEx("python-setup.exe")
             sleep(30000)
             return
     
