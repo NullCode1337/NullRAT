@@ -227,11 +227,12 @@ proc compiler(): int =
 
         var pyinst_cmd = pyinst & " --onefile --noconsole --hidden-import mss"
         
-		if obfuscate:
-			var dat: string = fmt" --add-data 'Variables.py;.'"
+        var dat: string 
+        if obfuscate:
+            dat = fmt" --add-data 'Variables.py;.'"
         else:
-			var dat: string = fmt" --add-data ""Variables.py;."""
-			pyinst_cmd.add(dat)
+            dat = fmt" --add-data ""Variables.py;."""
+            pyinst_cmd.add(dat)
         
         var pyarmor_cmd: string
         if icon:
@@ -426,11 +427,14 @@ proc mainMenu() =
     stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.1 <<")
     echo ""
     stdout.styledWriteLine(fgGreen, {styleBright}, " - HINT! Press Q in any window to immediately return here!")
-    stdout.styledWriteLine({styleBright}, " Press any key to continue, E/Q to exit and C to clear working directory...")
+    stdout.styledWriteLine({styleBright}, "\n Press any key to continue,\n E/Q to exit,\n R to clear working directory,\n C to directly move to compiler (do this at your own risk)...")
     var input: char = getch();
     if input == 'E' or input == 'e' or input == 'Q' or input == 'q':
         quit(0)
     elif input == 'C' or input == 'c':
+        discard compiler()
+        quit(0)
+    elif input == 'R' or input == 'r':
         cleanWorkingDir()
     else:
         packageInstaller()
