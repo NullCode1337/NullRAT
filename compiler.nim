@@ -227,8 +227,11 @@ proc compiler(): int =
 
         var pyinst_cmd = pyinst & " --onefile --noconsole --hidden-import mss"
         
-        var dat: string = fmt" --add-data ""Variables.py;."""
-        pyinst_cmd.add(dat)
+		if obfuscate:
+			var dat: string = fmt" --add-data 'Variables.py;.'"
+        else:
+			var dat: string = fmt" --add-data ""Variables.py;."""
+			pyinst_cmd.add(dat)
         
         var pyarmor_cmd: string
         if icon:
