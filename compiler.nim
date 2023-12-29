@@ -421,9 +421,8 @@ proc packageInstaller() =
             stdout.styledWriteLine({styleBright}, "After installing, check if everything is functional")
             stdout.styledWriteLine({styleBright}, "by running NullRAT builder again.")
             echo ""
-            stdout.styledWriteLine({styleBright}, "Returning to menu in 30 seconds...")
+            stdout.styledWriteLine({styleBright}, "Returning to menu after installer is closed...")
             discard execCmdEx("python-setup.exe")
-            sleep(30000)
             return
     
 proc mainMenu() =
