@@ -30,7 +30,7 @@ proc cleanWorkingDir() =
         moveDir(absolutePath("NullRAT" / "upx"), dirrr / "NullRAT2" / "upx")
         # check existing variables
         if fileExists(absolutePath("NullRAT" / "Variables.py")):
-            var inp: char = getch()
+            var inp: char
             echo "Existing Variables file found! Preserve? (y/N)"
             inp = getch()
             if inp == 'Y' or inp == 'y':
