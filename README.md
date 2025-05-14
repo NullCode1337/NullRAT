@@ -84,6 +84,7 @@
 > # How to use:
 #### Requirements:
 - Nothing! The newly designed compiler will handle **everything** for your convenience!
+![Compiler showcase](https://github.com/user-attachments/assets/a4ec9681-3744-4df3-bfa1-62267980b6b0)
 
 #### Preparation:
 - Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
