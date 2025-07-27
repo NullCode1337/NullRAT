@@ -218,10 +218,10 @@ extensions = (
 
 for ex in extensions:
     ## For debugging
-    client.load_extension("modules."+ex)
+    # client.load_extension("modules."+ex)
 
     ## For production
-    # client.load_extension(ex)
+    client.load_extension(ex)
 
 
 # > <start>
