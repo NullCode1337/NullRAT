@@ -19,7 +19,7 @@ class CMDNAME(commands.Cog):
         argumentsss: ARGUMENT DESCRIPTION
         """
         
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             """ command here... """
 
 def setup(bot: commands.Bot):

