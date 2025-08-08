@@ -1,17 +1,32 @@
 import std/terminal
 import std/os
 
+proc printName*() = 
+    discard execShellCmd("cls")
+    echo ""
+    stdout.styledWriteLine(fgRed, "  ███╗   ██╗██╗   ██╗██╗     ██╗     ██████╗  █████╗ ████████╗")
+    stdout.styledWriteLine(fgRed, "  ████╗  ██║██║   ██║██║     ██║     ██╔══██╗██╔══██╗╚══██╔══╝")
+    stdout.styledWriteLine(fgRed, "  ██╔██╗ ██║██║   ██║██║     ██║     ██████╔╝███████║   ██║")
+    stdout.styledWriteLine(fgRed, "  ██║╚██╗██║██║   ██║██║     ██║     ██╔══██╗██╔══██║   ██║")
+    stdout.styledWriteLine(fgRed, "  ██║ ╚████║╚██████╔╝███████╗███████╗██║  ██║██║  ██║   ██║")
+    stdout.styledWriteLine(fgRed, "  ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝")
+    stdout.styledWriteLine(fgRed, "  =========================================================")
+    echo ""
+
 proc cleanWorkingDir*() =
     echo ""
-    var appDirectory = getAppDir();
-    setCurrentDir(appDirectory);
-    echo getCurrentDir();
+    var appDirectory = getAppDir()
+    setCurrentDir(appDirectory)
+    echo getCurrentDir()
+
     if dirExists(absolutePath("NullRAT")):
         createDir("NullRAT2")
+
         moveFile(absolutePath("NullRAT" / "custom_icon.ico"), appDirectory / "NullRAT2" / "custom_icon.ico")
         moveFile(absolutePath("NullRAT" / "RAT.py"), appDirectory / "NullRAT2" / "RAT.py")
         moveDir(absolutePath("NullRAT" / "modules"), appDirectory / "NullRAT2" / "modules")
         moveDir(absolutePath("NullRAT" / "upx"), appDirectory / "NullRAT2" / "upx")
+
         # check existing variables
         if fileExists(absolutePath("NullRAT" / "Variables.py")):
             var inp: char
@@ -19,6 +34,7 @@ proc cleanWorkingDir*() =
             inp = getch()
             if inp == 'Y' or inp == 'y':
                 moveFile(absolutePath("NullRAT" / "Variables.py"), appDirectory / "NullRAT2" / "Variables.py")
+
         removeDir("NullRAT")
         moveDir(appDirectory / "NullRAT2", appDirectory / "NullRAT")
         
@@ -34,16 +50,4 @@ proc cleanWorkingDir*() =
             removeFile(".gitignore")
 
     removeDir("build")
-    removeDir("dist")        
-    
-proc printName*() = 
-    discard execShellCmd("cls")
-    echo ""
-    stdout.styledWriteLine(fgRed, "  ███╗   ██╗██╗   ██╗██╗     ██╗     ██████╗  █████╗ ████████╗")
-    stdout.styledWriteLine(fgRed, "  ████╗  ██║██║   ██║██║     ██║     ██╔══██╗██╔══██╗╚══██╔══╝")
-    stdout.styledWriteLine(fgRed, "  ██╔██╗ ██║██║   ██║██║     ██║     ██████╔╝███████║   ██║")
-    stdout.styledWriteLine(fgRed, "  ██║╚██╗██║██║   ██║██║     ██║     ██╔══██╗██╔══██║   ██║")
-    stdout.styledWriteLine(fgRed, "  ██║ ╚████║╚██████╔╝███████╗███████╗██║  ██║██║  ██║   ██║")
-    stdout.styledWriteLine(fgRed, "  ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝")
-    stdout.styledWriteLine(fgRed, "  =========================================================")
-    echo ""
+    removeDir("dist")
