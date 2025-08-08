@@ -8,13 +8,13 @@ from compiler import compiler
 
 proc variablesCreator*(x: int) = 
     printName()
-    var dirr = getAppDir()
-    setCurrentDir(dirr / "NullRAT")
+    var appDirectory = getAppDir()
+    setCurrentDir(appDirectory / "NullRAT")
     
     if x != 1:
         stdout.styledWriteLine({styleBright}, "  >> Variables Creator <<")
         if fileExists("Variables.py"):
-            stdout.styledWriteLine(fgGreen, {styleBright}, "\n- Existing Variables file discovered!")
+            stdout.styledWriteLine(fgGreen, {styleBright}, "\n[INFO] Existing Variables file discovered!")
             stdout.styledWriteLine(fgCyan, {styleBright}, "\nStored information\n------------------")
             let EnF = readFile("Variables.py")
             stdout.styledWriteLine(fgCyan, {styleBright}, EnF)
