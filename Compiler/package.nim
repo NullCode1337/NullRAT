@@ -6,8 +6,7 @@ import std/envvars
 import std/streams
 import puppy
 
-from utils import cleanWorkingDir, printName
-
+from utils import cleanWorkingDir, printName, runInVenv
 from variables import variablesCreator
 
 const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor", "mss", "psutil"]
@@ -15,88 +14,16 @@ const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor
 proc packageInstaller*() = 
     printName()
     var appDirectory = getAppDir()
-    setCurrentDir(appDirectory)
+    setCurrentDir(appDirectory / "NullRAT")
 
     stdout.styledWriteLine({styleBright}, "  >> Dependencies Installer <<")
     echo ""
 
-    # Check Python version, pyarmor no longer supports 3.11+
-    stdout.styledWriteLine({styleBright}, "[1] Checking for Python...")
-    var status = execProcess("python --version")
-    for i in ["3.11", "3.12", "3.13", "3.14"]:
-        if i in status: 
-            echo "[INFO] Python ", i, " is not supported!\n - Pyarmor only supports max python version of 3.10\n - Uninstall Python and run this program again to auto-download the correct version!"
-            sleep(5000)
-            quit(0)
-
-    const modules: string = pipModules.join(" ")
-
-    var status2: int = execShellCmd("python --version")
-    var status3: int = execShellCmd("py --version")
-
-    if status2 == 0 or status3 == 0:
-        stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
-        echo ""
-
-        # Otherwise, create a virtual env (and check if it exists)
-        if not dirExists("NR_VENV"):
-            discard execShellCmd("python -m venv NR_VENV")
-        
-        let 
-            oldPath = getEnv("PATH")
-            envPath = absolutePath("NR_VENV")
-            scriptsPath = envPath / "Scripts"
-
-        if oldPath != "":
-            putEnv("PATH", scriptsPath / oldPath)
-        else:
-            putEnv("PATH", scriptsPath)
-            putEnv("VIRTUAL_ENV", envPath)
-        
-        discard execShellCmd("pip freeze") # DEBUG
-
-        stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
-        var result = execCmdEx("dism")
-
-        try:
-            result = execCmdEx("pip freeze")
-        except OSError:
-            result = execCmdEx("py -m pip freeze")
-
-        var allInstalled: bool = true
-
-        if result.exitCode != 0:
-            echo "[FATAL] pip command failed to execute!!"
-            sleep(2000)
-        else:
-            for module in pipModules:
-                if module notin result.output:
-                    allInstalled = false
-            
-            if allInstalled:
-                stdout.styledWriteLine(fgGreen, {styleBright}, "[INFO] All packages installed and detected!\n\nProceeding on with variables creation...")
-                sleep(1000)
-                variablesCreator(0)
-            else:
-                echo "[INFO] Dependencies are not installed!\n"
-                stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
-                
-                var result: int = 0
-                
-                result = execShellCmd("pip install " & modules)
-                if result != 0:
-                    result = execShellCmd("python -m pip install " & modules)
-                    if result != 0:
-                        result = execShellCmd("py -m pip install " & modules)
-
-                if result == 0:
-                    echo "========================"
-                    stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
-                    sleep(2000)
-                    variablesCreator(0)
-                else: 
-                    echo "[FATAL] Unknown pip error, returning to main menu..."
-                    sleep(3000)
+    # Check if Python even exists
+    if execShellCmd("python --version") == 0:
+        let python = "python"
+    elif execShellCmd("py --version") == 0:
+        let python = "py"
     else:
         stdout.styledWriteLine({styleBright}, "- [FATAL] Python not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch()
@@ -122,3 +49,54 @@ proc packageInstaller*() =
             stdout.styledWriteLine({styleBright}, "Returning to menu after installer is closed...")
             discard execCmdEx("python-setup.exe")
             return
+
+        stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
+        echo ""
+
+    # Check Python version, pyarmor no longer supports 3.11+
+    stdout.styledWriteLine({styleBright}, "[1] Checking for Python...")
+    var status = execProcess(python & " --version")
+    for i in ["3.11", "3.12", "3.13", "3.14"]:
+        if i in status: 
+            echo "[INFO] Python ", i, " is not supported!\n - Pyarmor only supports max python version of 3.10\n - Uninstall Python and run this program again to auto-download the correct version!"
+            sleep(5000)
+            quit(0)
+
+    const modules: string = pipModules.join(" ")
+    
+    # Create a virtual env (and check if it exists)
+    if not dirExists("NR_VENV"):
+        discard execShellCmd(python & " -m pip install virtualenv")
+        discard execShellCmd(python & " -m venv NR_VENV")
+    
+    let venvPath: string = appDirectory / "NullRAT" / "NR_VENV"
+    var allInstalled: bool = true
+
+    stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
+
+    if runInVenv(venvPath, "pip freeze") != 0:
+        echo "[FATAL] pip command failed to execute!!"
+        sleep(2000)
+    else:
+        for module in pipModules:
+            if module notin result.output:
+                allInstalled = false
+        
+        if allInstalled:
+            stdout.styledWriteLine(fgGreen, {styleBright}, "[INFO] All packages installed and detected!\n\nProceeding on with variables creation...")
+            sleep(1000)
+            variablesCreator(0)
+        else:
+            echo "[INFO] Dependencies are not installed!\n"
+            stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
+            
+            var result: int = runInVenv(venvPath, "pip install " & modules)
+
+            if result == 0:
+                echo "========================"
+                stdout.styledWriteLine(fgGreen, {styleBright}, "All Installed!\nMoving to variables creation...")
+                sleep(2000)
+                variablesCreator(0)
+            else: 
+                echo "[FATAL] Unknown pip error, returning to main menu..."
+                sleep(3000)

@@ -51,3 +51,6 @@ proc cleanWorkingDir*() =
 
     removeDir("build")
     removeDir("dist")
+
+proc runInVenv*(venvPath: string, command: string): int =
+    return execShellCmd(fmt"cmd /c \"{venvPath}\\Scripts\\activate && {command}\"")
