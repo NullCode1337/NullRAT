@@ -30,10 +30,10 @@ proc packageInstaller*() =
 
     const modules: string = pipModules.join(" ")
 
-    var status: int = execShellCmd("python --version")
-    var status2: int = execShellCmd("py --version")
+    var status2: int = execShellCmd("python --version")
+    var status3: int = execShellCmd("py --version")
 
-    if status == 0 or status2 == 0:
+    if status2 == 0 or status3 == 0:
         stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
         echo ""
 
@@ -80,7 +80,7 @@ proc packageInstaller*() =
                 echo "[INFO] Dependencies are not installed!\n"
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
                 
-                var result: int = 0
+                result = 0
                 
                 result = execShellCmd("pip install " & modules)
                 if result != 0:
