@@ -2,6 +2,7 @@ import std/terminal
 import std/os
 import std/osproc
 import std/strutils
+import std/strformat
 import std/envvars
 import std/streams
 import puppy
@@ -71,7 +72,7 @@ proc packageInstaller*() =
         discard execShellCmd(python & " -m venv NR_VENV")
     
     let venvPath: string = appDirectory / "NullRAT" / "NR_VENV"
-    let result = execCmdEx(fmt""" cmd /c \"{venvPath}\\Scripts\\activate && pip freeze\" """)
+    let result = execCmdEx(fmt""" cmd /c "{venvPath}\Scripts\activate.bat && pip freeze" """)
     var allInstalled: bool = true
 
     stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
