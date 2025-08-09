@@ -10,7 +10,7 @@ from package import packageInstaller
 randomize()
 
 # Windows-only
-if os.hostOS == "windows":
+when defined windows:
     discard execShellCmd("title NullRAT Builder")
     discard execShellCmd("chcp 65001 & color 4")
     discard execShellCmd("mode con: cols=80 lines=29")
