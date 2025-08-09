@@ -13,6 +13,9 @@ const pipModules = ["pyinstaller", "virtualenv", "disnake", "requests", "pyarmor
          
 proc packageInstaller*() = 
     printName()
+    var appDirectory = getAppDir()
+    setCurrentDir(appDirectory)
+
     stdout.styledWriteLine({styleBright}, "  >> Dependencies Installer <<")
     echo ""
 
@@ -33,6 +36,23 @@ proc packageInstaller*() =
     if status == 0 or status2 == 0:
         stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
         echo ""
+
+        # Otherwise, create a virtual env (and check if it exists)
+        if not dirExists("NR_VENV"):
+            discard execShellCmd("python -m venv NR_VENV")
+        
+        let 
+            oldPath = getEnv("PATH")
+            envPath = absolutePath("NR_VENV")
+            scriptsPath = envPath / "Scripts"
+
+        if oldPath.isSome:
+            setEnv("PATH", scriptsPath & PathSep & oldPath.get())
+        else:
+            setEnv("PATH", scriptsPath)
+            setEnv("VIRTUAL_ENV", envPath)
+        
+        discard execShellCmd("pip freeze") # DEBUG
 
         stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
         var result = execCmdEx("dism")
