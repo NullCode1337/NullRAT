@@ -2,6 +2,7 @@ import std/terminal
 import std/os
 import std/osproc
 import std/strutils
+import std/envvars
 import std/streams
 import puppy
 
@@ -46,11 +47,11 @@ proc packageInstaller*() =
             envPath = absolutePath("NR_VENV")
             scriptsPath = envPath / "Scripts"
 
-        if oldPath.isSome:
-            setEnv("PATH", scriptsPath & PathSep & oldPath.get())
+        if oldPath != "":
+            putEnv("PATH", scriptsPath / oldPath)
         else:
-            setEnv("PATH", scriptsPath)
-            setEnv("VIRTUAL_ENV", envPath)
+            putEnv("PATH", scriptsPath)
+            putEnv("VIRTUAL_ENV", envPath)
         
         discard execShellCmd("pip freeze") # DEBUG
 
@@ -80,7 +81,7 @@ proc packageInstaller*() =
                 echo "[INFO] Dependencies are not installed!\n"
                 stdout.styledWriteLine({styleBright}, "[3] Installing/Updating dependencies...")
                 
-                result = 0
+                var result: int = 0
                 
                 result = execShellCmd("pip install " & modules)
                 if result != 0:
