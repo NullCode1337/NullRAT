@@ -20,10 +20,11 @@ proc packageInstaller*() =
     echo ""
 
     # Check if Python even exists
+    var python: string = ""
     if execShellCmd("python --version") == 0:
-        let python = "python"
+        python = "python"
     elif execShellCmd("py --version") == 0:
-        let python = "py"
+        python = "py"
     else:
         stdout.styledWriteLine({styleBright}, "- [FATAL] Python not installed!\n\nWould you like to download the recommended python installer? (Y/n): ")
         var input: char = getch()
@@ -50,8 +51,8 @@ proc packageInstaller*() =
             discard execCmdEx("python-setup.exe")
             return
 
-        stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
-        echo ""
+    stdout.styledWriteLine(fgGreen, {styleBright}, "- Python installed!")
+    echo ""
 
     # Check Python version, pyarmor no longer supports 3.11+
     stdout.styledWriteLine({styleBright}, "[1] Checking for Python...")
@@ -70,11 +71,12 @@ proc packageInstaller*() =
         discard execShellCmd(python & " -m venv NR_VENV")
     
     let venvPath: string = appDirectory / "NullRAT" / "NR_VENV"
+    let result = execCmdEx(fmt""" cmd /c \"{venvPath}\\Scripts\\activate && pip freeze\" """)
     var allInstalled: bool = true
 
     stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")
 
-    if runInVenv(venvPath, "pip freeze") != 0:
+    if result.exitCode != 0:
         echo "[FATAL] pip command failed to execute!!"
         sleep(2000)
     else:

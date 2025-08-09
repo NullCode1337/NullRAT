@@ -1,5 +1,6 @@
 import std/terminal
 import std/os
+import std/strformat
 
 proc printName*() = 
     discard execShellCmd("cls")
@@ -53,4 +54,4 @@ proc cleanWorkingDir*() =
     removeDir("dist")
 
 proc runInVenv*(venvPath: string, command: string): int =
-    return execShellCmd(fmt"cmd /c \"{venvPath}\\Scripts\\activate && {command}\"")
+    return execShellCmd(fmt""" cmd /c \"{venvPath}\\Scripts\\activate && {command}\" """)
