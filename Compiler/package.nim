@@ -72,7 +72,7 @@ proc packageInstaller*() =
         discard execShellCmd(python & " -m venv NR_VENV")
     
     let venvPath: string = appDirectory / "NullRAT" / "NR_VENV"
-    let result = execCmdEx(fmt""" cmd /c "{venvPath}\Scripts\activate.bat && pip freeze" """)
+    let result = execCmdEx(fmt""""{venvPath}\Scripts\pip" freeze""")
     var allInstalled: bool = true
 
     stdout.styledWriteLine({styleBright}, "[2] Checking if packages already installed...")

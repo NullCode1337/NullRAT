@@ -122,10 +122,10 @@ proc compiler*(): int =
             dat = fmt" --add-data ""Variables.py;."""
             pyinst_cmd.add(dat)
         
-        var pyarmor_cmd: string = "pyarmor" & fmt" pack --clean -e "" --onefile --noconsole --hidden-import mss {dat}"
+        var pyarmor_cmd: string = "pyarmor-7" & fmt" pack --clean -e "" --onefile --noconsole --hidden-import mss {dat}"
         if icon:
             if obfuscate:
-                pyarmor_cmd = "pyarmor" & fmt" pack --clean -e "" --onefile --noconsole --icon=custom_icon.ico --hidden-import mss {dat}"""
+                pyarmor_cmd = "pyarmor-7" & fmt" pack --clean -e "" --onefile --noconsole --icon=custom_icon.ico --hidden-import mss {dat}"""
             else:
                 pyinst_cmd = pyinst_cmd & " --icon=custom_icon.ico"
 

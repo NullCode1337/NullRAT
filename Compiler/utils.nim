@@ -54,4 +54,4 @@ proc cleanWorkingDir*() =
     removeDir("dist")
 
 proc runInVenv*(venvPath: string, command: string): int =
-    return execShellCmd(fmt""" cmd /c "{venvPath}\Scripts\activate.bat && {command}" """)
+    return execShellCmd(fmt"""{venvPath}\Scripts\{command}""")
