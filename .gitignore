@@ -159,5 +159,14 @@ RAT_DEBUG.py
 # compiler.exe
 compiler.exe
 
+# Compiler.exe
+Compiler.exe
+
+# NR_VENV
+NR_VENV
+
+# python-setup.exe
+python-setup.exe
+
 # app.exe
 app.exe
