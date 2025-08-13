@@ -87,13 +87,13 @@
 
 #### Preparation:
 
-- Create a Discord Bot and [get it's token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
+- Create a Discord Bot and [get its token](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#discord-bot-token)
 - [Create a bot invite link](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#proper-bot-invite-link) and add it to your server
 - Store the [Notification ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#channel-id) and [Server ID](https://github.com/NullCode1337/NullRAT/blob/source/Getting%20Variables.md#server-ids) along with the token for ease of access
 
 #### Steps:
 
-1. Dowload the latest release of NullRAT (recommended) [**git clone**/**download zip** are no longer supported]
+1. Download the latest release of NullRAT (recommended) [**git clone**/**download zip** are no longer supported]
 2. Run the Compiler and follow the prompts. NullRAT payload will be right there!
 
 - **Video tutorial:** Soon
