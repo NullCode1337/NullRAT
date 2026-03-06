@@ -6,7 +6,25 @@
 
 ---
 
+# Notice
+- **NullRAT is now archived!**
+- Thanks for following me in this journey for the past 5 years, it has been **IMMENSELY fun!**
+- It was never meant to be anything serious; started off as a simple project to help me grasp Python
+- But as I got more and more into it, adding **more modularity and features**, this project slowly became a bit **too big**...
+- ...and **started being used for activities beyond my intention**
+- Now that I am an official adult, I would prefer a **fresh start** as I no longer want to continue in this trajectory
+- While this is a **very** emotional moment for me, you will still find me working on Android and Desktop software!
+- The entire codebase is, and will remain, **free and open source** to show my respect 
+
+Fun fact: I began working on NullRAT when I was 14 years old :)
+
+<h3 align=right><b>NullCode1337, signing off 👋</b></h3>
+
 </br>
+
+**I WILL NOT BE HELD RESPONSIBLE FOR ANY MALICIOUS ACTIVITIES INVOLVING NULLRAT.**
+
+**THIS SOFTWARE IS STRICTLY PROVIDED FOR DEMONSTRATION PURPOSES ONLY**
 
 > # Features:
 
@@ -96,9 +114,6 @@
 1. Download the latest release of NullRAT (recommended) [**git clone**/**download zip** are no longer supported]
 2. Run the Compiler and follow the prompts. NullRAT payload will be right there!
 
-- **Video tutorial:** Soon
-- **NullRAT Discord:** Soon
-
 </br>
 
 > # Credits:
@@ -106,12 +121,6 @@
 - Treeform for puppy
 - All my testers on GitHub
 
-**Since this is a project I work on whenever I'm bored/depressed, you do not have the right to ask for any ETAs.**
-
-**Thank you for your consideration**
-
 ---
-
-**Infecting others via NullRAT without their permission is obviously not supported by me.**
 
 <h4 align=right>Software designed by NullCode</h6>
